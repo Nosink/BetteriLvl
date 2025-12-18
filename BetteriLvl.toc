@@ -1,0 +1,40 @@
+
+## Interface: 11506
+
+## Title-enUS: BetteriLvl
+## Notes-enUS: Shows item level and average item level on character and targetframe
+
+## Title-esES: BetteriLvl
+## Notes-esES: Muestra el nivel de objeto y el nivel de objeto promedio en el personaje y del objetivo
+
+## Author: Nosink Ð
+## Version: 1.0
+## SavedVariables: BetteriLvlDB
+
+Localization/localization.core.lua
+Localization/localization.enUS.lua
+Localization/localization.esES.lua
+
+BetteriLvl.lua
+
+helpers/SlotHelper.lua
+helpers/UnitHelper.lua
+helpers/ItemHelper.lua
+
+Database/Database.lua
+
+Options/Options.lua
+Options/Panel.lua
+
+Views/ItemLabel.lua
+Views/Border.lua
+Views/AverageLabel.lua
+
+BetteriLvlSlotiLvl.lua
+BetteriLvlAverageiLvl.lua
+BetteriLvlToolTipItem.lua
+
+
+Controllers/Target.lua
+Controllers/Character.lua
+Controllers/Tooltip.lua
