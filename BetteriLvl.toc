@@ -8,7 +8,7 @@
 ## Notes-esES: Muestra el nivel de objeto y el nivel de objeto promedio en el personaje y del objetivo
 
 ## Author: Nosink Ð
-## Version: 1.0
+## Version: 1.0.0
 ## SavedVariables: BetteriLvlDB
 
 Localization/localization.core.lua
