@@ -1,6 +1,6 @@
 
-local _, namespace = ...
-local L = namespace.L
+local _, ns = ...
+local L = ns.L
 
 
 function OnTooltipSetItemHandler(tooltip)

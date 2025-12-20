@@ -1,7 +1,7 @@
-local ADDON_NAME, namespace = ...
-local L = namespace.L
+local name, ns = ...
+local L = ns.L
 
-L["LKEY_OPTIONS_TITLE"] = ADDON_NAME .. " " .. "Options"
+L["LKEY_OPTIONS_TITLE"] = name .. " " .. "Options"
 
 L["LKEY_OPTIONS_PLAYER_FRAME"] = "Character Frame"
 L["LKEY_OPTIONS_PLAYER_AVERAGE"] = "Show Average Item Level"

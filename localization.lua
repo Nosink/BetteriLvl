@@ -1,5 +1,5 @@
-local _, namespace = ...
-namespace.locale = GetLocale()
+local _, ns = ...
+ns.locale = GetLocale()
 
 local L = setmetatable({}, { __index = function(t, k)
     local v = tostring(k)
@@ -7,4 +7,4 @@ local L = setmetatable({}, { __index = function(t, k)
     return v
 end })
 
-namespace.L = L
+ns.L = L

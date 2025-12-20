@@ -11,11 +11,13 @@
 ## Version: 1.0
 ## SavedVariables: BetteriLvlDB
 
-Localization/localization.core.lua
+BetteriLvl.lua
+
+api.lua
+localization.lua
+
 Localization/localization.enUS.lua
 Localization/localization.esES.lua
-
-BetteriLvl.lua
 
 helpers/SlotHelper.lua
 helpers/UnitHelper.lua

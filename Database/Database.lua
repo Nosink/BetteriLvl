@@ -28,7 +28,7 @@ local function LoadDefaultDatabaseSettings()
 end
 
 local function HandleOnAddonLoaded(_, _, name)
-    if name ~= ADDON_NAME then
+    if name ~= name then
         return
     end
     InitializeDatabase()
