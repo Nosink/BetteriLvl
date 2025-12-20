@@ -23,7 +23,7 @@ function ItemLabel.CreateOn(slot)
 end
 
 function ItemLabel.ConfigureWith(slot, itemQuality)
-    local r, g, b = ItemHelper.GetQualityColor(itemQuality)
+    local r, g, b = BetteriLvl.API.GetQualityColor(itemQuality)
     slot.label:SetPoint(ItemLabel.data.anchor, slot, ItemLabel.data.relative, ItemLabel.data.offset.x, ItemLabel.data.offset.y)
     slot.label:SetShadowOffset(ItemLabel.data.shadow.offset.x, ItemLabel.data.shadow.offset.y)
     slot.label:SetShadowColor(ItemLabel.data.shadow.color.r, ItemLabel.data.shadow.color.g, ItemLabel.data.shadow.color.b, ItemLabel.data.shadow.color.a)

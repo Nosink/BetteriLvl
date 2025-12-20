@@ -16,12 +16,12 @@ BetteriLvl.lua
 api.lua
 localization.lua
 
-Localization/localization.enUS.lua
-Localization/localization.esES.lua
+localization/enUS.lua
+localization/esES.lua
 
-helpers/SlotHelper.lua
-helpers/UnitHelper.lua
-helpers/ItemHelper.lua
+api/SlotHelper.lua
+api/UnitHelper.lua
+api/item.lua
 
 Database/Database.lua
 

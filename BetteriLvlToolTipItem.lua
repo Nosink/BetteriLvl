@@ -24,6 +24,7 @@ function OnTooltipSetItemHandler(tooltip)
     local itemID = C_Item.GetItemInfoInstant(itemLink)
 
     local _, _, _, itemLevel, _, itemType = C_Item.GetItemInfo(itemLink)
+    
     local isArmor = ItemHelper.GetIsEquipmentType(itemType)
 
     local yellowR, yellowG, yellowB = 1.00, 0.82, 0.00

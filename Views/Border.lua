@@ -25,7 +25,7 @@ function Border.CreateOn(slot)
 end
 
 function Border.ConfigureWith(slot, itemQuality)
-    local r, g, b = ItemHelper.GetQualityColor(itemQuality)
+    local r, g, b = BetteriLvl.API.GetQualityColor(itemQuality)
     slot.border:SetPoint(Border.data.origin.anchor, slot, Border.data.origin.relative, Border.data.origin.offset.x, Border.data.origin.offset.y)
     slot.border:SetPoint(Border.data.destination.anchor, slot, Border.data.destination.relative, Border.data.destination.offset.x, Border.data.destination.offset.y)
     slot.border:SetAlpha(Border.data.alpha)

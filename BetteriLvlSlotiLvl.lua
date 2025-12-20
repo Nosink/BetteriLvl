@@ -46,7 +46,10 @@ function ShowSlotiLvlOn(unit)
         isLabelEnabled = isLabelEnabled and not SlotHelper.IsAmmoSlot(slotName)
 
         local slot = SlotHelper.GetUnitSlot(unit, slotName)
-        local itemQuality, itemLevel = SlotHelper.GetItemInfoFrom(unit, slotName)
+        local itemLink, itemQuality, itemLevel = SlotHelper.GetItemInfoFrom(unit, slotName)
+        local itemQuality2 = _G.BetteriLvl.API.Item.GetItemQuality(itemLink)
+
+        print(string.format("ShowSlotiLvlOn %s: itemQuality=%s itemQuality2=%s", slotName, tostring(itemQuality), tostring(itemQuality2)))
 
         if isBorderEnabled and itemQuality then
             ShowBorderOn(slot, itemQuality)

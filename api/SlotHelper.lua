@@ -37,8 +37,8 @@ function SlotHelper.GetItemInfoFrom(unit, slotName)
     local itemId = GetInventoryItemID(unit, slotId)
     if not itemId then return nil end
 
-    local _, _, itemQuality, itemLevel = C_Item.GetItemInfo(itemId)
-    return itemQuality, itemLevel
+    local itemLink, _, itemQuality, itemLevel = C_Item.GetItemInfo(itemId)
+    return itemLink, itemQuality, itemLevel
 end
 
 function SlotHelper.GetUnitSlot(unit, slotName)

@@ -17,7 +17,7 @@ function UnitHelper.CalculateItemLevelAndQualityFor(unit)
     local itemsQuality = {}
 
     for _, slotName in ipairs(SlotHelper.slots) do
-        local itemQuality, itemLevel = SlotHelper.GetItemInfoFrom(unit, slotName)
+        local _, itemQuality, itemLevel = SlotHelper.GetItemInfoFrom(unit, slotName)
         if itemQuality and itemLevel then
             totalItemLevel = totalItemLevel + itemLevel
             itemsQuality[itemQuality] = (itemsQuality[itemQuality] or 0) + 1
@@ -38,5 +38,6 @@ end
 function UnitHelper.GetAverageiLvlFor(unit)
     local totalItemLevel, maxQuality = UnitHelper.CalculateItemLevelAndQualityFor(unit)
     local averageItemLevel = totalItemLevel / AverageLabel.data.slotsAmount
+    print("Total item level: " .. tostring(totalItemLevel) .. ", slots: " .. tostring(AverageLabel.data.slotsAmount) .. " ave " .. averageItemLevel)
     return averageItemLevel, maxQuality
 end

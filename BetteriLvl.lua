@@ -1,3 +1,3 @@
-
 name, ns = "BetteriLvl" , ...
 
+_G.BetteriLvl = {}
