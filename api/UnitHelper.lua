@@ -38,6 +38,5 @@ end
 function UnitHelper.GetAverageiLvlFor(unit)
     local totalItemLevel, maxQuality = UnitHelper.CalculateItemLevelAndQualityFor(unit)
     local averageItemLevel = totalItemLevel / AverageLabel.data.slotsAmount
-    print("Total item level: " .. tostring(totalItemLevel) .. ", slots: " .. tostring(AverageLabel.data.slotsAmount) .. " ave " .. averageItemLevel)
     return averageItemLevel, maxQuality
 end

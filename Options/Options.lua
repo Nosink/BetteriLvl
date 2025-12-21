@@ -1,42 +1,43 @@
+local name, ns = ...
 
 Options = {}
 
 function Options.IsPlayeriLvlEnabled()
-    return BetteriLvlDB.playerLevel == true
+    return ns.db.playerLevel == true
 end
 
 function Options.IsPlayerBorderEnabled()
-    return BetteriLvlDB.playerBorder == true
+    return ns.db.playerBorder == true
 end
 
 function Options.IsPlayerAverageiLvlEnabled()
-    return BetteriLvlDB.playerAverage == true
+    return ns.db.playerAverage == true
 end
 
 function Options.IsPlayerAverageAlternatePositionEnabled()
-    return BetteriLvlDB.playerAverageAlternatePosition == true
+    return ns.db.playerAverageAlternatePosition == true
 end
 
 function Options.IsTargetiLvlEnabled()
-    return BetteriLvlDB.targetLevel == true
+    return ns.db.targetLevel == true
 end
 
 function Options.IsTargetBorderEnabled()
-    return BetteriLvlDB.targetBorder == true
+    return ns.db.targetBorder == true
 end
 
 function Options.IsTargetAverageiLvlEnabled()
-    return BetteriLvlDB.targetAverage == true
+    return ns.db.targetAverage == true
 end
 
 function Options.IsTooltipiLvlEnabled()
-    return BetteriLvlDB.tooltipLevel == true
+    return ns.db.tooltipLevel == true
 end
 
 function Options.IsTooltipIDEnabled()
-    return BetteriLvlDB.tooltipID == true
+    return ns.db.tooltipID == true
 end
 
 function Options.IsTooltipTargetAverageiLvlEnabled()
-    return BetteriLvlDB.tooltipAverage == true
+    return ns.db.tooltipAverage == true
 end

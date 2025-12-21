@@ -1,3 +1,4 @@
+local name, ns = ...
 
 _G.BetteriLvl.API.Item = {}
 
@@ -5,6 +6,9 @@ BetteriLvl.API.Item.CreateItem = function (item)
     if not item then return end
     if type(item) == "string" then
         item = Item:CreateFromItemLink(item)
+    end
+    if type(item) == "number" then
+        item = Item:CreateFromItemID(item)
     end
     if item:IsItemEmpty() then
         return

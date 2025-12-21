@@ -23,6 +23,10 @@ api/SlotHelper.lua
 api/UnitHelper.lua
 api/item.lua
 
+
+hooks.lua
+
+
 Database/Database.lua
 
 Options/Options.lua

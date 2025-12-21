@@ -1,41 +1,34 @@
+local name, ns = ...
+local db
 
-local default = {
+ns.defaults = {
+    -- player
     playerAverage = true,
     playerAverageAlternatePosition = false,
     playerLevel = true,
     playerBorder = true,
 
+    -- target
     targetAverage = true,
     targetLevel = true,
     targetBorder = true,
 
+    -- tooltip
     tooltipLevel = true,
-    tooltipID = false,
+    tooltipID = false
 }
 
-
-
-local function InitializeDatabase()
-    BetteriLvlDB = BetteriLvlDB or {}
-end
-
-local function LoadDefaultDatabaseSettings()
-    for key, value in pairs(default) do
-        if BetteriLvlDB[key] == nil then
-            BetteriLvlDB[key] = value
-        end
+function ns:ADDON_LOADED(event, addon)
+    if ns.hooks[addon] then
+        xpcall(ns.hooks[addon], geterrorhandler())
+        ns.hooks[addon] = nil
+    end
+    if addon == name then
+        _G[name.."DB"] = setmetatable(_G[name.."DB"] or {}, {
+            __index = ns.defaults,
+        })
+        db = _G[name.."DB"]
+        ns.db = db
     end
 end
-
-local function HandleOnAddonLoaded(_, _, name)
-    if name ~= name then
-        return
-    end
-    InitializeDatabase()
-    LoadDefaultDatabaseSettings()
-end
-
-local BetteriLvlDatabase = CreateFrame("Frame")
-
-BetteriLvlDatabase:RegisterEvent("ADDON_LOADED")
-BetteriLvlDatabase:SetScript("OnEvent", HandleOnAddonLoaded)
+ns:RegisterEvent("ADDON_LOADED")

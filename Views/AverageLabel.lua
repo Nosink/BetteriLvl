@@ -34,7 +34,7 @@ local function GetAverageLabelPositionFor(unit)
 end
 
 function AverageLabel.ConfigureWith(unit, unitSlot, maxQuality)
-    local r, g, b = BetteriLvl.API.GetQualityColor(maxQuality)
+    local r, g, b = BetteriLvl.API.GetItemQualityColor(maxQuality)
     local position = GetAverageLabelPositionFor(unit)
     unitSlot.avgLabel:SetPoint(AverageLabel.data.anchor, unitSlot, AverageLabel.data.relative, position.x, position.y)
     unitSlot.avgLabel:SetShadowOffset(AverageLabel.data.shadow.offset.x, AverageLabel.data.shadow.offset.y)

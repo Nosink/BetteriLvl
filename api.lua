@@ -3,7 +3,7 @@ local name, ns = ...
 
 _G.BetteriLvl.API = {}
 
-BetteriLvl.API.GetQualityColor = function(quality)
+BetteriLvl.API.GetItemQualityColor = function(quality)
     local q = tonumber(quality) or 0
 
     if C_Item and C_Item.GetItemQualityColor then
