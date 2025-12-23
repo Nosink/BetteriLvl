@@ -11,7 +11,7 @@
 ## Version: 1.0
 ## SavedVariables: BetteriLvlDB
 
-BetteriLvl.lua
+addon.lua
 
 api.lua
 localization.lua
@@ -19,15 +19,15 @@ localization.lua
 localization/enUS.lua
 localization/esES.lua
 
-api/SlotHelper.lua
-api/UnitHelper.lua
 api/item.lua
-
 
 hooks.lua
 
+database.lua
 
-Database/Database.lua
+api/SlotHelper.lua
+api/UnitHelper.lua
+
 
 Options/Options.lua
 Options/Panel.lua

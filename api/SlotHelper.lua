@@ -3,6 +3,7 @@ SlotHelper = {}
 
 SlotHelper.secondaryHandSlotName = "SecondaryHandSlot"
 SlotHelper.ammoSlotName = "AmmoSlot"
+SlotHelper.rangedSlotName = "RangedSlot"
 SlotHelper.slots = {
     "HeadSlot",
     "NeckSlot",
@@ -28,6 +29,10 @@ SlotHelper.slots = {
 
 function SlotHelper.IsAmmoSlot(slotName)
     return SlotHelper.ammoSlotName == slotName
+end
+
+function SlotHelper.IsRangedSlot(slotName)
+    return SlotHelper.rangedSlotName == slotName
 end
 
 function SlotHelper.GetItemInfoFrom(unit, slotName)
