@@ -46,7 +46,7 @@ end
 
 function AverageLabel.ShowOn(slot, averageItemLevel)
     local averageItemLevelByWow = select(2, GetAverageItemLevel())
-    slot.avgLabel:SetText(string.format("%s%.1f (%.4f)", AverageLabel.data.text, averageItemLevel, (averageItemLevelByWow - averageItemLevel)))
+    slot.avgLabel:SetText(string.format("%s%.2f", AverageLabel.data.text, averageItemLevel, (averageItemLevelByWow - averageItemLevel)))
     slot.avgLabel:Show()
 end
 
