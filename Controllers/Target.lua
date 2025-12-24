@@ -1,7 +1,10 @@
 
+local _, ns = ...
+
+local settings = ns.settings
 
 local function UpdateTargetiLvl()
-    if (Settings.IsTargetiLvlEnabled() or Settings.IsTargetBorderEnabled()) then
+    if (settings.IsTargetiLvlEnabled() or settings.IsTargetBorderEnabled()) then
         ShowSlotiLvlOn(UnitHelper.Target)
     else
         HideSlotiLvlFrom(UnitHelper.Target)

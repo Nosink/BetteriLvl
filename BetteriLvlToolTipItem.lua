@@ -2,6 +2,7 @@
 local _, ns = ...
 local L = ns.L
 
+local settings = ns.settings
 
 function OnTooltipSetItemHandler(tooltip)
 
@@ -9,8 +10,8 @@ function OnTooltipSetItemHandler(tooltip)
         return
     end
 
-    local showItmeLevel = Settings.IsTooltipiLvlEnabled()
-    local showItemID = Settings.IsTooltipIDEnabled()
+    local showItmeLevel = settings.IsTooltipiLvlEnabled()
+    local showItemID = settings.IsTooltipIDEnabled()
 
     if not showItmeLevel and not showItemID then
         return

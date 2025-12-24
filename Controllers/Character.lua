@@ -1,6 +1,10 @@
 
+local _, ns = ...
+
+local settings = ns.settings
+
 local function UpdatePlayeriLvl()
-    if Settings.IsPlayeriLvlEnabled() or Settings.IsPlayerBorderEnabled() then
+    if settings.IsPlayeriLvlEnabled() or settings.IsPlayerBorderEnabled() then
         ShowSlotiLvlOn(UnitHelper.Player)
     else
         HideSlotiLvlFrom(UnitHelper.Player)
@@ -8,7 +12,7 @@ local function UpdatePlayeriLvl()
 end
 
 local function UpdatePlayerAverageiLvl()
-    if Settings.IsPlayerAverageiLvlEnabled() then
+    if settings.IsPlayerAverageiLvlEnabled() then
         ShowAverageiLvlOf(UnitHelper.Player)
     else
         HideAverageiLvlFrom(UnitHelper.Player)

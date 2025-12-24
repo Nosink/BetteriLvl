@@ -1,3 +1,7 @@
+local _, ns = ...
+
+local settings = ns.settings
+
 AverageLabel = {}
 
 AverageLabel.data = {
@@ -27,7 +31,7 @@ function AverageLabel.CreateOn(slot)
 end
 
 local function GetAverageLabelPositionFor(unit)
-    if UnitHelper.IsPlayer(unit) and not Settings.IsPlayerAverageAlternatePositionEnabled() then
+    if UnitHelper.IsPlayer(unit) and not settings.IsPlayerAverageAlternatePositionEnabled() then
         return AverageLabel.data.position
     end
     return AverageLabel.data.alternatePosition

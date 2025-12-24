@@ -1,18 +1,21 @@
+local _, ns = ...
+
+local settings = ns.settings
 
 local function IsLabelEnabledFor(unit)
     if UnitHelper.IsPlayer(unit) then
-        return Settings.IsPlayeriLvlEnabled()
+        return settings.IsPlayeriLvlEnabled()
     elseif UnitHelper.IsTarget(unit) then
-        return Settings.IsTargetiLvlEnabled()
+        return settings.IsTargetiLvlEnabled()
     end
     return false
 end
 
 local function IsBorderEnabledFor(unit)
     if UnitHelper.IsPlayer(unit) then
-        return Settings.IsPlayerBorderEnabled()
+        return settings.IsPlayerBorderEnabled()
     elseif UnitHelper.IsTarget(unit) then
-        return Settings.IsTargetBorderEnabled()
+        return settings.IsTargetBorderEnabled()
     end
     return false
 end

@@ -1,6 +1,8 @@
 local name, ns = ...
 local L = ns.L
 
+local settings = ns.settings
+
 local data = {
     title = { anchor = "TOPLEFT", x = 8, y = -16, text = L["LKEY_OPTIONS_TITLE"], template = "GameFontNormalLarge", font = "Fonts/FRIZQT__.TTF", fontSize = 18, color = {0.2, 0.6, 1} },
     body = { anchor = "TOPLEFT", x = 16, y = -32, size = { width = 1, height = 1 } },
@@ -101,16 +103,16 @@ end
 panel:HookScript("OnShow", SyncOptionsFromDB)
 
 -- Register in Interface Options
-local settingsCategory -- keep a reference for Settings API
-if Settings and Settings.RegisterCanvasLayoutCategory and Settings.RegisterAddOnCategory then
-    settingsCategory = Settings.RegisterCanvasLayoutCategory(panel, name)
-    Settings.RegisterAddOnCategory(settingsCategory)
+local settingsCategory -- keep a reference for settings API
+if settings and settings.RegisterCanvasLayoutCategory and settings.RegisterAddOnCategory then
+    settingsCategory = settings.RegisterCanvasLayoutCategory(panel, name)
+    settings.RegisterAddOnCategory(settingsCategory)
 end
 
 SLASH_BETTERILVL1 = "/betterilvl"
 SLASH_BETTERILVL2 = "/bilvl"
 SlashCmdList.BETTERILVL = function()
-    if Settings and Settings.OpenToCategory and settingsCategory then
-        Settings.OpenToCategory(settingsCategory:GetID())
+    if settings and settings.OpenToCategory and settingsCategory then
+        settings.OpenToCategory(settingsCategory:GetID())
     end
 end
