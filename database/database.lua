@@ -1,5 +1,6 @@
 local name, ns = ...
-local db
+
+ns.db = ns.db or {}
 
 local function onAddonLoaded(_, addon)
     if addon ~= name then return end
@@ -7,8 +8,7 @@ local function onAddonLoaded(_, addon)
     _G[name.."DB"] = setmetatable(_G[name.."DB"] or {}, {
         __index = ns.defaults,
     })
-    db = _G[name.."DB"]
-    ns.db = db
+    ns.db = _G[name.."DB"]
 
 end
 

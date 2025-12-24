@@ -19,7 +19,7 @@ api/item.lua
 # Module: Localization
 localization/localization.lua
 localization/enUS.lua
-localization/esES.lua
+localization/esEs-esMX.lua
 # --------------------
 
 # Module: Events
