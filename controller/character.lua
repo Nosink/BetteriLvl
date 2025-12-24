@@ -24,9 +24,5 @@ local function HandleOnShowCharacterPanel()
     UpdatePlayerAverageiLvl()
 end
 
-hooksecurefunc(CharacterFrame, "Show", HandleOnShowCharacterPanel)
-
-local BetteriLvlCharacterFrame = CreateFrame("Frame")
-
-BetteriLvlCharacterFrame:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
-BetteriLvlCharacterFrame:SetScript("OnEvent", HandleOnShowCharacterPanel)
+ns:RegisterEvent("ADDON_LOADED", HandleOnShowCharacterPanel)
+ns:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", HandleOnShowCharacterPanel)

@@ -50,6 +50,7 @@ BetteriLvlAverageiLvl.lua
 BetteriLvlToolTipItem.lua
 
 
-Controllers/Target.lua
-Controllers/Character.lua
-Controllers/Tooltip.lua
+controller/character.lua
+
+controller/Target.lua
+controller/Tooltip.lua
