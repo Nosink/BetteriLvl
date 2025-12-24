@@ -1,6 +1,6 @@
 
 local function UpdatePlayeriLvl()
-    if Options.IsPlayeriLvlEnabled() or Options.IsPlayerBorderEnabled() then
+    if Settings.IsPlayeriLvlEnabled() or Settings.IsPlayerBorderEnabled() then
         ShowSlotiLvlOn(UnitHelper.Player)
     else
         HideSlotiLvlFrom(UnitHelper.Player)
@@ -8,7 +8,7 @@ local function UpdatePlayeriLvl()
 end
 
 local function UpdatePlayerAverageiLvl()
-    if Options.IsPlayerAverageiLvlEnabled() then
+    if Settings.IsPlayerAverageiLvlEnabled() then
         ShowAverageiLvlOf(UnitHelper.Player)
     else
         HideAverageiLvlFrom(UnitHelper.Player)

@@ -27,7 +27,7 @@ function AverageLabel.CreateOn(slot)
 end
 
 local function GetAverageLabelPositionFor(unit)
-    if UnitHelper.IsPlayer(unit) and not Options.IsPlayerAverageAlternatePositionEnabled() then
+    if UnitHelper.IsPlayer(unit) and not Settings.IsPlayerAverageAlternatePositionEnabled() then
         return AverageLabel.data.position
     end
     return AverageLabel.data.alternatePosition

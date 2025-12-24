@@ -1,7 +1,7 @@
 
 
 local function UpdateTargetiLvl()
-    if (Options.IsTargetiLvlEnabled() or Options.IsTargetBorderEnabled()) then
+    if (Settings.IsTargetiLvlEnabled() or Settings.IsTargetBorderEnabled()) then
         ShowSlotiLvlOn(UnitHelper.Target)
     else
         HideSlotiLvlFrom(UnitHelper.Target)

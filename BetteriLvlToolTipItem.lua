@@ -9,8 +9,8 @@ function OnTooltipSetItemHandler(tooltip)
         return
     end
 
-    local showItmeLevel = Options.IsTooltipiLvlEnabled()
-    local showItemID = Options.IsTooltipIDEnabled()
+    local showItmeLevel = Settings.IsTooltipiLvlEnabled()
+    local showItemID = Settings.IsTooltipIDEnabled()
 
     if not showItmeLevel and not showItemID then
         return

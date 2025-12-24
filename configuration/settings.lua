@@ -1,43 +1,43 @@
 local _, ns = ...
 
-Options = {}
+Settings = {}
 
-function Options.IsPlayeriLvlEnabled()
+function Settings.IsPlayeriLvlEnabled()
     return ns.db.playerLevel == true
 end
 
-function Options.IsPlayerBorderEnabled()
+function Settings.IsPlayerBorderEnabled()
     return ns.db.playerBorder == true
 end
 
-function Options.IsPlayerAverageiLvlEnabled()
+function Settings.IsPlayerAverageiLvlEnabled()
     return ns.db.playerAverage == true
 end
 
-function Options.IsPlayerAverageAlternatePositionEnabled()
+function Settings.IsPlayerAverageAlternatePositionEnabled()
     return ns.db.playerAverageAlternatePosition == true
 end
 
-function Options.IsTargetiLvlEnabled()
+function Settings.IsTargetiLvlEnabled()
     return ns.db.targetLevel == true
 end
 
-function Options.IsTargetBorderEnabled()
+function Settings.IsTargetBorderEnabled()
     return ns.db.targetBorder == true
 end
 
-function Options.IsTargetAverageiLvlEnabled()
+function Settings.IsTargetAverageiLvlEnabled()
     return ns.db.targetAverage == true
 end
 
-function Options.IsTooltipiLvlEnabled()
+function Settings.IsTooltipiLvlEnabled()
     return ns.db.tooltipLevel == true
 end
 
-function Options.IsTooltipIDEnabled()
+function Settings.IsTooltipIDEnabled()
     return ns.db.tooltipID == true
 end
 
-function Options.IsTooltipTargetAverageiLvlEnabled()
+function Settings.IsTooltipTargetAverageiLvlEnabled()
     return ns.db.tooltipAverage == true
 end
