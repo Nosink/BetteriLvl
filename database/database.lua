@@ -1,24 +1,7 @@
 local name, ns = ...
 local db
 
-ns.defaults = {
-    -- player
-    playerAverage = true,
-    playerAverageAlternatePosition = false,
-    playerLevel = true,
-    playerBorder = true,
-
-    -- target
-    targetAverage = true,
-    targetLevel = true,
-    targetBorder = true,
-
-    -- tooltip
-    tooltipLevel = true,
-    tooltipID = false
-}
-
-function ns:ADDON_LOADED(event, addon)
+function ns:ADDON_LOADED(_, addon)
     if ns.hooks[addon] then
         xpcall(ns.hooks[addon], geterrorhandler())
         ns.hooks[addon] = nil

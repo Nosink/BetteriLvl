@@ -14,16 +14,22 @@
 addon.lua
 
 api.lua
-localization.lua
-
-localization/enUS.lua
-localization/esES.lua
-
 api/item.lua
 
-hooks.lua
+# Module: Localization
+localization/localization.lua
+localization/enUS.lua
+localization/esES.lua
+# --------------------
 
-database.lua
+# Module: Events
+events/bus.lua
+# --------------------
+
+# Module: DataBase
+database/data.lua
+database/database.lua
+# --------------------
 
 api/SlotHelper.lua
 api/UnitHelper.lua
