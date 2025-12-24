@@ -35,12 +35,15 @@ api/SlotHelper.lua
 api/UnitHelper.lua
 
 
-Options/Options.lua
-Options/Panel.lua
+# Module: Configuration
+configuration/settings.lua
+configuration/panel.lua
+# --------------------
 
-Views/ItemLabel.lua
-Views/Border.lua
-Views/AverageLabel.lua
+UI/item.lua
+
+UI/ItemLabel.lua
+UI/AverageLabel.lua
 
 BetteriLvlSlotiLvl.lua
 BetteriLvlAverageiLvl.lua
