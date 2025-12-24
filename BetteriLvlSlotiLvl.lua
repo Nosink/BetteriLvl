@@ -1,18 +1,18 @@
 
 local function IsLabelEnabledFor(unit)
     if UnitHelper.IsPlayer(unit) then
-        return Options.IsPlayeriLvlEnabled()
+        return Settings.IsPlayeriLvlEnabled()
     elseif UnitHelper.IsTarget(unit) then
-        return Options.IsTargetiLvlEnabled()
+        return Settings.IsTargetiLvlEnabled()
     end
     return false
 end
 
 local function IsBorderEnabledFor(unit)
     if UnitHelper.IsPlayer(unit) then
-        return Options.IsPlayerBorderEnabled()
+        return Settings.IsPlayerBorderEnabled()
     elseif UnitHelper.IsTarget(unit) then
-        return Options.IsTargetBorderEnabled()
+        return Settings.IsTargetBorderEnabled()
     end
     return false
 end
