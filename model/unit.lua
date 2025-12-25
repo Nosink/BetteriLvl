@@ -35,7 +35,6 @@ local function onPlayerEquipmentChanged(_, slot)
 end
 
 local function createUnitItems(unit)
-    print("Created items for unit: " .. unit)
     for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
         local item = {}
         item.Initialize = function(self)
@@ -58,27 +57,36 @@ local function createUnitItems(unit)
 end
 
 local function cacheUnitItems(unit)
-    print("Caching items for unit: " .. unit)
     for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
         cacheItemSlot(slot, unit)
     end
 end
 
+local function requestUnitSlots(unit)
+    ns:TriggerEvent("BETTERILVL_REQUEST_SLOTS", unit)
+end
+
 local function onInspectReady(_)
-    ns:TriggerEvent("BETTERILVL_REQUEST_SLOTS", "target")
+    requestUnitSlots("target")
     cacheUnitItems("target")
+end
+
+local function onUnitItemsReady(_)
+    requestUnitSlots("player")
+    cacheUnitItems("player")
 end
 
 local function onAddonLoaded(_, addon)
     if addon ~= name then return end
     createUnitItems("player")
-    ns:TriggerEvent("BETTERILVL_REQUEST_SLOTS", "player")
-    cacheUnitItems("player")
-
     createUnitItems("target")
+
+    ns:TriggerEvent("BETTERILVL_UNIT_ITEMS_READY")
 end
 
 ns:RegisterEvent("ADDON_LOADED", onAddonLoaded, MID_PRIORITY)
+
+ns:RegisterEvent("BETTERILVL_UNIT_ITEMS_READY", onUnitItemsReady, MIN_PRIORITY)
 ns:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
 
 ns:RegisterEvent("INSPECT_READY", onInspectReady)

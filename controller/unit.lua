@@ -26,7 +26,6 @@ ns:RegisterEvent("PLAYER_TARGET_CHANGED", onPlayerTargetChanged)
 ns:HookSecureFunc(_G, "NotifyInspect", onNotifyInspect)
 
 local function displayUnitBorders(_, unit)
-    print("Displayed borders for unit: " .. unit)
     local slots = ns[unit .. "slots"]
     local items = ns[unit .. "items"]
     for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
