@@ -1,71 +1,79 @@
-
 local name, ns = ...
 
+ns["player" .. "slots"] = ns["player" .. "slots"] or {}
 ns["player" .. "items"] = ns["player" .. "items"] or {}
 
-local function evaluateItemsCache()
+local slotsNameAss = {
+    [INVSLOT_AMMO]     = "AmmoSlot",
+    [INVSLOT_HEAD]     = "HeadSlot",
+    [INVSLOT_NECK]     = "NeckSlot",
+    [INVSLOT_SHOULDER] = "ShoulderSlot",
+    [INVSLOT_BACK]     = "BackSlot",
+    [INVSLOT_CHEST]    = "ChestSlot",
+    [INVSLOT_BODY]     = "ShirtSlot",
+    [INVSLOT_TABARD]   = "TabardSlot",
+    [INVSLOT_WRIST]    = "WristSlot",
+    [INVSLOT_HAND]     = "HandsSlot",
+    [INVSLOT_WAIST]    = "WaistSlot",
+    [INVSLOT_LEGS]     = "LegsSlot",
+    [INVSLOT_FEET]     = "FeetSlot",
+    [INVSLOT_FINGER1]  = "Finger0Slot",
+    [INVSLOT_FINGER2]  = "Finger1Slot",
+    [INVSLOT_TRINKET1] = "Trinket0Slot",
+    [INVSLOT_TRINKET2] = "Trinket1Slot",
+    [INVSLOT_MAINHAND] = "MainHandSlot",
+    [INVSLOT_OFFHAND]  = "SecondaryHandSlot",
+    [INVSLOT_RANGED]   = "RangedSlot",
+}
+
+local borderData = {
+    texture = "Interface/Buttons/UI-ActionButton-Border",
+    alpha = 0.5,
+    blendMode = "ADD",
+    origin = { anchor = "TOPLEFT", relative = "TOPLEFT", offset = { x = -15, y = 15}},
+    destination = { anchor = "BOTTOMRIGHT", relative = "BOTTOMRIGHT", offset = { x = 15, y = -15}},
+    offset = { x = 15, y = 15},
+}
+
+local function displayCharacterBorders()
+    local slots = ns["player" .. "slots"]
+    local items = ns["player" .. "items"]
     for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
-        local itemData = ns["player" .. "items"][slot]
-        if not itemData or not itemData.cached then return end
-    end
-    print("All character items cached")
-    ns:TriggerEvent("BETTERILVL_ALL_ITEMS_CACHED")
-end
-
-local function cacheItemSlot(slot)
-    local itemSlot = ns["player" .. "items"][slot]
-
-    itemSlot:Initialize()
-
-    local itemID = GetInventoryItemID("player", slot)
-    if not itemID then itemSlot:Clear() return end
-    if itemSlot.itemID == itemID and itemSlot.cached then return end
-
-    local item = Item:CreateFromItemID(itemID)
-    if not item then itemSlot:Clear() return end
-
-    item:ContinueOnItemLoad(function()
-        itemSlot:SetItem(item)
-    end)
-end
-
-local function onPlayerEquipmentChanged(_, slot)
-    cacheItemSlot(slot)
-end
-
-local function cacheCharacterItems()
-    for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
-        cacheItemSlot(slot)
-    end
-end
-
-local function createCharacterItems()
-    for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
-        local item = {}
-        item.Initialize = function(self)
-            self.item = nil
-            self.cached = false
+        local equipSlot = slots and slots[slot]
+        if not equipSlot then
+            local slotName = slotsNameAss[slot]
+            equipSlot = _G["Character" .. slotName]
+            if equipSlot then
+                if not equipSlot.border then
+                    equipSlot.border = equipSlot:CreateTexture(nil, "OVERLAY")
+                    equipSlot.Configure = function (self, itemQuality)
+                        local r, g, b = _G.BetteriLvl.API.GetItemQualityColor(itemQuality)
+                        self.border:SetPoint(borderData.origin.anchor, self, borderData.origin.relative, borderData.origin.offset.x, borderData.origin.offset.y)
+                        self.border:SetPoint(borderData.destination.anchor, self, borderData.destination.relative, borderData.destination.offset.x, borderData.destination.offset.y)
+                        self.border:SetAlpha(borderData.alpha)
+                        self.border:SetBlendMode(borderData.blendMode)
+                        self.border:SetTexture(borderData.texture)
+                        self.border:SetVertexColor(r, g, b)
+                    end
+                    equipSlot.Show = function(self)
+                        self.border:Show()
+                    end
+                    equipSlot.Hide = function(self)
+                        self.border:Hide()
+                    end
+                end
+                slots[slot] = equipSlot
+            end
         end
-        item.SetItem = function (self, item)
-            self.item = item
-            self.cached = true
-            evaluateItemsCache()
+        local itemData = items and items[slot]
+        if equipSlot and itemData and itemData.cached and itemData.item then
+            local itemQuality = itemData.item:GetItemQuality()
+            equipSlot:Configure(itemQuality)
+            equipSlot:Show()
+        elseif equipSlot then
+            equipSlot:Hide()
         end
-        item.Clear = function(self)
-            self.item = nil
-            self.cached = true
-            evaluateItemsCache()
-        end
-        item:Initialize()
-        ns["player" .. "items"][slot] = item
     end
 end
 
-local function onAddonLoaded(_, addon)
-    if addon ~= name then return end
-    createCharacterItems()
-    cacheCharacterItems()
-end
-
-ns:RegisterEvent("ADDON_LOADED", onAddonLoaded, MID_PRIORITY)
-ns:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
+ns:RegisterEvent("BETTERILVL_ALL_ITEMS_CACHED", displayCharacterBorders)

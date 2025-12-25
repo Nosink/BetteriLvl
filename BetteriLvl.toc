@@ -29,13 +29,14 @@ database/data.lua
 database/database.lua
 # --------------------
 
-
 # Module: Configuration
 configuration/settings.lua
 configuration/panel.lua
 # --------------------
 
-controller/character.lua
+model/character.lua
+
 UI/border.lua
 
-view/character.lua
+controller/character.lua
+
