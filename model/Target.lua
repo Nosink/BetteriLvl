@@ -60,8 +60,7 @@
 -- BetteriLvlInspectFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
 -- BetteriLvlInspectFrame:SetScript("OnEvent", HandleEvents)
 -- 
-
-local _, ns = ...
+local name, ns = ...
 
 ns["target" .. "items"] = ns["target" .. "items"] or {}
 

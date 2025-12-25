@@ -40,4 +40,4 @@ local function displayTargetBorders()
     end
 end
 
-ns:RegisterEvent("BETTERILVL_TARGET_CACHED", displayTargetBorders)
+ns:RegisterEvent("BETTERILVL_TARGET_CACHED", displayTargetBorders, MID_PRIORITY)

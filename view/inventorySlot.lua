@@ -79,7 +79,8 @@ end
 local function onAddonLoaded(_, addon)
     if addon ~= name then return end
     createCharacterInventorySlots()
-    createTargetInventorySlots()
+
 end
 
 ns:RegisterEvent("ADDON_LOADED", onAddonLoaded, MAX_PRIORITY)
+ns:RegisterEvent("BETTERILVL_TARGET_CACHED", createTargetInventorySlots, MAX_PRIORITY)
