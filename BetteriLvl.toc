@@ -34,11 +34,8 @@ configuration/settings.lua
 configuration/panel.lua
 # --------------------
 
-model/character.lua
-controller/character.lua
-
-model/target.lua
-controller/target.lua
+model/unit.lua
+controller/unit.lua
 
 view/inventorySlot.lua
 

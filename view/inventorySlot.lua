@@ -35,52 +35,52 @@ local borderData = {
     offset = { x = 15, y = 15},
 }
 
+local labelData = {
+    font = "NumberFontNormal",
+    anchor = "TOPLEFT",
+    relative = "TOPLEFT",
+    offset = { x = 0, y = -1},
+    shadow = {offset = { x = 1 , y = -1}, color = { r = 0, g = 0, b = 0, a = 1} }
+}
+
+local function createFrontString(slot)
+
+end
+
 local function createBorder(slot)
-    if not slot.border then
-        slot.border = slot:CreateTexture(nil, "OVERLAY")
-        slot.Configure = function (self, itemQuality)
-            local r, g, b = _G.BetteriLvl.API.GetItemQualityColor(itemQuality)
-            self.border:SetPoint(borderData.origin.anchor, self, borderData.origin.relative, borderData.origin.offset.x, borderData.origin.offset.y)
-            self.border:SetPoint(borderData.destination.anchor, self, borderData.destination.relative, borderData.destination.offset.x, borderData.destination.offset.y)
-            self.border:SetAlpha(borderData.alpha)
-            self.border:SetBlendMode(borderData.blendMode)
-            self.border:SetTexture(borderData.texture)
-            self.border:SetVertexColor(r, g, b)
-        end
-        slot.Show = function(self)
-            self.border:Show()
-        end
-        slot.Hide = function(self)
-            self.border:Hide()
-        end
+    if slot.border then
+        return
+    end
+    slot.border = slot:CreateTexture(nil, "OVERLAY")
+    slot.ConfigureBorder = function (self, itemQuality)
+        local r, g, b = _G.BetteriLvl.API.GetItemQualityColor(itemQuality)
+        self.border:SetPoint(borderData.origin.anchor, self, borderData.origin.relative, borderData.origin.offset.x, borderData.origin.offset.y)
+        self.border:SetPoint(borderData.destination.anchor, self, borderData.destination.relative, borderData.destination.offset.x, borderData.destination.offset.y)
+        self.border:SetAlpha(borderData.alpha)
+        self.border:SetBlendMode(borderData.blendMode)
+        self.border:SetTexture(borderData.texture)
+        self.border:SetVertexColor(r, g, b)
+    end
+    slot.ShowBorder = function(self)
+        self.border:Show()
+    end
+    slot.HideBorder = function(self)
+        self.border:Hide()
     end
 end
 
-local function createCharacterInventorySlots()
-    local slots = ns["player" .. "slots"] or {}
+local function createUntiSlots(_, unit)
+    local slots = ns[unit .. "slots"] or {}
+    local frameName = (unit == "target") and "Inspect" or "Character"
     for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
-        local inventorySlot = _G["Character" .. slotNames[slot]]
-        createBorder(inventorySlot)
-        slots[slot] = inventorySlot
+        local inventorySlot = _G[frameName .. slotNames[slot]]
+        if inventorySlot then
+            createBorder(inventorySlot)
+            slots[slot] = inventorySlot
+        end
     end
-    ns["player" .. "slots"] = slots
+    ns[unit .. "slots"] = slots
+    ns:TriggerEvent("BETTERILVL_SLOTS_READY", unit)
 end
 
-local function createTargetInventorySlots()
-    local slots = ns["target" .. "slots"] or {}
-    for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
-        local inventorySlot = _G["Inspect" .. slotNames[slot]]
-        createBorder(inventorySlot)
-        slots[slot] = inventorySlot
-    end
-    ns["target" .. "slots"] = slots
-end
-
-local function onAddonLoaded(_, addon)
-    if addon ~= name then return end
-    createCharacterInventorySlots()
-
-end
-
-ns:RegisterEvent("ADDON_LOADED", onAddonLoaded, MAX_PRIORITY)
-ns:RegisterEvent("BETTERILVL_TARGET_CACHED", createTargetInventorySlots, MAX_PRIORITY)
+ns:RegisterEvent("BETTERILVL_ITEMS_CACHED", createUntiSlots)
