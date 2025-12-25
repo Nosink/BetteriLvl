@@ -8,7 +8,6 @@ MIN_PRIORITY = 9
 
 local frame = CreateFrame("Frame")
 
-local handlers = {}
 local DEFAULT_PRIORITY = MID_PRIORITY
 
 local function dispatch(_, event, ...)
@@ -39,26 +38,34 @@ local function clampPriority(priority)
 end
 
 local function registerEvents(eventName)
-    if handlers then return end
+    if ns.handlers[eventName] then
+        return ns.handlers[eventName]
+    end
 
-    handlers = {}
-    ns.handlers[eventName] = handlers
-    frame:RegisterEvent(eventName)
+    local handlerList = {}
+    ns.handlers[eventName] = handlerList
+
+    local ok = pcall(frame.RegisterEvent, frame, eventName)
+    if not ok then
+        -- Custom event; not a native game event, so frame registration is skipped.
+    end
+
+    return handlerList
 end
 
-local function setEventPriority(handler, priority)
-    for i = 1, #handlers do
-        if handlers[i].fn == handler then
-            handlers[i].priority = priority
+local function setEventPriority(handlerList, handler, priority)
+    for i = 1, #handlerList do
+        if handlerList[i].fn == handler then
+            handlerList[i].priority = priority
             return
         end
     end
 end
 
-local function getInsertIndex(priority)
-    local insertIndex = #handlers + 1
-    for i = 1, #handlers do
-        if priority < handlers[i].priority then
+local function getInsertIndex(handlerList, priority)
+    local insertIndex = #handlerList + 1
+    for i = 1, #handlerList do
+        if priority < handlerList[i].priority then
             insertIndex = i
             break
         end
@@ -69,40 +76,45 @@ end
 function ns:RegisterEvent(eventName, handler, priority)
     if type(eventName) ~= "string" or type(handler) ~= "function" then return end
 
-    handlers = ns.handlers[eventName]
+    local handlerList = registerEvents(eventName)
     priority = clampPriority(priority)
 
-    registerEvents(eventName)
-    setEventPriority(handler, priority)
+    setEventPriority(handlerList, handler, priority)
 
-    local insertIndex = getInsertIndex(priority)
+    local insertIndex = getInsertIndex(handlerList, priority)
     local eventHandler = { fn = handler, priority = priority }
 
-    table.insert(handlers, insertIndex, eventHandler)
+    table.insert(handlerList, insertIndex, eventHandler)
 end
 
-local function clearHandler(handler)
-    for i = #handlers, 1, -1 do
-        if handlers[i].fn == handler then
-            table.remove(handlers, i)
+local function clearHandler(handlerList, handler)
+    for i = #handlerList, 1, -1 do
+        if handlerList[i].fn == handler then
+            table.remove(handlerList, i)
             break
         end
     end
 end
 
-local function unregisterEvents(eventName)
-    if #handlers == 0 then
+local function unregisterEvents(eventName, handlerList)
+    if #handlerList == 0 then
         ns.handlers[eventName] = nil
-        frame:UnregisterEvent(eventName)
+        pcall(frame.UnregisterEvent, frame, eventName)
     end
 end
 
 function ns:UnregisterEvent(eventName, handler)
-    handlers = ns.handlers[eventName]
-    if not handlers or type(handler) ~= "function" then return end
+    local handlerList = ns.handlers[eventName]
+    if not handlerList or type(handler) ~= "function" then return end
 
-    clearHandler(handler)
-    unregisterEvents(eventName)
+    clearHandler(handlerList, handler)
+    unregisterEvents(eventName, handlerList)
+end
+
+function ns:TriggerEvent(eventName, ...)
+    if type(eventName) ~= "string" then return end
+
+    dispatch(frame, eventName, ...)
 end
 
 function ns:HookSecureFunc(frame, funcName, handler)

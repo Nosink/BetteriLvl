@@ -12,9 +12,7 @@
 ## SavedVariables: BetteriLvlDB
 
 addon.lua
-
 api.lua
-api/item.lua
 
 # Module: Localization
 localization/localization.lua
@@ -31,26 +29,13 @@ database/data.lua
 database/database.lua
 # --------------------
 
-api/SlotHelper.lua
-api/UnitHelper.lua
-
 
 # Module: Configuration
 configuration/settings.lua
 configuration/panel.lua
 # --------------------
 
-UI/item.lua
-
-UI/ItemLabel.lua
-UI/AverageLabel.lua
-
-BetteriLvlSlotiLvl.lua
-BetteriLvlAverageiLvl.lua
-BetteriLvlToolTipItem.lua
-
-
 controller/character.lua
+UI/border.lua
 
-controller/Target.lua
-controller/Tooltip.lua
+view/character.lua

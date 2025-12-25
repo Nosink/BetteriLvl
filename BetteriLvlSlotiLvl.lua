@@ -45,25 +45,45 @@ function ShowSlotiLvlOn(unit)
         return
     end
 
-    for _, slotName in ipairs(SlotHelper.slots) do
-        isLabelEnabled = isLabelEnabled and not SlotHelper.IsAmmoSlot(slotName)
+    for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+        local item = ns[unit .. "items"][slot].item
+        if (item) then
+            if item and item:IsItemDataCached() then
+                local itemQuality = item:GetItemQuality()
+                local itemLevel = item:GetCurrentItemLevel()
 
-        local slot = SlotHelper.GetUnitSlot(unit, slotName)
-        local _, itemQuality, itemLevel = SlotHelper.GetItemInfoFrom(unit, slotName)
+                if isBorderEnabled and itemQuality then
+                    print("Show border on slot ", slot, " with quality ", itemQuality)
+                else
+                end
 
-        if isBorderEnabled and itemQuality then
-            ShowBorderOn(slot, itemQuality)
-        else
-            Border.HideFrom(slot)
+                if isLabelEnabled and itemQuality and itemLevel then
+                    print("Show label on slot ", slot, " with quality ", itemQuality, " and item level ", itemLevel)
+                else
+                end
+            end
         end
-
-        if isLabelEnabled and itemQuality and itemLevel then
-            ShowLabelOn(slot, itemQuality, itemLevel)
-        else
-            ItemLabel.HideFrom(slot)
-        end
-
     end
+
+    -- for _, slotName in ipairs(SlotHelper.slots) do
+    --     isLabelEnabled = isLabelEnabled and not SlotHelper.IsAmmoSlot(slotName)
+-- 
+    --     local slot = SlotHelper.GetUnitSlot(unit, slotName)
+    --     local _, itemQuality, itemLevel = SlotHelper.GetItemInfoFrom(unit, slotName)
+-- 
+    --     if isBorderEnabled and itemQuality then
+    --         ShowBorderOn(slot, itemQuality)
+    --     else
+    --         Border.HideFrom(slot)
+    --     end
+-- 
+    --     if isLabelEnabled and itemQuality and itemLevel then
+    --         ShowLabelOn(slot, itemQuality, itemLevel)
+    --     else
+    --         ItemLabel.HideFrom(slot)
+    --     end
+-- 
+    -- end
 
 end
 

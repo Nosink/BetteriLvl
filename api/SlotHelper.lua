@@ -35,6 +35,11 @@ function SlotHelper.IsRangedSlot(slotName)
     return SlotHelper.rangedSlotName == slotName
 end
 
+function SlotHelper.GetItemInfo(itemId)
+    local itemLink, _, itemQuality, itemLevel = C_Item.GetItemInfo(itemId)
+    return itemLink, itemQuality, itemLevel
+end
+
 function SlotHelper.GetItemInfoFrom(unit, slotName)
     local slotId = GetInventorySlotInfo(slotName)
     if not slotId then return nil end

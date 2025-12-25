@@ -4,6 +4,20 @@ local L = ns.L
 
 local settings = ns.settings
 
+local function GetIsEquipmentType(itemType)
+    if not itemType then
+        return false
+    end
+
+    local itemTypes = {
+        ["Armor"] = true,
+        ["Weapon"] = true,
+        ["Projectile"] = true,
+    }
+
+    return itemTypes[itemType] == true
+end
+
 function OnTooltipSetItemHandler(tooltip)
 
     if not tooltip or tooltip:IsForbidden() then
@@ -26,7 +40,7 @@ function OnTooltipSetItemHandler(tooltip)
 
     local _, _, _, itemLevel, _, itemType = C_Item.GetItemInfo(itemLink)
     
-    local isArmor = ItemHelper.GetIsEquipmentType(itemType)
+    local isArmor = GetIsEquipmentType(itemType)
 
     local yellowR, yellowG, yellowB = 1.00, 0.82, 0.00
 
