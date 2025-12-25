@@ -1,6 +1,7 @@
 local name, ns = ...
 
 ns["player" .. "slots"] = ns["player" .. "slots"] or {}
+ns["target" .. "slots"] = ns["target" .. "slots"] or {}
 
 local slotNames = {
     [INVSLOT_AMMO] = "AmmoSlot",
@@ -65,9 +66,20 @@ local function createCharacterInventorySlots()
     ns["player" .. "slots"] = slots
 end
 
+local function createTargetInventorySlots()
+    local slots = ns["target" .. "slots"] or {}
+    for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+        local inventorySlot = _G["Inspect" .. slotNames[slot]]
+        createBorder(inventorySlot)
+        slots[slot] = inventorySlot
+    end
+    ns["target" .. "slots"] = slots
+end
+
 local function onAddonLoaded(_, addon)
     if addon ~= name then return end
     createCharacterInventorySlots()
+    createTargetInventorySlots()
 end
 
 ns:RegisterEvent("ADDON_LOADED", onAddonLoaded, MAX_PRIORITY)

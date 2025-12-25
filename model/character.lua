@@ -8,7 +8,7 @@ local function evaluateItemsCache()
         local itemData = ns["player" .. "items"][slot]
         if not itemData or not itemData.cached then return end
     end
-    ns:TriggerEvent("BETTERILVL_ALL_ITEMS_CACHED")
+    ns:TriggerEvent("BETTERILVL_PLAYER_CACHED")
 end
 
 local function cacheItemSlot(slot)

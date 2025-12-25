@@ -37,5 +37,8 @@ configuration/panel.lua
 model/character.lua
 controller/character.lua
 
+model/target.lua
+controller/target.lua
+
 view/inventorySlot.lua
 

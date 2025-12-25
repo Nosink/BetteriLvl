@@ -19,4 +19,4 @@ local function displayCharacterBorders()
     end
 end
 
-ns:RegisterEvent("BETTERILVL_ALL_ITEMS_CACHED", displayCharacterBorders)
+ns:RegisterEvent("BETTERILVL_PLAYER_CACHED", displayCharacterBorders)
