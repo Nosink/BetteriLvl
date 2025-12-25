@@ -20,21 +20,6 @@ local function IsBorderEnabledFor(unit)
     return false
 end
 
-local function ShowBorderOn(slot, itemQuality)
-    if not Border.IsValid(slot) then
-        Border.CreateOn(slot)
-    end
-    Border.ConfigureWith(slot, itemQuality)
-    Border.ShowOn(slot)
-end
-
-local function ShowLabelOn(slot, itemQuality, itemLevel)
-    if not ItemLabel.IsValid(slot) then
-        ItemLabel.CreateOn(slot)
-    end
-    ItemLabel.ConfigureWith(slot, itemQuality)
-    ItemLabel.ShowOn(slot, itemLevel)
-end
 
 function ShowSlotiLvlOn(unit)
 
@@ -91,6 +76,6 @@ function HideSlotiLvlFrom(unit)
     for _, slotName in ipairs(SlotHelper.slots) do
         local slot = SlotHelper.GetUnitSlot(unit, slotName)
         ItemLabel.HideFrom(slot)
-        Border.HideFrom(slot)
+        -- .HideFrom(slot)
     end
 end

@@ -31,7 +31,7 @@ local function displayUnitBorders(_, unit)
     for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
         local equipSlot = slots[slot]
         local itemData = items[slot]
-        if equipSlot and itemData and itemData.cached and itemData.item then
+        if equipSlot and itemData and itemData.cached and itemData.item and itemData.item:IsItemDataCached() then
             local itemQuality = itemData.item:GetItemQuality()
             equipSlot:ConfigureBorder(itemQuality)
             equipSlot:ShowBorder()
