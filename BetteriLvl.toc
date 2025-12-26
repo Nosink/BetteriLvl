@@ -1,14 +1,13 @@
 
 ## Interface: 11506
 
-## Title-enUS: BetteriLvl
-## Notes-enUS: Shows item level and average item level on character and targetframe
+## Title: BetteriLvl
 
-## Title-esES: BetteriLvl
-## Notes-esES: Muestra el nivel de objeto y el nivel de objeto promedio en el personaje y del objetivo
+## Notes-enUS: Shows item level, quality borders and average item level on character and target frames. Show extra tooltip info.
+## Notes-esES: Muestra el nivel de objeto, la calidad del objeto en su borde y nivel de objeto promedio del personaje y del objetivo. Muestra información extra en el tooltip.
 
 ## Author: Nosink Ð
-## Version: 1.0
+## Version: 1.1.0
 ## SavedVariables: BetteriLvlDB
 
 # Module: Localization
@@ -31,20 +30,22 @@ configuration/settings.lua
 configuration/panel.lua
 # --------------------
 
-# Addon
+# Addon - Core
 addon.lua
 data.lua
 utils.lua
 
+# MVC Unit Inventory Slots
 model/unit.lua
-model/tooltip.lua
-model/itemLevel.lua
-
+view/inventorySlot.lua
 controller/unit.lua
-controller/tooltip.lua
+
+# MVC Average Item Level
+model/itemLevel.lua
+view/itemLevel.lua
 controller/itemLevel.lua
 
-view/inventorySlot.lua
+# MVC Tooltips
+model/tooltip.lua
 view/tooltip.lua
-view/itemLevel.lua
-
+controller/tooltip.lua
