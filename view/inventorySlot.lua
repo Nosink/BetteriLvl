@@ -26,7 +26,7 @@ local slotNames = {
     [INVSLOT_RANGED] = "RangedSlot",
 }
 
-local borderData = {
+local itemBorderData = {
     texture = "Interface/Buttons/UI-ActionButton-Border",
     alpha = 0.5,
     blendMode = "ADD",
@@ -35,7 +35,7 @@ local borderData = {
     offset = { x = 15, y = 15},
 }
 
-local labelData = {
+local itemLevelLabelData = {
     font = "NumberFontNormal",
     anchor = "TOPLEFT",
     relative = "TOPLEFT",
@@ -44,52 +44,52 @@ local labelData = {
 }
 
 local function createFrontString(slot)
-    if slot.label then
+    if slot.itemLevel then
         return
     end
-    slot.label = slot:CreateFontString(nil, "OVERLAY", labelData.font)
+    slot.itemLevel = slot:CreateFontString(nil, "OVERLAY", itemLevelLabelData.font)
     slot.ConfigureLabel = function (self, itemQuality, itemLevel)
         local r, g, b = BetteriLvl.API.GetItemQualityColor(itemQuality)
-        self.label:SetPoint(labelData.anchor, self, labelData.relative, labelData.offset.x, labelData.offset.y)
-        self.label:SetShadowOffset(labelData.shadow.offset.x, labelData.shadow.offset.y)
-        self.label:SetShadowColor(labelData.shadow.color.r, labelData.shadow.color.g, labelData.shadow.color.b, labelData.shadow.color.a)
-        self.label:SetTextColor(r, g, b)
-        self.label:SetText(itemLevel)
+        self.itemLevel:SetPoint(itemLevelLabelData.anchor, self, itemLevelLabelData.relative, itemLevelLabelData.offset.x, itemLevelLabelData.offset.y)
+        self.itemLevel:SetShadowOffset(itemLevelLabelData.shadow.offset.x, itemLevelLabelData.shadow.offset.y)
+        self.itemLevel:SetShadowColor(itemLevelLabelData.shadow.color.r, itemLevelLabelData.shadow.color.g, itemLevelLabelData.shadow.color.b, itemLevelLabelData.shadow.color.a)
+        self.itemLevel:SetTextColor(r, g, b)
+        self.itemLevel:SetText(itemLevel)
     end
 
     slot.ShowLabel = function(self)
-        self.label:Show()
+        self.itemLevel:Show()
     end
 
     slot.HideLabel = function(self)
-        if not self.label then
+        if not self.itemLevel then
             return
         end
-        self.label:SetText("")
-        self.label:Hide()
+        self.itemLevel:SetText("")
+        self.itemLevel:Hide()
     end
     slot:HideLabel()
 end
 
 local function createBorder(slot)
-    if slot.border then
+    if slot.itemBorder then
         return
     end
-    slot.border = slot:CreateTexture(nil, "OVERLAY")
+    slot.itemBorder = slot:CreateTexture(nil, "OVERLAY")
     slot.ConfigureBorder = function (self, itemQuality)
         local r, g, b = _G.BetteriLvl.API.GetItemQualityColor(itemQuality)
-        self.border:SetPoint(borderData.origin.anchor, self, borderData.origin.relative, borderData.origin.offset.x, borderData.origin.offset.y)
-        self.border:SetPoint(borderData.destination.anchor, self, borderData.destination.relative, borderData.destination.offset.x, borderData.destination.offset.y)
-        self.border:SetAlpha(borderData.alpha)
-        self.border:SetBlendMode(borderData.blendMode)
-        self.border:SetTexture(borderData.texture)
-        self.border:SetVertexColor(r, g, b)
+        self.itemBorder:SetPoint(itemBorderData.origin.anchor, self, itemBorderData.origin.relative, itemBorderData.origin.offset.x, itemBorderData.origin.offset.y)
+        self.itemBorder:SetPoint(itemBorderData.destination.anchor, self, itemBorderData.destination.relative, itemBorderData.destination.offset.x, itemBorderData.destination.offset.y)
+        self.itemBorder:SetAlpha(itemBorderData.alpha)
+        self.itemBorder:SetBlendMode(itemBorderData.blendMode)
+        self.itemBorder:SetTexture(itemBorderData.texture)
+        self.itemBorder:SetVertexColor(r, g, b)
     end
     slot.ShowBorder = function(self)
-        self.border:Show()
+        self.itemBorder:Show()
     end
     slot.HideBorder = function(self)
-        self.border:Hide()
+        self.itemBorder:Hide()
     end
     slot:HideBorder()
 end

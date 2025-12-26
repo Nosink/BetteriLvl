@@ -39,31 +39,31 @@ local labelData = {
 }
 
 local function createFrontString(slot)
-    if slot.average then
+    if slot.averageItemLevel then
         return
     end
-    slot.average = slot:CreateFontString(nil, "OVERLAY", labelData.font)
+    slot.averageItemLevel = slot:CreateFontString(nil, "OVERLAY", labelData.font)
     slot.ConfigureAverageLabel = function (self, itemQuality, itemLevel)
         local r, g, b = BetteriLvl.API.GetItemQualityColor(itemQuality)
-        self.average:SetPoint(labelData.anchor, self, labelData.relative, labelData.position.x, labelData.position.y)
-        self.average:SetShadowOffset(labelData.shadow.offset.x, labelData.shadow.offset.y)
-        self.average:SetShadowColor(labelData.shadow.color.r, labelData.shadow.color.g, labelData.shadow.color.b, labelData.shadow.color.a)
-        self.average:SetTextColor(r, g, b)
-        self.average:SetText(itemLevel)
+        self.averageItemLevel:SetPoint(labelData.anchor, self, labelData.relative, labelData.position.x, labelData.position.y)
+        self.averageItemLevel:SetShadowOffset(labelData.shadow.offset.x, labelData.shadow.offset.y)
+        self.averageItemLevel:SetShadowColor(labelData.shadow.color.r, labelData.shadow.color.g, labelData.shadow.color.b, labelData.shadow.color.a)
+        self.averageItemLevel:SetTextColor(r, g, b)
+        self.averageItemLevel:SetText(itemLevel)
     end
 
     slot.ShowAverageLabel = function(self)
-        self.average:Show()
+        self.averageItemLevel:Show()
     end
 
     slot.HideAverageLabel = function(self)
-        if not self.average then
+        if not self.averageItemLevel then
             return
         end
-        self.average:SetText("")
-        self.average:Hide()
+        self.averageItemLevel:SetText("")
+        self.averageItemLevel:Hide()
     end
-    slot:HideLabel()
+    slot:HideAverageLabel()
 end
 
 local function createAverageItemLevelLabel(_, unit)
