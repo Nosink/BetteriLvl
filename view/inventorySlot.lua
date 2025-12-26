@@ -1,28 +1,5 @@
 local _, ns = ...
 
-local slotNames = {
-    [INVSLOT_AMMO] = "AmmoSlot",
-    [INVSLOT_HEAD] = "HeadSlot",
-    [INVSLOT_NECK] = "NeckSlot",
-    [INVSLOT_SHOULDER] = "ShoulderSlot",
-    [INVSLOT_BACK] = "BackSlot",
-    [INVSLOT_CHEST] = "ChestSlot",
-    [INVSLOT_BODY] = "ShirtSlot",
-    [INVSLOT_TABARD] = "TabardSlot",
-    [INVSLOT_WRIST] = "WristSlot",
-    [INVSLOT_HAND] = "HandsSlot",
-    [INVSLOT_WAIST] = "WaistSlot",
-    [INVSLOT_LEGS] = "LegsSlot",
-    [INVSLOT_FEET] = "FeetSlot",
-    [INVSLOT_FINGER1] = "Finger0Slot",
-    [INVSLOT_FINGER2] = "Finger1Slot",
-    [INVSLOT_TRINKET1] = "Trinket0Slot",
-    [INVSLOT_TRINKET2] = "Trinket1Slot",
-    [INVSLOT_MAINHAND] = "MainHandSlot",
-    [INVSLOT_OFFHAND] = "SecondaryHandSlot",
-    [INVSLOT_RANGED] = "RangedSlot",
-}
-
 local itemBorderData = {
     texture = "Interface/Buttons/UI-ActionButton-Border",
     alpha = 0.5,
@@ -46,7 +23,7 @@ local function createFrontString(slot)
     end
     slot.itemLevel = slot:CreateFontString(nil, "OVERLAY", itemLevelLabelData.font)
     slot.ConfigureLabel = function (self, itemQuality, itemLevel)
-        local r, g, b = BetteriLvl.API.GetItemQualityColor(itemQuality)
+        local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
         self.itemLevel:SetPoint(itemLevelLabelData.anchor, self, itemLevelLabelData.relative, itemLevelLabelData.offset.x, itemLevelLabelData.offset.y)
         self.itemLevel:SetShadowOffset(itemLevelLabelData.shadow.offset.x, itemLevelLabelData.shadow.offset.y)
         self.itemLevel:SetShadowColor(itemLevelLabelData.shadow.color.r, itemLevelLabelData.shadow.color.g, itemLevelLabelData.shadow.color.b, itemLevelLabelData.shadow.color.a)
@@ -74,7 +51,7 @@ local function createBorder(slot)
     end
     slot.itemBorder = slot:CreateTexture(nil, "OVERLAY")
     slot.ConfigureBorder = function (self, itemQuality)
-        local r, g, b = _G.BetteriLvl.API.GetItemQualityColor(itemQuality)
+        local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
         self.itemBorder:SetPoint(itemBorderData.origin.anchor, self, itemBorderData.origin.relative, itemBorderData.origin.offset.x, itemBorderData.origin.offset.y)
         self.itemBorder:SetPoint(itemBorderData.destination.anchor, self, itemBorderData.destination.relative, itemBorderData.destination.offset.x, itemBorderData.destination.offset.y)
         self.itemBorder:SetAlpha(itemBorderData.alpha)
@@ -95,7 +72,7 @@ local function createUntSlots(_, unit)
     local slots = ns[unit].slots
     local frameName = (unit == "target") and "Inspect" or "Character"
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        local inventorySlot = _G[frameName .. slotNames[slot]]
+        local inventorySlot = _G[frameName .. ns.data.slotNames[slot]]
         if inventorySlot then
             createBorder(inventorySlot)
             createFrontString(inventorySlot)

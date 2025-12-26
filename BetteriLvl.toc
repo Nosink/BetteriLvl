@@ -32,9 +32,8 @@ configuration/panel.lua
 # --------------------
 
 # Addon
-
 addon.lua
-api.lua
+utils.lua
 
 model/unit.lua
 model/tooltip.lua

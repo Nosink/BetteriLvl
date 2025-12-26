@@ -1,23 +1,22 @@
 local _, ns = ...
 
-_G.BetteriLvl = {}
+local function initializeToolTip()
+    ns.Tooltip = ns.Tooltip or {}
+end
 
-ns.player = {}
-
-ns.player.slots =  {}
-ns.player.items =  {}
-ns.player.itemLevel = {}
-
-ns.target = {}
-
-ns.target.slots =  {}
-ns.target.items =  {}
-ns.target.itemLevel = {}
-
-ns.tooltip = {}
-ns.tooltip.item = nil
+local function initializeUnitVars(unit)
+    ns[unit] = ns[unit] or {}
+    ns[unit].slots = ns[unit].slots or {}
+    ns[unit].items = ns[unit].items or {}
+    ns[unit].itemLevel = ns[unit].itemLevel or {}
+end
 
 local function onPlayerEnteringWorld()
+
+    initializeToolTip()
+    initializeUnitVars("player")
+    initializeUnitVars("target")
+
     ns:TriggerEvent("BETTERILVL_SAFE_ADDON_LOADED")
 end
 

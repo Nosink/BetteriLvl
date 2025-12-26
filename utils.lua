@@ -1,9 +1,9 @@
 
-local name, ns = ...
+local _, ns = ...
 
-_G.BetteriLvl.API = {}
+local utils = ns.utils or {}
 
-BetteriLvl.API.GetItemQualityColor = function(quality)
+utils.GetItemQualityColor = function(quality)
     local q = tonumber(quality) or 0
 
     if C_Item and C_Item.GetItemQualityColor then
