@@ -19,6 +19,7 @@ local itemLevelLabelData = {
 
 local function createFrontString(slot)
     if slot.itemLevel then
+        slot:HideLabel()
         return
     end
     slot.itemLevel = slot:CreateFontString(nil, "OVERLAY", itemLevelLabelData.font)
@@ -47,6 +48,7 @@ end
 
 local function createBorder(slot)
     if slot.itemBorder then
+        slot:HideBorder()
         return
     end
     slot.itemBorder = slot:CreateTexture(nil, "OVERLAY")
@@ -83,4 +85,9 @@ local function createUntSlots(_, unit)
     ns:TriggerEvent("BETTERILVL_SLOTS_READY", unit)
 end
 
+local function validateUnitSlots()
+    createUntSlots(nil, "player")
+end
+
 ns:RegisterEvent("BETTERILVL_ITEMS_CACHED", createUntSlots)
+ns:RegisterEvent("BETTERILVL_SETTINGS_CHANGED", validateUnitSlots)

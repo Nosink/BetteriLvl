@@ -17,7 +17,7 @@ function ns.settings.IsAverageiLvlDisabled(unit)
 end
 
 function ns.settings.IsAverageiLvlOnAlternatePosition(unit)
-    if unit ~= "player" then return false end
+    if unit ~= "player" then return true end
     return ns.database[unit.."AverageAlternatePosition"] == true
 end
 

@@ -4,7 +4,6 @@ local labelData = {
     font = "GameFontNormalLarge",
     anchor = "TOP",
     relative = "CENTER",
-    fontSize = 14,
     position = { x = -112, y = -5},
     alternatePosition = { x = 0, y = 40},
     text = "iLvl: ",
@@ -13,15 +12,10 @@ local labelData = {
 
 local function createFrontString(slot)
     if slot.averageItemLevel then
+        slot:HideAverageLabel()
         return
     end
     slot.averageItemLevel = slot:CreateFontString(nil, "OVERLAY", labelData.font)
-    if GameFontNormal and GameFontNormal.GetFont then
-        local fontPath, _, fontFlags = GameFontNormal:GetFont()
-        if fontPath then
-            slot.averageItemLevel:SetFont(fontPath, labelData.fontSize, fontFlags)
-        end
-    end
     slot.ConfigureAverageLabel = function (self, itemQuality, itemLevel, alternatePosition)
         local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
         local pos = alternatePosition and labelData.alternatePosition or labelData.position
@@ -54,4 +48,9 @@ local function createAverageItemLevelLabel(_, unit)
     ns:TriggerEvent("BETTERILVL_ITEMLEVEL_READY", unit)
 end
 
+local function validateAverageItemLevelLabel()
+    createAverageItemLevelLabel(nil, "player")
+end
+
+ns:RegisterEvent("BETTERILVL_SETTINGS_CHANGED", validateAverageItemLevelLabel)
 ns:RegisterEvent("BETTERILVL_ITEMLEVEL_CALCULATED", createAverageItemLevelLabel)

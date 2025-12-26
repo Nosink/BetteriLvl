@@ -2,19 +2,8 @@ local _, ns = ...
 
 local settings = ns.settings
 
-local function clearBorders(unit)
-    local slots = ns[unit].slots
-    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        local equipSlot = slots[slot]
-        if equipSlot then
-            equipSlot:HideBorder()
-        end
-    end
-end
-
 local function displaySlotBorder(_, unit)
-    if not unit then unit = "player" end
-    if settings.IsUnitBorderDisabled(unit) then clearBorders(unit) return end
+    if settings.IsUnitBorderDisabled(unit) then return end
 
     local slots = ns[unit].slots
     local items = ns[unit].items
@@ -31,19 +20,8 @@ local function displaySlotBorder(_, unit)
     end
 end
 
-local function ClearLabels(unit)
-    local slots = ns[unit].slots
-    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        local equipSlot = slots[slot]
-        if equipSlot then
-            equipSlot:HideLabel()
-        end
-    end
-end
-
 local function displaySlotItemLevel(_, unit)
-    if not unit then unit = "player" end
-    if settings.IsItemLevelDisabled(unit) then ClearLabels(unit) return end
+    if settings.IsItemLevelDisabled(unit) then return end
 
     local slots = ns[unit].slots
     local items = ns[unit].items
@@ -64,7 +42,4 @@ local function displaySlotItemLevel(_, unit)
 end
 
 ns:RegisterEvent("BETTERILVL_SLOTS_READY", displaySlotBorder, MID_PRIORITY)
-ns:RegisterEvent("BETTERILVL_SETTINGS_CHANGED", displaySlotBorder, MID_PRIORITY)
-
 ns:RegisterEvent("BETTERILVL_SLOTS_READY", displaySlotItemLevel, MID_PRIORITY)
-ns:RegisterEvent("BETTERILVL_SETTINGS_CHANGED", displaySlotItemLevel, MID_PRIORITY)
