@@ -2,44 +2,45 @@ local _, ns = ...
 
 local settings = ns.settings
 
-local function displaySlotBorder(_, unit)
-    if settings.IsUnitBorderDisabled(unit) then return end
-
-    local slots = ns[unit].slots
-    local items = ns[unit].items
-    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        local equipSlot = slots[slot]
-        local itemData = items[slot]
-        if equipSlot and itemData and itemData.cached and itemData.item and itemData.item:IsItemDataCached() then
-            local itemQuality = itemData.item:GetItemQuality()
-            equipSlot:ConfigureBorder(itemQuality)
-            equipSlot:ShowBorder()
-        elseif equipSlot then
-            equipSlot:HideBorder()
-        end
-    end
+local function isItemDataValid(itemData)
+    return itemData and itemData.cached and itemData.item and itemData.item:IsItemDataCached()
 end
 
-local function displaySlotItemLevel(_, unit)
-    if settings.IsItemLevelDisabled(unit) then return end
+local function retrieveItemData(itemData)
+    return itemData.item:GetCurrentItemLevel(),  itemData.item:GetItemQuality()
+end
+
+local function isItemBorderEnabled(unit)
+    return not settings.IsUnitBorderDisabled(unit)
+end
+
+local function isItemLevelEnabled(unit, slot)
+    return not settings.IsItemLevelDisabled(unit) and slot ~= INVSLOT_AMMO
+end
+
+local function displayUniSlotInfo(_, unit)
+    if settings.IsUnitSlotInfoDisabled(unit) then return end
 
     local slots = ns[unit].slots
     local items = ns[unit].items
+
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        local equipSlot = slots[slot]
+        local inventorySlot = slots[slot]
         local itemData = items[slot]
-        if equipSlot and itemData and itemData.cached and itemData.item and itemData.item:IsItemDataCached() then
-            local itemLevel = itemData.item:GetCurrentItemLevel()
-            local itemQuality = itemData.item:GetItemQuality()
-            if slot ~= INVSLOT_AMMO then
-                equipSlot:ConfigureLabel(itemQuality, itemLevel)
-                equipSlot:ShowLabel()
+        if inventorySlot and isItemDataValid(itemData) then
+            local itemLevel, itemQuality = retrieveItemData(itemData)
+
+            if isItemBorderEnabled(unit) then
+                inventorySlot:ConfigureBorder(itemQuality)
+                inventorySlot:ShowBorder()
             end
-        elseif equipSlot then
-            equipSlot:HideLabel()
+
+            if isItemLevelEnabled(unit, slot) then
+                inventorySlot:ConfigureLabel(itemQuality, itemLevel)
+                inventorySlot:ShowLabel()
+            end
         end
     end
 end
 
-ns:RegisterEvent("BETTERILVL_SLOTS_READY", displaySlotBorder, MID_PRIORITY)
-ns:RegisterEvent("BETTERILVL_SLOTS_READY", displaySlotItemLevel, MID_PRIORITY)
+ns:RegisterEvent("BETTERILVL_SLOTS_READY", displayUniSlotInfo, MID_PRIORITY)

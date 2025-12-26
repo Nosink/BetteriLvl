@@ -3,6 +3,10 @@ local _, ns = ...
 ns.settings = ns.settings or {}
 
 -- Unit Slots Settingsed(unit)
+function ns.settings.IsUnitSlotInfoDisabled(unit)
+    return ns.database[unit.."Level"] == false and ns.database[unit.."Border"] == false
+end
+
 function ns.settings.IsItemLevelDisabled(unit)
     return ns.database[unit.."Level"] == false
 end

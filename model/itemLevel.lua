@@ -26,8 +26,8 @@ local function calculateUnitItemLevel(_, unit)
         if item then
             local itemEquipLoc = getItemEquipLoc(item)
             if itemEquipLoc ~= "INVTYPE_TABARD" and itemEquipLoc ~= "INVTYPE_BODY" then
-                local itemLevel = item:GetCurrentItemLevel()
-                local itemQuality = item:GetItemQuality()
+                local itemLevel = item:GetCurrentItemLevel() or 0
+                local itemQuality = item:GetItemQuality() or 0
                 if ranged then
                     totalLevel = totalLevel + itemLevel
                 else
