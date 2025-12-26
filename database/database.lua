@@ -2,7 +2,7 @@ local name, ns = ...
 
 ns.db = ns.db or {}
 
-local function onAddonLoaded(_, addon)
+local function onVariablesLoaded(_, addon)
     if addon ~= name then return end
 
     _G[name.."DB"] = setmetatable(_G[name.."DB"] or {}, {
@@ -12,4 +12,4 @@ local function onAddonLoaded(_, addon)
 
 end
 
-ns:RegisterEvent("ADDON_LOADED", onAddonLoaded, MAX_PRIORITY)
+ns:RegisterEvent("VARIABLES_LOADED", onVariablesLoaded, MAX_PRIORITY)
