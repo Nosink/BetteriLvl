@@ -94,7 +94,7 @@ local function createBorder(slot)
     slot:HideBorder()
 end
 
-local function createUntiSlots(_, unit)
+local function createUntSlots(_, unit)
     local slots = ns[unit .. "slots"] or {}
     local frameName = (unit == "target") and "Inspect" or "Character"
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
@@ -109,4 +109,4 @@ local function createUntiSlots(_, unit)
     ns:TriggerEvent("BETTERILVL_SLOTS_READY", unit)
 end
 
-ns:RegisterEvent("BETTERILVL_ITEMS_CACHED", createUntiSlots)
+ns:RegisterEvent("BETTERILVL_ITEMS_CACHED", createUntSlots)

@@ -38,10 +38,13 @@ api.lua
 
 model/unit.lua
 model/tooltip.lua
+model/itemLevel.lua
 
 controller/unit.lua
 controller/tooltip.lua
+controller/itemLevel.lua
 
 view/inventorySlot.lua
 view/tooltip.lua
+view/itemLevel.lua
 

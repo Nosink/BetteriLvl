@@ -35,9 +35,9 @@ local function displayUnitBorders(_, unit)
             local itemQuality = itemData.item:GetItemQuality()
             local itemLevel = itemData.item:GetCurrentItemLevel()
             equipSlot:ConfigureBorder(itemQuality)
-            equipSlot:ConfigureLabel(itemQuality, itemLevel)
             equipSlot:ShowBorder()
             if slot ~= INVSLOT_AMMO then
+                equipSlot:ConfigureLabel(itemQuality, itemLevel)
                 equipSlot:ShowLabel()
             end
         elseif equipSlot then

@@ -14,11 +14,10 @@ end
 
 local function cacheItemSlot(slot, unit)
     local itemSlot = ns[unit .. "items"][slot]
-
     itemSlot:Initialize()
 
     local itemID = GetInventoryItemID(unit, slot)
-    if not itemID then itemSlot:Clear() return end
+    if not itemID or itemID == 0 then itemSlot:Clear() return end
     if itemSlot.itemID == itemID and itemSlot.cached then return end
 
     local item = Item:CreateFromItemID(itemID)
