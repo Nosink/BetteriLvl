@@ -1,9 +1,9 @@
 
 local _, ns = ...
 
-local utils = ns.utils or {}
+ns.utils = ns.utils or {}
 
-utils.GetItemQualityColor = function(quality)
+ns.utils.GetItemQualityColor = function(quality)
     local q = tonumber(quality) or 0
 
     if C_Item and C_Item.GetItemQualityColor then

@@ -1,7 +1,7 @@
 local _, ns = ...
 
 local function initializeToolTip()
-    ns.Tooltip = ns.Tooltip or {}
+    ns.tooltip = ns.tooltip or {}
 end
 
 local function initializeUnitVars(unit)

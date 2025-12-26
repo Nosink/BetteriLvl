@@ -33,6 +33,7 @@ configuration/panel.lua
 
 # Addon
 addon.lua
+data.lua
 utils.lua
 
 model/unit.lua

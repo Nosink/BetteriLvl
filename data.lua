@@ -1,8 +1,8 @@
 local _, ns = ...
 
-local data = ns.data or {}
+ns.data = ns.data or {}
 
-local slotNames = {
+ns.data.slotNames = {
     [INVSLOT_AMMO] = "AmmoSlot",
     [INVSLOT_HEAD] = "HeadSlot",
     [INVSLOT_NECK] = "NeckSlot",
@@ -24,5 +24,3 @@ local slotNames = {
     [INVSLOT_OFFHAND] = "SecondaryHandSlot",
     [INVSLOT_RANGED] = "RangedSlot",
 }
-
-data.slotNames = slotNames
