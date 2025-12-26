@@ -11,12 +11,10 @@
 ## Version: 1.0
 ## SavedVariables: BetteriLvlDB
 
-
-
 # Module: Localization
 localization/localization.lua
 localization/enUS.lua
-localization/esEs-esMX.lua
+localization/esES-esMX.lua
 # --------------------
 
 # Module: Events
