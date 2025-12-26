@@ -76,15 +76,14 @@ local function onUnitItemsReady(_)
     cacheUnitItems("player")
 end
 
-local function onAddonLoaded(_, addon)
-    if addon ~= name then return end
+local function onAddonLoaded()
     createUnitItems("player")
     createUnitItems("target")
 
     ns:TriggerEvent("BETTERILVL_UNIT_ITEMS_READY")
 end
 
-ns:RegisterEvent("ADDON_LOADED", onAddonLoaded, MID_PRIORITY)
+ns:RegisterEvent("BETTERILVL_ADDON_LOADED", onAddonLoaded, MID_PRIORITY)
 
 ns:RegisterEvent("BETTERILVL_UNIT_ITEMS_READY", onUnitItemsReady, MIN_PRIORITY)
 ns:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)

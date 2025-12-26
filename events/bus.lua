@@ -128,4 +128,15 @@ function ns:HookSecureFunc(frame, funcName, handler)
     end)
 end
 
+function ns:HookScript(frame, funcName, handler)
+    if type(frame) ~= "table" or type(funcName) ~= "string" or type(handler) ~= "function" then return end
+
+    frame:HookScript(funcName, function(...)
+        local ok, err = pcall(handler, ...)
+        if not ok then
+            geterrorhandler()(err)
+        end
+    end)
+end
+
 frame:SetScript("OnEvent", dispatch)

@@ -33,10 +33,14 @@ local function displayUnitBorders(_, unit)
         local itemData = items[slot]
         if equipSlot and itemData and itemData.cached and itemData.item and itemData.item:IsItemDataCached() then
             local itemQuality = itemData.item:GetItemQuality()
+            local itemLevel = itemData.item:GetCurrentItemLevel()
             equipSlot:ConfigureBorder(itemQuality)
+            equipSlot:ConfigureLabel(itemQuality, itemLevel)
             equipSlot:ShowBorder()
+            equipSlot:ShowLabel()
         elseif equipSlot then
             equipSlot:HideBorder()
+            equipSlot:HideLabel()
         end
     end
 end

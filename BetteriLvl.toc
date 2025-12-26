@@ -11,8 +11,7 @@
 ## Version: 1.0
 ## SavedVariables: BetteriLvlDB
 
-addon.lua
-api.lua
+
 
 # Module: Localization
 localization/localization.lua
@@ -34,8 +33,17 @@ configuration/settings.lua
 configuration/panel.lua
 # --------------------
 
+# Addon
+
+addon.lua
+api.lua
+
 model/unit.lua
+model/tooltip.lua
+
 controller/unit.lua
+controller/tooltip.lua
 
 view/inventorySlot.lua
+view/tooltip.lua
 

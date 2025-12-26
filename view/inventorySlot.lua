@@ -39,12 +39,36 @@ local labelData = {
     font = "NumberFontNormal",
     anchor = "TOPLEFT",
     relative = "TOPLEFT",
-    offset = { x = 0, y = -1},
+    offset = { x = 1, y = -2},
     shadow = {offset = { x = 1 , y = -1}, color = { r = 0, g = 0, b = 0, a = 1} }
 }
 
 local function createFrontString(slot)
+    if slot.label then
+        return
+    end
+    slot.label = slot:CreateFontString(nil, "OVERLAY", labelData.font)
+    slot.ConfigureLabel = function (self, itemQuality, itemLevel)
+        local r, g, b = BetteriLvl.API.GetItemQualityColor(itemQuality)
+        self.label:SetPoint(labelData.anchor, self, labelData.relative, labelData.offset.x, labelData.offset.y)
+        self.label:SetShadowOffset(labelData.shadow.offset.x, labelData.shadow.offset.y)
+        self.label:SetShadowColor(labelData.shadow.color.r, labelData.shadow.color.g, labelData.shadow.color.b, labelData.shadow.color.a)
+        self.label:SetTextColor(r, g, b)
+        self.label:SetText(itemLevel)
+    end
 
+    slot.ShowLabel = function(self)
+        self.label:Show()
+    end
+
+    slot.HideLabel = function(self)
+        if not self.label then
+            return
+        end
+        self.label:SetText("")
+        self.label:Hide()
+    end
+    slot:HideLabel()
 end
 
 local function createBorder(slot)
@@ -67,6 +91,7 @@ local function createBorder(slot)
     slot.HideBorder = function(self)
         self.border:Hide()
     end
+    slot:HideBorder()
 end
 
 local function createUntiSlots(_, unit)
@@ -76,6 +101,7 @@ local function createUntiSlots(_, unit)
         local inventorySlot = _G[frameName .. slotNames[slot]]
         if inventorySlot then
             createBorder(inventorySlot)
+            createFrontString(inventorySlot)
             slots[slot] = inventorySlot
         end
     end
