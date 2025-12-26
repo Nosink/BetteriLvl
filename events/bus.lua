@@ -45,10 +45,7 @@ local function registerEvents(eventName)
     local handlerList = {}
     ns.handlers[eventName] = handlerList
 
-    local ok = pcall(frame.RegisterEvent, frame, eventName)
-    if not ok then
-        -- Custom event; not a native game event, so frame registration is skipped.
-    end
+    pcall(frame.RegisterEvent, frame, eventName)
 
     return handlerList
 end
@@ -118,7 +115,11 @@ function ns:TriggerEvent(eventName, ...)
 end
 
 function ns:HookSecureFunc(frame, funcName, handler)
-    if type(frame) ~= "table" or type(funcName) ~= "string" or type(handler) ~= "function" then return end
+    if type(frame) == "string" then 
+        frame, funcName, handler = _G, frame, funcName
+    end
+
+    if type(handler) ~= "function" then return end
 
     hooksecurefunc(frame, funcName, function(...)
         local ok, err = pcall(handler, ...)
@@ -127,6 +128,7 @@ function ns:HookSecureFunc(frame, funcName, handler)
         end
     end)
 end
+
 
 function ns:HookScript(frame, funcName, handler)
     if type(frame) ~= "table" or type(funcName) ~= "string" or type(handler) ~= "function" then return end

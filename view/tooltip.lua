@@ -2,12 +2,8 @@ local _, ns = ...
 local L = ns.L
 
 local tooltipData = {
-    itemIdColor = { 1.00, 0.82, 0.00 },
-    itemLevelColor = { 1.00, 1.00, 1.00 },
-    headerFont = "GameFontNormalLarge",
-    subHeaderFont = "GameFontNormal",
-    textFont = "GameFontHighlight",
-    labelFont = "NumberFontNormal",
+    itemIdColor = {l = {0.80, 0.80, 0.80 }, r = {0.80, 0.80, 0.80 }},
+    itemLevelColor = { l = {1.00, 1.00, 1.00 } , r = {1.00, 1.00, 1.00 }},
 }
 
 local function createTooltipLines()
@@ -17,14 +13,16 @@ local function createTooltipLines()
     local itemID = tostring(item:GetItemID() or "N/A")
     local itemLevel = tostring(item:GetCurrentItemLevel() or "N/A")
 
-    local r, g, b = unpack(tooltipData.itemLevelColor)
-    local rID, gID, bID = unpack(tooltipData.itemIdColor)
-
     ns.tooltip.frame.ShowItemLevel = function () 
-        ns.tooltip.frame:AddDoubleLine(L["LKEY_TOOLTIP_ITEM_LEVEL"], itemLevel, r, g, b, r, g, b)
+        local lr, lg, lb = unpack(tooltipData.itemLevelColor.l)
+        local rr, rg, rb = unpack(tooltipData.itemLevelColor.r)
+        ns.tooltip.frame:AddDoubleLine(L["LKEY_TOOLTIP_ITEM_LEVEL"], itemLevel, lr, lg, lb, rr, rg, rb)
     end
+
     ns.tooltip.frame.ShowItemID = function () 
-        ns.tooltip.frame:AddDoubleLine(L["LKEY_TOOLTIP_ITEM_ID"], itemID, rID, gID, bID, g, b, b)
+        local lr, lg, lb = unpack(tooltipData.itemIdColor.l)
+        local rr, rg, rb = unpack(tooltipData.itemIdColor.r)
+        ns.tooltip.frame:AddDoubleLine(L["LKEY_TOOLTIP_ITEM_ID"], itemID, lr, lg, lb, rr, rg, rb)
     end
 
     ns:TriggerEvent("BETTERILVL_TOOLTIP_READY")

@@ -10,4 +10,4 @@ local function onVariablesLoaded()
     ns.database = _G[name.."DB"]
 end
 
-ns:RegisterEvent("VARIABLES_LOADED", onVariablesLoaded, MAX_PRIORITY)
+ns:RegisterEvent("VARIABLES_LOADED", onVariablesLoaded)

@@ -5,6 +5,23 @@ local function getItemEquipLoc(item)
     return select(4, C_Item.GetItemInfoInstant(item:GetItemID()))
 end
 
+local function retrieveItemEquipLoc(items)
+    local mainHandEquipLoc = getItemEquipLoc(items[INVSLOT_MAINHAND].item)
+    local offHandEquipLoc = getItemEquipLoc(items[INVSLOT_OFFHAND].item)
+    local rangedEquipLoc = getItemEquipLoc(items[INVSLOT_RANGED].item)
+    return mainHandEquipLoc, offHandEquipLoc, rangedEquipLoc
+end
+
+local function evaluateWeaponDistribution(items)
+    local mainHandEquipLoc, offHandEquipLoc, rangedEquipLoc = retrieveItemEquipLoc(items)
+    local twoHands = "INVTYPE_2HWEAPON" == (mainHandEquipLoc or offHandEquipLoc)
+    local mainHand = mainHandEquipLoc ~= nil
+    local offHand = offHandEquipLoc ~= nil
+    local bothHands = mainHand and offHand
+    local ranged = rangedEquipLoc ~= nil and not bothHands and not twoHands
+    return twoHands, mainHand, offHand, bothHands, ranged
+end
+
 local function retrieveItemData(item)
     return item:GetCurrentItemLevel() or 0,  item:GetItemQuality() or 0
 end
@@ -12,19 +29,9 @@ end
 local function calculateUnitItemLevel(_, unit)
     local items = ns[unit].items
 
-    local mainHandEquipLoc = getItemEquipLoc(items[INVSLOT_MAINHAND].item)
-    local offHandEquipLoc = getItemEquipLoc(items[INVSLOT_OFFHAND].item)
-    local rangedEquipLoc = getItemEquipLoc(items[INVSLOT_RANGED].item)
+    local twoHands, mainHand, offHand, bothHands, ranged = evaluateWeaponDistribution(items)
 
-    local twoHands = "INVTYPE_2HWEAPON" == (mainHandEquipLoc or offHandEquipLoc)
-    local mainHand = mainHandEquipLoc ~= nil
-    local offHand = offHandEquipLoc ~= nil
-    local bothHands = mainHand and offHand
-    local ranged = rangedEquipLoc ~= nil and not bothHands and not twoHands
-
-    local totalLevel = 0
-    local itemsQuality = {}
-
+    local totalLevel, itemsQuality = 0, {}
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local item = items[slot].item
         if item then

@@ -75,8 +75,6 @@ local function onAddonLoaded()
     cacheUnitItems("player")
 end
 
-ns:RegisterEvent("BETTERILVL_ADDON_LOADED", onAddonLoaded, MID_PRIORITY)
-
+ns:RegisterEvent("BETTERILVL_ADDON_LOADED", onAddonLoaded)
 ns:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
-
 ns:RegisterEvent("INSPECT_READY", onInspectReady)

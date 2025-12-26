@@ -16,4 +16,4 @@ local function displayAverageItemLevel(_, unit)
     slot:ShowAverageLabel()
 end
 
-ns:RegisterEvent("BETTERILVL_ITEMLEVEL_READY", displayAverageItemLevel, MID_PRIORITY)
+ns:RegisterEvent("BETTERILVL_ITEMLEVEL_READY", displayAverageItemLevel)

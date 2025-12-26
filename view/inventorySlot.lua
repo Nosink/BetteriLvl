@@ -24,10 +24,14 @@ local function createFrontString(slot)
     end
     slot.itemLevel = slot:CreateFontString(nil, "OVERLAY", itemLevelLabelData.font)
     slot.ConfigureLabel = function (self, itemQuality, itemLevel)
+        local x, y = unpack(itemLevelLabelData.offset)
+        local anchor, relative = itemLevelLabelData.anchor, itemLevelLabelData.relative
+        self.itemLevel:SetPoint(anchor, self, relative, x, y)
+        local sx, sy = unpack(itemLevelLabelData.shadow.offset)
+        self.itemLevel:SetShadowOffset(sx, sy)
+        local sr, sg, sb, sa = unpack(itemLevelLabelData.shadow.color)
+        self.itemLevel:SetShadowColor(sr, sg, sb, sa)
         local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
-        self.itemLevel:SetPoint(itemLevelLabelData.anchor, self, itemLevelLabelData.relative, itemLevelLabelData.offset.x, itemLevelLabelData.offset.y)
-        self.itemLevel:SetShadowOffset(itemLevelLabelData.shadow.offset.x, itemLevelLabelData.shadow.offset.y)
-        self.itemLevel:SetShadowColor(itemLevelLabelData.shadow.color.r, itemLevelLabelData.shadow.color.g, itemLevelLabelData.shadow.color.b, itemLevelLabelData.shadow.color.a)
         self.itemLevel:SetTextColor(r, g, b)
         self.itemLevel:SetText(itemLevel)
     end
@@ -53,12 +57,18 @@ local function createBorder(slot)
     end
     slot.itemBorder = slot:CreateTexture(nil, "OVERLAY")
     slot.ConfigureBorder = function (self, itemQuality)
+        local oanchor, orelative = itemBorderData.origin.anchor, itemBorderData.origin.relative
+        local ox, oy = unpack(itemBorderData.origin.offset)
+        self.itemBorder:SetPoint(oanchor, self, orelative, ox, oy)
+        local danchor, drelative = itemBorderData.destination.anchor, itemBorderData.destination.relative
+        local dx, dy = unpack(itemBorderData.destination.offset)
+        self.itemBorder:SetPoint(danchor, self, drelative, dx, dy)
+        local alpha, blend = itemBorderData.alpha, itemBorderData.blendMode
+        self.itemBorder:SetAlpha(alpha)
+        self.itemBorder:SetBlendMode(blend)
+        local texture = itemBorderData.texture
+        self.itemBorder:SetTexture(texture)
         local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
-        self.itemBorder:SetPoint(itemBorderData.origin.anchor, self, itemBorderData.origin.relative, itemBorderData.origin.offset.x, itemBorderData.origin.offset.y)
-        self.itemBorder:SetPoint(itemBorderData.destination.anchor, self, itemBorderData.destination.relative, itemBorderData.destination.offset.x, itemBorderData.destination.offset.y)
-        self.itemBorder:SetAlpha(itemBorderData.alpha)
-        self.itemBorder:SetBlendMode(itemBorderData.blendMode)
-        self.itemBorder:SetTexture(itemBorderData.texture)
         self.itemBorder:SetVertexColor(r, g, b)
     end
     slot.ShowBorder = function(self)

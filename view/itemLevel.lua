@@ -17,11 +17,14 @@ local function createFrontString(slot)
     end
     slot.averageItemLevel = slot:CreateFontString(nil, "OVERLAY", labelData.font)
     slot.ConfigureAverageLabel = function (self, itemQuality, itemLevel, alternatePosition)
+        local anchor, relative = labelData.anchor, labelData.relative
+        local x, y = unpack(alternatePosition and labelData.alternatePosition or labelData.position)
+        self.averageItemLevel:SetPoint(anchor, self, relative, x, y)
+        local sx, sy = unpack(labelData.shadow.offset)
+        self.averageItemLevel:SetShadowOffset(sx, sy)
+        local sr, sg, sb, sa = unpack(labelData.shadow.color)
+        self.averageItemLevel:SetShadowColor(sr, sg, sb, sa)
         local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
-        local pos = alternatePosition and labelData.alternatePosition or labelData.position
-        self.averageItemLevel:SetPoint(labelData.anchor, self, labelData.relative, pos.x, pos.y)
-        self.averageItemLevel:SetShadowOffset(labelData.shadow.offset.x, labelData.shadow.offset.y)
-        self.averageItemLevel:SetShadowColor(labelData.shadow.color.r, labelData.shadow.color.g, labelData.shadow.color.b, labelData.shadow.color.a)
         self.averageItemLevel:SetTextColor(r, g, b)
         self.averageItemLevel:SetText(string.format("%s%.1f", labelData.text, itemLevel))
     end
