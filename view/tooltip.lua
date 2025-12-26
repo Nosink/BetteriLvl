@@ -1,8 +1,6 @@
 local _, ns = ...
 local L = ns.L
 
-ns.tooltip = ns.tooltip or {}
-
 local tooltipData = {
     itemIdColor = { 1.00, 0.82, 0.00 },
     itemLevelColor = { 1.00, 1.00, 1.00 },

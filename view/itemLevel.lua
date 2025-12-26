@@ -1,7 +1,4 @@
-local name, ns = ...
-
-ns["player" .. "itemLevel"] = ns["player" .. "itemLevel"] or {}
-ns["target" .. "itemLevel"] = ns["target" .. "itemLevel"] or {}
+local _, ns = ...
 
 local slotNames = {
     [INVSLOT_AMMO] = "AmmoSlot",
@@ -27,13 +24,12 @@ local slotNames = {
 }
 
 local labelData = {
-    font = "GameFontNormal",
+    font = "GameFontNormalLarge",
     anchor = "TOP",
     relative = "CENTER",
     fontSize = 14,
     position = { x = -112, y = -5},
     alternatePosition = { x = 0, y = 40},
-    slotsAmount = 16,
     text = "iLvl: ",
     shadow = {offset = { x = 1 , y = -1}, color = { r = 0, g = 0, b = 0, a = 1} }
 }
@@ -43,13 +39,20 @@ local function createFrontString(slot)
         return
     end
     slot.averageItemLevel = slot:CreateFontString(nil, "OVERLAY", labelData.font)
-    slot.ConfigureAverageLabel = function (self, itemQuality, itemLevel)
+    if GameFontNormal and GameFontNormal.GetFont then
+        local fontPath, _, fontFlags = GameFontNormal:GetFont()
+        if fontPath then
+            slot.averageItemLevel:SetFont(fontPath, labelData.fontSize, fontFlags)
+        end
+    end
+    slot.ConfigureAverageLabel = function (self, itemQuality, itemLevel, alternatePosition)
         local r, g, b = BetteriLvl.API.GetItemQualityColor(itemQuality)
-        self.averageItemLevel:SetPoint(labelData.anchor, self, labelData.relative, labelData.position.x, labelData.position.y)
+        local pos = alternatePosition and labelData.alternatePosition or labelData.position
+        self.averageItemLevel:SetPoint(labelData.anchor, self, labelData.relative, pos.x, pos.y)
         self.averageItemLevel:SetShadowOffset(labelData.shadow.offset.x, labelData.shadow.offset.y)
         self.averageItemLevel:SetShadowColor(labelData.shadow.color.r, labelData.shadow.color.g, labelData.shadow.color.b, labelData.shadow.color.a)
         self.averageItemLevel:SetTextColor(r, g, b)
-        self.averageItemLevel:SetText(itemLevel)
+        self.averageItemLevel:SetText(string.format("%s%.1f", labelData.text, itemLevel))
     end
 
     slot.ShowAverageLabel = function(self)
@@ -68,9 +71,9 @@ end
 
 local function createAverageItemLevelLabel(_, unit)
     local frameName = (unit == "target") and "Inspect" or "Character"
-    local inventorySlot = _G[frameName .. slotNames[INVSLOT_OFFHAND]]
+    local inventorySlot = _G[frameName .. "SecondaryHandSlot"]
     createFrontString(inventorySlot)
-    ns[unit .. "itemLevel"].slot = inventorySlot
+    ns[unit].itemLevel.slot = inventorySlot
     ns:TriggerEvent("BETTERILVL_ITEMLEVEL_READY", unit)
 end
 

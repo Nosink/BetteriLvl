@@ -1,18 +1,12 @@
 local _, ns = ...
 
-ns["player" .. "itemLevel"] = ns["player" .. "itemLevel"] or {}
-ns["target" .. "itemLevel"] = ns["target" .. "itemLevel"] or {}
-
-ns["player" .. "items"] = ns["player" .. "items"] or {}
-ns["target" .. "items"] = ns["target" .. "items"] or {}
-
 local function getItemEquipLoc(item)
     if not item then return nil end
     return select(4, C_Item.GetItemInfoInstant(item:GetItemID()))
 end
 
 local function calculateUnitItemLevel(_, unit)
-    local items = ns[unit .. "items"]
+    local items = ns[unit].items
 
     local mainHandEquipLoc = getItemEquipLoc(items[INVSLOT_MAINHAND].item)
     local offHandEquipLoc = getItemEquipLoc(items[INVSLOT_OFFHAND].item)
@@ -59,8 +53,8 @@ local function calculateUnitItemLevel(_, unit)
         numSlots = numSlots + 1
     end
 
-    ns[unit .. "itemLevel"].average = totalLevel / numSlots
-    ns[unit .. "itemLevel"].dominantQuality = dominantQuality
+    ns[unit].itemLevel.average = totalLevel / numSlots
+    ns[unit].itemLevel.dominantQuality = dominantQuality
 
     ns:TriggerEvent("BETTERILVL_ITEMLEVEL_CALCULATED", unit)
 end

@@ -1,16 +1,15 @@
 local _, ns = ...
 
-ns["player" .. "itemLevel"] = ns["player" .. "itemLevel"] or {}
-ns["target" .. "itemLevel"] = ns["target" .. "itemLevel"] or {}
-
 local function displayAverageItemLevel(_, unit)
-    local slot = ns[unit .. "itemLevel"].slot
-    local itemLevel = ns[unit .. "itemLevel"].average
-    local itemQuality = ns[unit .. "itemLevel"].dominantQuality
+    local slot = ns[unit].itemLevel.slot
+    if not slot then return end
 
-    slot:ConfigureAverageLabel(itemQuality, itemLevel)
+    local itemLevel = ns[unit].itemLevel.average or 0
+    local itemQuality = ns[unit].itemLevel.dominantQuality or 0
+    local alternatePosition = true
+
+    slot:ConfigureAverageLabel(itemQuality, itemLevel, alternatePosition)
     slot:ShowAverageLabel()
-
 end
 
 ns:RegisterEvent("BETTERILVL_ITEMLEVEL_READY", displayAverageItemLevel, MID_PRIORITY)

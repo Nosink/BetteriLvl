@@ -1,9 +1,6 @@
 
 local _, ns = ...
 
-ns.tooltip = ns.tooltip or {}
-ns.tooltip.item = ns.tooltip.item or nil
-
 local function onTooltipSetItem(tooltip)
     if not tooltip or tooltip:IsForbidden() then return end
 
@@ -18,7 +15,6 @@ local function onTooltipSetItem(tooltip)
     return end
 
     item:ContinueOnItemLoad(function()
-        ns.tooltip = ns.tooltip or {}
         local _, itemType = C_Item.GetItemInfoInstant(item:GetItemID())
         ns.tooltip.item = item
         ns.tooltip.itemType = itemType

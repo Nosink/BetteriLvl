@@ -1,19 +1,16 @@
 
-local name, ns = ...
-
-ns["player" .. "items"] = ns["player" .. "items"] or {}
-ns["target" .. "items"] = ns["target" .. "items"] or {}
+local _, ns = ...
 
 local function evaluateItemsCache(unit)
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        local itemData = ns[unit .. "items"][slot]
+        local itemData = ns[unit].items[slot]
         if not itemData or not itemData.cached then return end
     end
     ns:TriggerEvent("BETTERILVL_ITEMS_CACHED", unit)
 end
 
 local function cacheItemSlot(slot, unit)
-    local itemSlot = ns[unit .. "items"][slot]
+    local itemSlot = ns[unit].items[slot]
     itemSlot:Initialize()
 
     local itemID = GetInventoryItemID(unit, slot)
@@ -51,7 +48,7 @@ local function createUnitItems(unit)
             evaluateItemsCache(unit)
         end
         item:Initialize()
-        ns[unit .. "items"][slot] = item
+        ns[unit].items[slot] = item
     end
 end
 
@@ -70,21 +67,16 @@ local function onInspectReady(_)
     cacheUnitItems("target")
 end
 
-local function onUnitItemsReady(_)
-    requestUnitSlots("player")
-    cacheUnitItems("player")
-end
-
 local function onAddonLoaded()
     createUnitItems("player")
     createUnitItems("target")
 
-    ns:TriggerEvent("BETTERILVL_UNIT_ITEMS_READY")
+    requestUnitSlots("player")
+    cacheUnitItems("player")
 end
 
 ns:RegisterEvent("BETTERILVL_SAFE_ADDON_LOADED", onAddonLoaded, MID_PRIORITY)
 
-ns:RegisterEvent("BETTERILVL_UNIT_ITEMS_READY", onUnitItemsReady, MIN_PRIORITY)
 ns:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
 
 ns:RegisterEvent("INSPECT_READY", onInspectReady)

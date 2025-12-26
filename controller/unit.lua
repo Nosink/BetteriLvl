@@ -1,50 +1,39 @@
 local _, ns = ...
 
-ns["target" .. "slots"] = ns["target" .. "slots"] or {}
-ns["target" .. "items"] = ns["target" .. "items"] or {}
-
-local function clearUnitSlots(unit)
-    local slots = ns[unit .. "slots"]
-    if not slots then return end
-    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        local equipSlot = slots[slot]
-        if equipSlot then
-            equipSlot:HideBorder()
-        end
-    end
-end
-
-local function onPlayerTargetChanged()
-    clearUnitSlots("target")
-end
-
-local function onNotifyInspect(_)
-    clearUnitSlots("target")
-end
-
-ns:RegisterEvent("PLAYER_TARGET_CHANGED", onPlayerTargetChanged)
-ns:HookSecureFunc(_G, "NotifyInspect", onNotifyInspect)
-
-local function displayUnitBorders(_, unit)
-    local slots = ns[unit .. "slots"]
-    local items = ns[unit .. "items"]
+local function displaySlotBorder(_, unit)
+    local slots = ns[unit].slots
+    local items = ns[unit].items
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local equipSlot = slots[slot]
         local itemData = items[slot]
         if equipSlot and itemData and itemData.cached and itemData.item and itemData.item:IsItemDataCached() then
             local itemQuality = itemData.item:GetItemQuality()
-            local itemLevel = itemData.item:GetCurrentItemLevel()
             equipSlot:ConfigureBorder(itemQuality)
             equipSlot:ShowBorder()
+        elseif equipSlot then
+            equipSlot:HideBorder()
+        end
+    end
+end
+
+local function displaySlotItemLevel(_, unit)
+    local slots = ns[unit].slots
+    local items = ns[unit].items
+    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
+        local equipSlot = slots[slot]
+        local itemData = items[slot]
+        if equipSlot and itemData and itemData.cached and itemData.item and itemData.item:IsItemDataCached() then
+            local itemLevel = itemData.item:GetCurrentItemLevel()
+            local itemQuality = itemData.item:GetItemQuality()
             if slot ~= INVSLOT_AMMO then
                 equipSlot:ConfigureLabel(itemQuality, itemLevel)
                 equipSlot:ShowLabel()
             end
         elseif equipSlot then
-            equipSlot:HideBorder()
             equipSlot:HideLabel()
         end
     end
 end
 
-ns:RegisterEvent("BETTERILVL_SLOTS_READY", displayUnitBorders, MID_PRIORITY)
+ns:RegisterEvent("BETTERILVL_SLOTS_READY", displaySlotBorder, MID_PRIORITY)
+ns:RegisterEvent("BETTERILVL_SLOTS_READY", displaySlotItemLevel, MID_PRIORITY)

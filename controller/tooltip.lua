@@ -1,7 +1,5 @@
 local _, ns = ...
 
-ns.tooltip = ns.tooltip or {}
-
 local validItemTypes = {
     ["Armor"] = true,
     ["Weapon"] = true,
@@ -14,7 +12,7 @@ local function GetIsEquipmentType(itemType)
 end
 
 local function displayTooltipInfo()
-    local tooltip = ns.tooltip.frame
+    local tooltip = ns.tooltip.frame or nil
     if not tooltip or tooltip:IsForbidden() then return end
 
     local itemType = ns.tooltip.itemType or nil    
@@ -25,7 +23,6 @@ local function displayTooltipInfo()
     end
 
     tooltip.ShowItemID()
-    
 end
 
 ns:RegisterEvent("BETTERILVL_TOOLTIP_READY", displayTooltipInfo)

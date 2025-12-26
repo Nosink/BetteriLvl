@@ -1,7 +1,4 @@
-local name, ns = ...
-
-ns["player" .. "slots"] = ns["player" .. "slots"] or {}
-ns["target" .. "slots"] = ns["target" .. "slots"] or {}
+local _, ns = ...
 
 local slotNames = {
     [INVSLOT_AMMO] = "AmmoSlot",
@@ -95,7 +92,7 @@ local function createBorder(slot)
 end
 
 local function createUntSlots(_, unit)
-    local slots = ns[unit .. "slots"] or {}
+    local slots = ns[unit].slots
     local frameName = (unit == "target") and "Inspect" or "Character"
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local inventorySlot = _G[frameName .. slotNames[slot]]
@@ -105,7 +102,7 @@ local function createUntSlots(_, unit)
             slots[slot] = inventorySlot
         end
     end
-    ns[unit .. "slots"] = slots
+    ns[unit].slots = slots
     ns:TriggerEvent("BETTERILVL_SLOTS_READY", unit)
 end
 
