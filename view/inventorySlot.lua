@@ -97,7 +97,7 @@ end
 local function createUntiSlots(_, unit)
     local slots = ns[unit .. "slots"] or {}
     local frameName = (unit == "target") and "Inspect" or "Character"
-    for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local inventorySlot = _G[frameName .. slotNames[slot]]
         if inventorySlot then
             createBorder(inventorySlot)

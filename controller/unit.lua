@@ -6,7 +6,7 @@ ns["target" .. "items"] = ns["target" .. "items"] or {}
 local function clearUnitSlots(unit)
     local slots = ns[unit .. "slots"]
     if not slots then return end
-    for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local equipSlot = slots[slot]
         if equipSlot then
             equipSlot:HideBorder()
@@ -28,7 +28,7 @@ ns:HookSecureFunc(_G, "NotifyInspect", onNotifyInspect)
 local function displayUnitBorders(_, unit)
     local slots = ns[unit .. "slots"]
     local items = ns[unit .. "items"]
-    for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local equipSlot = slots[slot]
         local itemData = items[slot]
         if equipSlot and itemData and itemData.cached and itemData.item and itemData.item:IsItemDataCached() then
@@ -37,7 +37,9 @@ local function displayUnitBorders(_, unit)
             equipSlot:ConfigureBorder(itemQuality)
             equipSlot:ConfigureLabel(itemQuality, itemLevel)
             equipSlot:ShowBorder()
-            equipSlot:ShowLabel()
+            if slot ~= INVSLOT_AMMO then
+                equipSlot:ShowLabel()
+            end
         elseif equipSlot then
             equipSlot:HideBorder()
             equipSlot:HideLabel()

@@ -5,7 +5,7 @@ ns["player" .. "items"] = ns["player" .. "items"] or {}
 ns["target" .. "items"] = ns["target" .. "items"] or {}
 
 local function evaluateItemsCache(unit)
-    for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local itemData = ns[unit .. "items"][slot]
         if not itemData or not itemData.cached then return end
     end
@@ -35,7 +35,7 @@ local function onPlayerEquipmentChanged(_, slot)
 end
 
 local function createUnitItems(unit)
-    for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local item = {}
         item.Initialize = function(self)
             self.item = nil
@@ -57,7 +57,7 @@ local function createUnitItems(unit)
 end
 
 local function cacheUnitItems(unit)
-    for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         cacheItemSlot(slot, unit)
     end
 end

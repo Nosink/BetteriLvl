@@ -27,7 +27,7 @@ local function CalculateItemLevelAndQualityFor(unit)
 
     local items = {}
     local mainhandEquipLoc, offhandEquipLoc, rangedEquipLoc
-    for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local item, equipLoc = RetrieveItem(unit, slot)
         if item then
             local it = {item, slot}
