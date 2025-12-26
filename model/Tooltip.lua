@@ -14,7 +14,7 @@ local function onTooltipSetItem(tooltip)
     local item = Item:CreateFromItemLink(itemLink)
 
     if previousItem and previousItem:GetItemLink() == itemLink then 
-        ns:TriggerEvent("TOOLTIP_ITEM_SET")
+        ns:TriggerEvent("BETTERILVL_TOOLTIP_ITEM_SET")
     return end
 
     item:ContinueOnItemLoad(function()
@@ -23,7 +23,7 @@ local function onTooltipSetItem(tooltip)
         ns.tooltip.item = item
         ns.tooltip.itemType = itemType
         ns.tooltip.frame = tooltip
-        ns:TriggerEvent("TOOLTIP_ITEM_SET")
+        ns:TriggerEvent("BETTERILVL_TOOLTIP_ITEM_SET")
     end)
 
 end

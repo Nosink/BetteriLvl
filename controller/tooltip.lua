@@ -28,4 +28,4 @@ local function displayTooltipInfo()
     
 end
 
-ns:RegisterEvent("TOOLTIP_READY", displayTooltipInfo)
+ns:RegisterEvent("BETTERILVL_TOOLTIP_READY", displayTooltipInfo)

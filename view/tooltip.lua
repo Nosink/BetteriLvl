@@ -29,7 +29,7 @@ local function createTooltipLines()
         ns.tooltip.frame:AddDoubleLine(L["LKEY_TOOLTIP_ITEM_ID"], itemID, rID, gID, bID, g, b, b)
     end
 
-    ns:TriggerEvent("TOOLTIP_READY")
+    ns:TriggerEvent("BETTERILVL_TOOLTIP_READY")
 end
 
-ns:RegisterEvent("TOOLTIP_ITEM_SET", createTooltipLines)
+ns:RegisterEvent("BETTERILVL_TOOLTIP_ITEM_SET", createTooltipLines)
