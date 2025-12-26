@@ -26,3 +26,4 @@ local function displayTooltipInfo()
 end
 
 ns:RegisterEvent("BETTERILVL_TOOLTIP_READY", displayTooltipInfo)
+ns:RegisterEvent("BETTERILVL_SETTINGS_CHANGED", displayTooltipInfo)

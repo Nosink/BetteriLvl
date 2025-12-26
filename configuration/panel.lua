@@ -56,7 +56,10 @@ local function CreateCheckbox(key, dbKey)
 
     checkBox:SetScript("OnClick", function(self)
         BetteriLvlDB = BetteriLvlDB or {}
-        BetteriLvlDB[dbKey] = self:GetChecked() and true or false
+        local checked = self:GetChecked() and true or false
+        BetteriLvlDB[dbKey] = checked
+        ns.database[dbKey] = checked
+        ns:TriggerEvent("BETTERILVL_SETTINGS_CHANGED")
     end)
 
     checkBox.SyncFromDB = function()
