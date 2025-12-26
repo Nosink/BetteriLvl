@@ -75,7 +75,7 @@ local function onAddonLoaded()
     cacheUnitItems("player")
 end
 
-ns:RegisterEvent("BETTERILVL_SAFE_ADDON_LOADED", onAddonLoaded, MID_PRIORITY)
+ns:RegisterEvent("BETTERILVL_ADDON_LOADED", onAddonLoaded, MID_PRIORITY)
 
 ns:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
 

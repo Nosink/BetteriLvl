@@ -24,3 +24,9 @@ ns.data.slotNames = {
     [INVSLOT_OFFHAND] = "SecondaryHandSlot",
     [INVSLOT_RANGED] = "RangedSlot",
 }
+
+ns.data.validItemTypes = {
+    ["Armor"] = true,
+    ["Weapon"] = true,
+    ["Projectile"] = true,
+}

@@ -2,42 +2,34 @@ local _, ns = ...
 
 ns.settings = ns.settings or {}
 
-function ns.settings.IsPlayeriLvlEnabled()
-    return ns.db.playerLevel == true
+-- Unit Slots Settingsed(unit)
+function ns.settings.IsItemLevelDisabled(unit)
+    return ns.database[unit.."Level"] ~= true
 end
 
-function ns.settings.IsPlayerBorderEnabled()
-    return ns.db.playerBorder == true
+function ns.settings.IsUnitBorderDisabled(unit)
+    return ns.database[unit.."Border"] ~= true
 end
 
-function ns.settings.IsPlayerAverageiLvlEnabled()
-    return ns.db.playerAverage == true
+-- Average Item Level Settings
+function ns.settings.IsAverageiLvlDisabled(unit)
+    return ns.database[unit.."Average"] ~= true
 end
 
-function ns.settings.IsPlayerAverageAlternatePositionEnabled()
-    return ns.db.playerAverageAlternatePosition == true
+function ns.settings.IsAverageiLvlOnAlternatePosition(unit)
+    if unit ~= "player" then return false end
+    return ns.database[unit.."AverageAlternatePosition"] == true
 end
 
-function ns.settings.IsTargetiLvlEnabled()
-    return ns.db.targetLevel == true
-end
-
-function ns.settings.IsTargetBorderEnabled()
-    return ns.db.targetBorder == true
-end
-
-function ns.settings.IsTargetAverageiLvlEnabled()
-    return ns.db.targetAverage == true
+-- Tooltip Settings
+function ns.settings.IsTooltipDisabled()
+    return ns.database.tooltipLevel ~= true and ns.database.tooltipID ~= true
 end
 
 function ns.settings.IsTooltipiLvlEnabled()
-    return ns.db.tooltipLevel == true
+    return ns.database.tooltipLevel == true
 end
 
 function ns.settings.IsTooltipIDEnabled()
-    return ns.db.tooltipID == true
-end
-
-function ns.settings.IsTooltipTargetAverageiLvlEnabled()
-    return ns.db.tooltipAverage == true
+    return ns.database.tooltipID == true
 end

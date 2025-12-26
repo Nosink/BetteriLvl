@@ -1,6 +1,10 @@
 local _, ns = ...
 
+local settings = ns.settings
+
 local function displaySlotBorder(_, unit)
+    if settings.IsUnitBorderDisabled(unit) then return end
+
     local slots = ns[unit].slots
     local items = ns[unit].items
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
@@ -17,6 +21,8 @@ local function displaySlotBorder(_, unit)
 end
 
 local function displaySlotItemLevel(_, unit)
+    if settings.IsItemLevelDisabled(unit) then return end
+
     local slots = ns[unit].slots
     local items = ns[unit].items
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do

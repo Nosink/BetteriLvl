@@ -1,6 +1,6 @@
 local _, ns = ...
 
-local function initializeToolTip()
+local function initializeToolTipVars()
     ns.tooltip = ns.tooltip or {}
 end
 
@@ -13,11 +13,11 @@ end
 
 local function onPlayerEnteringWorld()
 
-    initializeToolTip()
+    initializeToolTipVars()
     initializeUnitVars("player")
     initializeUnitVars("target")
 
-    ns:TriggerEvent("BETTERILVL_SAFE_ADDON_LOADED")
+    ns:TriggerEvent("BETTERILVL_ADDON_LOADED")
 end
 
 ns:RegisterEvent("PLAYER_ENTERING_WORLD", onPlayerEnteringWorld)
