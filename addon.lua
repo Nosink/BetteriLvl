@@ -1,12 +1,9 @@
-local name, ns = ...
+local _, ns = ...
 
 _G.BetteriLvl = {}
 
-local function onAddonLoaded(_, addon)
-    if addon ~= name then return end
-    C_Timer.After(5, function()
-        ns:TriggerEvent("BETTERILVL_ADDON_LOADED")
-    end)
+local function onPlayerEnteringWorld()
+    ns:TriggerEvent("BETTERILVL_ADDON_LOADED")
 end
 
-ns:RegisterEvent("ADDON_LOADED", onAddonLoaded)
+ns:RegisterEvent("PLAYER_ENTERING_WORLD", onPlayerEnteringWorld)
