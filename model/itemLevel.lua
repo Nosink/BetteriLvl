@@ -5,6 +5,10 @@ local function getItemEquipLoc(item)
     return select(4, C_Item.GetItemInfoInstant(item:GetItemID()))
 end
 
+local function retrieveItemData(item)
+    return item:GetCurrentItemLevel() or 0,  item:GetItemQuality() or 0
+end
+
 local function calculateUnitItemLevel(_, unit)
     local items = ns[unit].items
 
@@ -26,8 +30,7 @@ local function calculateUnitItemLevel(_, unit)
         if item then
             local itemEquipLoc = getItemEquipLoc(item)
             if itemEquipLoc ~= "INVTYPE_TABARD" and itemEquipLoc ~= "INVTYPE_BODY" then
-                local itemLevel = item:GetCurrentItemLevel() or 0
-                local itemQuality = item:GetItemQuality() or 0
+                local itemLevel, itemQuality = retrieveItemData(item)
                 if ranged then
                     totalLevel = totalLevel + itemLevel
                 else
