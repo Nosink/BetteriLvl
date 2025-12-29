@@ -1,7 +1,8 @@
 local _, ns = ...
 
-local function getPositoin(alternatePosition)
-    print("Alternate Position:", alternatePosition)
+local utils = ns.utils
+
+local function getPosition(alternatePosition)
     if alternatePosition then
         return 0, 45
     else
@@ -18,9 +19,9 @@ local function createFrontString(slot)
 
     slot.ShowAverageLabel = function(self, itemQuality, itemLevel, alternatePosition)
         if not self.averageItemLevel then return end
-        local x, y = getPositoin(alternatePosition)
+        local x, y = getPosition(alternatePosition)
         self.averageItemLevel:SetPoint("TOP", self, "CENTER", x, y)
-        local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
+        local r, g, b = utils.GetItemQualityColor(itemQuality)
         self.averageItemLevel:SetTextColor(r, g, b)
         self.averageItemLevel:SetText(string.format("iLvl: %.1f", itemLevel))
         self.averageItemLevel:Show()
@@ -48,5 +49,5 @@ local function validateAverageItemLevelLabel()
     createAverageItemLevelLabel(nil, "player")
 end
 
-ns:RegisterEvent("BETTERILVL_SETTINGS_CHANGED", validateAverageItemLevelLabel)
 ns:RegisterEvent("BETTERILVL_ITEMLEVEL_CALCULATED", createAverageItemLevelLabel)
+ns:RegisterEvent("BETTERILVL_SETTINGS_CHANGED", validateAverageItemLevelLabel)

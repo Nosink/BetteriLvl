@@ -1,16 +1,18 @@
 local _, ns = ...
 
+local utils = ns.utils
+
 local function createFrontString(slot)
     if slot.itemLevel then slot:HideLabel() return end
 
-    slot.itemLevel = slot:CreateFontString(nil, "OVERLAY", "NumberFontNormal" )
+    slot.itemLevel = slot:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
     slot.itemLevel:SetPoint("TOPLEFT", slot, "TOPLEFT", 1, -2)
     slot.itemLevel:SetShadowOffset(1, -1)
     slot.itemLevel:SetShadowColor(0, 0, 0, 1)
 
     slot.ShowLabel = function(self, itemQuality, itemLevel)
         if not self.itemLevel then return end
-        local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
+        local r, g, b = utils.GetItemQualityColor(itemQuality)
         self.itemLevel:SetTextColor(r, g, b)
         self.itemLevel:SetText(itemLevel)
         self.itemLevel:Show()
@@ -21,7 +23,7 @@ local function createFrontString(slot)
         self.itemLevel:Hide()
     end
 
-    slot.itemLevel:Hide()
+    slot:HideLabel()
 end
 
 local function createBorder(slot)
@@ -30,13 +32,13 @@ local function createBorder(slot)
     slot.itemBorder = slot:CreateTexture(nil, "OVERLAY")
     slot.itemBorder:SetPoint("TOPLEFT", slot, "TOPLEFT", -15, 15)
     slot.itemBorder:SetPoint("BOTTOMRIGHT", slot, "BOTTOMRIGHT", 15, -15)
-    slot.itemBorder:SetAlpha(0.5)
-    slot.itemBorder:SetBlendMode("ADD")
     slot.itemBorder:SetTexture("Interface/Buttons/UI-ActionButton-Border")
+    slot.itemBorder:SetBlendMode("ADD")
+    slot.itemBorder:SetAlpha(0.5)
 
     slot.ShowBorder = function(self, itemQuality)
         if not self.itemBorder then return end
-        local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
+        local r, g, b = utils.GetItemQualityColor(itemQuality)
         self.itemBorder:SetVertexColor(r, g, b)
         self.itemBorder:Show()
     end
@@ -46,7 +48,7 @@ local function createBorder(slot)
         self.itemBorder:Hide()
     end
 
-    slot.itemBorder:Hide()
+    slot:HideBorder()
 end
 
 local function createUntSlots(_, unit)
