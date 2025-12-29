@@ -25,7 +25,7 @@ Improved performance, resilience, and accuracy across the board.
 ## [1.0.0] - 2025-12-19
 First release of BetteriLvl.
 
-Added
+### Added
 - Per-slot item level labels on Character and Inspect Target frames.
 - Quality-colored item borders based on item rarity.
 - Average item level display; alternate player-position option.
@@ -34,10 +34,10 @@ Added
 - English (enUS) and Spanish (esES/esMX) localization.
 - SavedVariables with sensible defaults.
 
-Compatibility
+### Compatibility
 - WoW Classic Era 1.15.8
 
-Notes
+### Notes
 - Target information appears after the inspect event; slight delay is expected.
 - Ammo slot is excluded from item level labels.
 - Tooltip item level shows only for equipment (Armor, Weapon, Projectile).
