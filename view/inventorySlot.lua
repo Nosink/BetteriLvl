@@ -1,39 +1,15 @@
 local _, ns = ...
 
-local itemBorderData = {
-    texture = "Interface/Buttons/UI-ActionButton-Border",
-    alpha = 0.5,
-    blendMode = "ADD",
-    origin = { anchor = "TOPLEFT", relative = "TOPLEFT", offset = { x = -15, y = 15}},
-    destination = { anchor = "BOTTOMRIGHT", relative = "BOTTOMRIGHT", offset = { x = 15, y = -15}},
-    offset = { x = 15, y = 15},
-}
-
-local itemLevelLabelData = {
-    font = "NumberFontNormal",
-    anchor = "TOPLEFT",
-    relative = "TOPLEFT",
-    offset = { x = 1, y = -2},
-    shadow = {offset = { x = 1 , y = -1}, color = { r = 0, g = 0, b = 0, a = 1} }
-}
-
 local function createFrontString(slot)
-    if slot.itemLevel then
-        slot:HideLabel()
-        return
-    end
-    slot.itemLevel = slot:CreateFontString(nil, "OVERLAY", itemLevelLabelData.font)
-    slot.ConfigureLabel = function (self)
-        local x, y = unpack(itemLevelLabelData.offset)
-        local anchor, relative = itemLevelLabelData.anchor, itemLevelLabelData.relative
-        self.itemLevel:SetPoint(anchor, self, relative, x, y)
-        local sx, sy = unpack(itemLevelLabelData.shadow.offset)
-        self.itemLevel:SetShadowOffset(sx, sy)
-        local sr, sg, sb, sa = unpack(itemLevelLabelData.shadow.color)
-        self.itemLevel:SetShadowColor(sr, sg, sb, sa)
-    end
-    
+    if slot.itemLevel then slot:HideLabel() return end
+
+    slot.itemLevel = slot:CreateFontString(nil, "OVERLAY", "NumberFontNormal" )
+    slot.itemLevel:SetPoint("TOPLEFT", slot, "TOPLEFT", 1, -2)
+    slot.itemLevel:SetShadowOffset(1, -1)
+    slot.itemLevel:SetShadowColor(0, 0, 0, 1)
+
     slot.ShowLabel = function(self, itemQuality, itemLevel)
+        if not self.itemLevel then return end
         local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
         self.itemLevel:SetTextColor(r, g, b)
         self.itemLevel:SetText(itemLevel)
@@ -41,45 +17,36 @@ local function createFrontString(slot)
     end
 
     slot.HideLabel = function(self)
-        if not self.itemLevel then
-            return
-        end
-        self.itemLevel:SetText("")
+        if not self.itemLevel then return end
         self.itemLevel:Hide()
     end
-    slot:ConfigureLabel()
-    slot:HideLabel()
+
+    slot.itemLevel:Hide()
 end
 
 local function createBorder(slot)
-    if slot.itemBorder then
-        slot:HideBorder()
-        return
-    end
+    if slot.itemBorder then slot:HideBorder() return end
+
     slot.itemBorder = slot:CreateTexture(nil, "OVERLAY")
-    slot.ConfigureBorder = function (self)
-        local oanchor, orelative = itemBorderData.origin.anchor, itemBorderData.origin.relative
-        local ox, oy = unpack(itemBorderData.origin.offset)
-        self.itemBorder:SetPoint(oanchor, self, orelative, ox, oy)
-        local danchor, drelative = itemBorderData.destination.anchor, itemBorderData.destination.relative
-        local dx, dy = unpack(itemBorderData.destination.offset)
-        self.itemBorder:SetPoint(danchor, self, drelative, dx, dy)
-        local alpha, blend = itemBorderData.alpha, itemBorderData.blendMode
-        self.itemBorder:SetAlpha(alpha)
-        self.itemBorder:SetBlendMode(blend)
-        local texture = itemBorderData.texture
-        self.itemBorder:SetTexture(texture)
-    end
+    slot.itemBorder:SetPoint("TOPLEFT", slot, "TOPLEFT", -15, 15)
+    slot.itemBorder:SetPoint("BOTTOMRIGHT", slot, "BOTTOMRIGHT", 15, -15)
+    slot.itemBorder:SetAlpha(0.5)
+    slot.itemBorder:SetBlendMode("ADD")
+    slot.itemBorder:SetTexture("Interface/Buttons/UI-ActionButton-Border")
+
     slot.ShowBorder = function(self, itemQuality)
+        if not self.itemBorder then return end
         local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
         self.itemBorder:SetVertexColor(r, g, b)
         self.itemBorder:Show()
     end
+
     slot.HideBorder = function(self)
+        if not self.itemBorder then return end
         self.itemBorder:Hide()
     end
-    slot:ConfigureBorder()
-    slot:HideBorder()
+
+    slot.itemBorder:Hide()
 end
 
 local function createUntSlots(_, unit)

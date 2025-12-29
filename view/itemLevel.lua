@@ -1,47 +1,39 @@
 local _, ns = ...
 
-local labelData = {
-    font = "GameFontNormalLarge",
-    anchor = "TOP",
-    relative = "CENTER",
-    position = { x = -112, y = -5},
-    alternatePosition = { x = 0, y = 40},
-    text = "iLvl: ",
-    shadow = {offset = { x = 1 , y = -1}, color = { r = 0, g = 0, b = 0, a = 1} }
-}
+local function getPositoin(alternatePosition)
+    print("Alternate Position:", alternatePosition)
+    if alternatePosition then
+        return 0, 45
+    else
+        return -115, -5
+    end
+end
 
 local function createFrontString(slot)
-    if slot.averageItemLevel then
-        slot:HideAverageLabel()
-        return
-    end
-    slot.averageItemLevel = slot:CreateFontString(nil, "OVERLAY", labelData.font)
-    slot.ConfigureAverageLabel = function (self)
-        local sx, sy = unpack(labelData.shadow.offset)
-        self.averageItemLevel:SetShadowOffset(sx, sy)
-        local sr, sg, sb, sa = unpack(labelData.shadow.color)
-        self.averageItemLevel:SetShadowColor(sr, sg, sb, sa)
-    end
-    
+    if slot.averageItemLevel then slot:HideAverageLabel() return end
+
+    slot.averageItemLevel = slot:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    slot.averageItemLevel:SetShadowOffset(1, -1)
+    slot.averageItemLevel:SetShadowColor(0, 0, 0, 1)
+
     slot.ShowAverageLabel = function(self, itemQuality, itemLevel, alternatePosition)
-        local anchor, relative = labelData.anchor, labelData.relative
-        local x, y = unpack(alternatePosition and labelData.alternatePosition or labelData.position)
-        self.averageItemLevel:SetPoint(anchor, self, relative, x, y)
+        if not self.averageItemLevel then return end
+        local x, y = getPositoin(alternatePosition)
+        self.averageItemLevel:SetPoint("TOP", self, "CENTER", x, y)
         local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
         self.averageItemLevel:SetTextColor(r, g, b)
-        self.averageItemLevel:SetText(string.format("%s%.1f", labelData.text, itemLevel))
+        self.averageItemLevel:SetText(string.format("iLvl: %.1f", itemLevel))
         self.averageItemLevel:Show()
     end
 
     slot.HideAverageLabel = function(self)
-        if not self.averageItemLevel then
-            return
-        end
+        if not self.averageItemLevel then return end
+
         self.averageItemLevel:SetText("")
         self.averageItemLevel:Hide()
     end
-    slot:ConfigureAverageLabel()
-    slot:HideAverageLabel()
+
+    slot.averageItemLevel:Hide()
 end
 
 local function createAverageItemLevelLabel(_, unit)
