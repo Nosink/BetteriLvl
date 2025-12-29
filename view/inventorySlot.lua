@@ -23,7 +23,7 @@ local function createFrontString(slot)
         return
     end
     slot.itemLevel = slot:CreateFontString(nil, "OVERLAY", itemLevelLabelData.font)
-    slot.ConfigureLabel = function (self, itemQuality, itemLevel)
+    slot.ConfigureLabel = function (self)
         local x, y = unpack(itemLevelLabelData.offset)
         local anchor, relative = itemLevelLabelData.anchor, itemLevelLabelData.relative
         self.itemLevel:SetPoint(anchor, self, relative, x, y)
@@ -31,12 +31,12 @@ local function createFrontString(slot)
         self.itemLevel:SetShadowOffset(sx, sy)
         local sr, sg, sb, sa = unpack(itemLevelLabelData.shadow.color)
         self.itemLevel:SetShadowColor(sr, sg, sb, sa)
+    end
+    
+    slot.ShowLabel = function(self, itemQuality, itemLevel)
         local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
         self.itemLevel:SetTextColor(r, g, b)
         self.itemLevel:SetText(itemLevel)
-    end
-
-    slot.ShowLabel = function(self)
         self.itemLevel:Show()
     end
 
@@ -47,6 +47,7 @@ local function createFrontString(slot)
         self.itemLevel:SetText("")
         self.itemLevel:Hide()
     end
+    slot:ConfigureLabel()
     slot:HideLabel()
 end
 
@@ -56,7 +57,7 @@ local function createBorder(slot)
         return
     end
     slot.itemBorder = slot:CreateTexture(nil, "OVERLAY")
-    slot.ConfigureBorder = function (self, itemQuality)
+    slot.ConfigureBorder = function (self)
         local oanchor, orelative = itemBorderData.origin.anchor, itemBorderData.origin.relative
         local ox, oy = unpack(itemBorderData.origin.offset)
         self.itemBorder:SetPoint(oanchor, self, orelative, ox, oy)
@@ -68,15 +69,16 @@ local function createBorder(slot)
         self.itemBorder:SetBlendMode(blend)
         local texture = itemBorderData.texture
         self.itemBorder:SetTexture(texture)
+    end
+    slot.ShowBorder = function(self, itemQuality)
         local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
         self.itemBorder:SetVertexColor(r, g, b)
-    end
-    slot.ShowBorder = function(self)
         self.itemBorder:Show()
     end
     slot.HideBorder = function(self)
         self.itemBorder:Hide()
     end
+    slot:ConfigureBorder()
     slot:HideBorder()
 end
 

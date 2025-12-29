@@ -31,13 +31,11 @@ local function displayUniSlotInfo(_, unit)
             local itemLevel, itemQuality = retrieveItemData(itemData)
 
             if isItemBorderEnabled(unit) then
-                inventorySlot:ConfigureBorder(itemQuality)
-                inventorySlot:ShowBorder()
+                inventorySlot:ShowBorder(itemQuality)
             end
 
             if isItemLevelEnabled(unit, slot) then
-                inventorySlot:ConfigureLabel(itemQuality, itemLevel)
-                inventorySlot:ShowLabel()
+                inventorySlot:ShowLabel(itemQuality, itemLevel)
             end
         end
     end

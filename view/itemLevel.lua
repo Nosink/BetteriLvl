@@ -16,20 +16,20 @@ local function createFrontString(slot)
         return
     end
     slot.averageItemLevel = slot:CreateFontString(nil, "OVERLAY", labelData.font)
-    slot.ConfigureAverageLabel = function (self, itemQuality, itemLevel, alternatePosition)
-        local anchor, relative = labelData.anchor, labelData.relative
-        local x, y = unpack(alternatePosition and labelData.alternatePosition or labelData.position)
-        self.averageItemLevel:SetPoint(anchor, self, relative, x, y)
+    slot.ConfigureAverageLabel = function (self)
         local sx, sy = unpack(labelData.shadow.offset)
         self.averageItemLevel:SetShadowOffset(sx, sy)
         local sr, sg, sb, sa = unpack(labelData.shadow.color)
         self.averageItemLevel:SetShadowColor(sr, sg, sb, sa)
+    end
+    
+    slot.ShowAverageLabel = function(self, itemQuality, itemLevel, alternatePosition)
+        local anchor, relative = labelData.anchor, labelData.relative
+        local x, y = unpack(alternatePosition and labelData.alternatePosition or labelData.position)
+        self.averageItemLevel:SetPoint(anchor, self, relative, x, y)
         local r, g, b = ns.utils.GetItemQualityColor(itemQuality)
         self.averageItemLevel:SetTextColor(r, g, b)
         self.averageItemLevel:SetText(string.format("%s%.1f", labelData.text, itemLevel))
-    end
-
-    slot.ShowAverageLabel = function(self)
         self.averageItemLevel:Show()
     end
 
@@ -40,6 +40,7 @@ local function createFrontString(slot)
         self.averageItemLevel:SetText("")
         self.averageItemLevel:Hide()
     end
+    slot:ConfigureAverageLabel()
     slot:HideAverageLabel()
 end
 

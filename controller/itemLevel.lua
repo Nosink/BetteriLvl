@@ -12,8 +12,7 @@ local function displayAverageItemLevel(_, unit)
     local itemQuality = ns[unit].itemLevel.dominantQuality or 0
     local alternatePosition = settings.IsAverageiLvlOnAlternatePosition(unit)
 
-    slot:ConfigureAverageLabel(itemQuality, itemLevel, alternatePosition)
-    slot:ShowAverageLabel()
+    slot:ShowAverageLabel(itemQuality, itemLevel, alternatePosition)
 end
 
 ns:RegisterEvent("BETTERILVL_ITEMLEVEL_READY", displayAverageItemLevel)
