@@ -1,3 +1,0 @@
-
-ADDON_NAME, namespace = "BetteriLvl" , ...
-

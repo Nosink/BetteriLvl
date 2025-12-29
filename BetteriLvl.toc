@@ -1,40 +1,51 @@
 
 ## Interface: 11506
 
-## Title-enUS: BetteriLvl
-## Notes-enUS: Shows item level and average item level on character and targetframe
+## Title: BetteriLvl
 
-## Title-esES: BetteriLvl
-## Notes-esES: Muestra el nivel de objeto y el nivel de objeto promedio en el personaje y del objetivo
+## Notes-enUS: Shows item level, quality borders and average item level on character and target frames. Show extra tooltip info.
+## Notes-esES: Muestra el nivel de objeto, la calidad del objeto en su borde y nivel de objeto promedio del personaje y del objetivo. Muestra información extra en el tooltip.
 
 ## Author: Nosink Ð
-## Version: 1.0.0
+## Version: 1.1.0
 ## SavedVariables: BetteriLvlDB
 
-Localization/localization.core.lua
-Localization/localization.enUS.lua
-Localization/localization.esES.lua
+# Module: Localization
+localization/localization.lua
+localization/enUS.lua
+localization/esES-esMX.lua
+# --------------------
 
-BetteriLvl.lua
+# Module: Events
+events/bus.lua
+# --------------------
 
-helpers/SlotHelper.lua
-helpers/UnitHelper.lua
-helpers/ItemHelper.lua
+# Module: DataBase
+database/data.lua
+database/database.lua
+# --------------------
 
-Database/Database.lua
+# Module: Configuration
+configuration/panel.lua
+configuration/settings.lua
+# --------------------
 
-Options/Options.lua
-Options/Panel.lua
+# Addon - Core
+addon.lua
+data.lua
+utils.lua
 
-Views/ItemLabel.lua
-Views/Border.lua
-Views/AverageLabel.lua
+# MVC Unit Inventory Slots
+model/unit.lua
+view/inventorySlot.lua
+controller/unit.lua
 
-BetteriLvlSlotiLvl.lua
-BetteriLvlAverageiLvl.lua
-BetteriLvlToolTipItem.lua
+# MVC Average Item Level
+model/itemLevel.lua
+view/itemLevel.lua
+controller/itemLevel.lua
 
-
-Controllers/Target.lua
-Controllers/Character.lua
-Controllers/Tooltip.lua
+# MVC Tooltips
+model/tooltip.lua
+view/tooltip.lua
+controller/tooltip.lua
