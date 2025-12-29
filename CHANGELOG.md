@@ -22,7 +22,8 @@ Improved performance, resilience, and accuracy across the board.
 
 ---
 
-## [1.1.2] - 2025-12-29
+## [1.0.0] - 2025-12-19
+First release of BetteriLvl.
 
 Added
 - Per-slot item level labels on Character and Inspect Target frames.
@@ -40,4 +41,3 @@ Notes
 - Target information appears after the inspect event; slight delay is expected.
 - Ammo slot is excluded from item level labels.
 - Tooltip item level shows only for equipment (Armor, Weapon, Projectile).
-
