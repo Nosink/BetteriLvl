@@ -1,8 +1,8 @@
-local ADDON_NAME, namespace = ...
-local L = namespace.L
+local name, ns = ...
+local L = ns.L
 
-if namespace.locale == "esES" or namespace.locale == "esMX" then
-	L["LKEY_OPTIONS_TITLE"] = ADDON_NAME .. " " .. "Opciones"
+if ns.locale == "esES" or ns.locale == "esMX" then
+	L["LKEY_OPTIONS_TITLE"] = name .. " " .. "Opciones"
 
 	L["LKEY_OPTIONS_PLAYER_FRAME"] = "Panel de Personaje"
 	L["LKEY_OPTIONS_PLAYER_AVERAGE"] = "Mostrar Nivel de Objeto Promedio"

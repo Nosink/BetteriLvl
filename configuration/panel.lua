@@ -1,5 +1,5 @@
-local ADDON_NAME, namespace = ...
-local L = namespace.L
+local name, ns = ...
+local L = ns.L
 
 local data = {
     title = { anchor = "TOPLEFT", x = 8, y = -16, text = L["LKEY_OPTIONS_TITLE"], template = "GameFontNormalLarge", font = "Fonts/FRIZQT__.TTF", fontSize = 18, color = {0.2, 0.6, 1} },
@@ -10,7 +10,7 @@ local data = {
 
 -- Panel Frame
 local panel = CreateFrame("Frame", "BetteriLvlOptionsPanel", UIParent)
-panel.name = ADDON_NAME
+panel.name = name
 
 -- Title
 local title = panel:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
@@ -56,7 +56,10 @@ local function CreateCheckbox(key, dbKey)
 
     checkBox:SetScript("OnClick", function(self)
         BetteriLvlDB = BetteriLvlDB or {}
-        BetteriLvlDB[dbKey] = self:GetChecked() and true or false
+        local checked = self:GetChecked() and true or false
+        BetteriLvlDB[dbKey] = checked
+        ns.database[dbKey] = checked
+        ns:TriggerEvent("BETTERILVL_SETTINGS_CHANGED")
     end)
 
     checkBox.SyncFromDB = function()
@@ -101,9 +104,9 @@ end
 panel:HookScript("OnShow", SyncOptionsFromDB)
 
 -- Register in Interface Options
-local settingsCategory -- keep a reference for Settings API
+local settingsCategory -- keep a reference for settings API
 if Settings and Settings.RegisterCanvasLayoutCategory and Settings.RegisterAddOnCategory then
-    settingsCategory = Settings.RegisterCanvasLayoutCategory(panel, ADDON_NAME)
+    settingsCategory = Settings.RegisterCanvasLayoutCategory(panel, name)
     Settings.RegisterAddOnCategory(settingsCategory)
 end
 
