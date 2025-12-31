@@ -28,6 +28,7 @@ database/database.lua
 # Module: Configuration
 configuration/panel.lua
 configuration/settings.lua
+configuration/commands.lua
 # --------------------
 
 # Addon - Core

@@ -103,17 +103,8 @@ end
 
 panel:HookScript("OnShow", SyncOptionsFromDB)
 
--- Register in Interface Options
-local settingsCategory -- keep a reference for settings API
+-- Register Panel
 if Settings and Settings.RegisterCanvasLayoutCategory and Settings.RegisterAddOnCategory then
-    settingsCategory = Settings.RegisterCanvasLayoutCategory(panel, name)
-    Settings.RegisterAddOnCategory(settingsCategory)
-end
-
-SLASH_BETTERILVL1 = "/betterilvl"
-SLASH_BETTERILVL2 = "/bilvl"
-SlashCmdList.BETTERILVL = function()
-    if Settings and Settings.OpenToCategory and settingsCategory then
-        Settings.OpenToCategory(settingsCategory:GetID())
-    end
+    ns.settingsCategory = Settings.RegisterCanvasLayoutCategory(panel, name)
+    Settings.RegisterAddOnCategory(ns.settingsCategory)
 end
