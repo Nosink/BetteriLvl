@@ -1,4 +1,4 @@
-local _, ns = ...
+local name, ns = ...
 
 local settings = ns.settings
 
@@ -25,4 +25,4 @@ local function displayTooltipInfo()
     end
 end
 
-ns:RegisterEvent("BETTERILVL_TOOLTIP_READY", displayTooltipInfo)
+ns:RegisterEvent(name .. "_TOOLTIP_READY", displayTooltipInfo)

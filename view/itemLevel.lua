@@ -1,10 +1,10 @@
-local _, ns = ...
+local name, ns = ...
 
 local utils = ns.utils
 
 local function getPosition(alternatePosition)
     if alternatePosition then
-        return 0, 45
+        return 0, 42.5
     else
         return -115, -5
     end
@@ -42,12 +42,12 @@ local function createAverageItemLevelLabel(_, unit)
     local inventorySlot = _G[frameName .. ns.data.slotNames[INVSLOT_OFFHAND]]
     createFrontString(inventorySlot)
     ns[unit].itemLevel.slot = inventorySlot
-    ns:TriggerEvent("BETTERILVL_ITEMLEVEL_READY", unit)
+    ns:TriggerEvent(name .. "_ITEMLEVEL_READY", unit)
 end
 
 local function validateAverageItemLevelLabel()
     createAverageItemLevelLabel(nil, "player")
 end
 
-ns:RegisterEvent("BETTERILVL_ITEMLEVEL_CALCULATED", createAverageItemLevelLabel)
-ns:RegisterEvent("BETTERILVL_SETTINGS_CHANGED", validateAverageItemLevelLabel)
+ns:RegisterEvent(name .. "_ITEMLEVEL_CALCULATED", createAverageItemLevelLabel)
+ns:RegisterEvent(name .. "_SETTINGS_CHANGED", validateAverageItemLevelLabel)

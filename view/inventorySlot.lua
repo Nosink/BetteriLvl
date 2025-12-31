@@ -1,4 +1,4 @@
-local _, ns = ...
+local name, ns = ...
 
 local utils = ns.utils
 
@@ -63,12 +63,12 @@ local function createUntSlots(_, unit)
         end
     end
     ns[unit].slots = slots
-    ns:TriggerEvent("BETTERILVL_SLOTS_READY", unit)
+    ns:TriggerEvent(name .. "_SLOTS_READY", unit)
 end
 
 local function validateUnitSlots()
     createUntSlots(nil, "player")
 end
 
-ns:RegisterEvent("BETTERILVL_ITEMS_CACHED", createUntSlots)
-ns:RegisterEvent("BETTERILVL_SETTINGS_CHANGED", validateUnitSlots)
+ns:RegisterEvent(name .. "_ITEMS_CACHED", createUntSlots)
+ns:RegisterEvent(name .. "_SETTINGS_CHANGED", validateUnitSlots)

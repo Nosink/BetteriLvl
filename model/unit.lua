@@ -1,12 +1,12 @@
 
-local _, ns = ...
+local name, ns = ...
 
 local function evaluateItemsCache(unit)
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local itemData = ns[unit].items[slot]
         if not itemData or not itemData.cached then return end
     end
-    ns:TriggerEvent("BETTERILVL_ITEMS_CACHED", unit)
+    ns:TriggerEvent(name .. "_ITEMS_CACHED", unit)
 end
 
 local function cacheItemSlot(slot, unit)
@@ -59,7 +59,7 @@ local function cacheUnitItems(unit)
 end
 
 local function requestUnitSlots(unit)
-    ns:TriggerEvent("BETTERILVL_REQUEST_SLOTS", unit)
+    ns:TriggerEvent(name .. "_REQUEST_SLOTS", unit)
 end
 
 local function onInspectReady(_)
@@ -75,6 +75,6 @@ local function onAddonLoaded()
     cacheUnitItems("player")
 end
 
-ns:RegisterEvent("BETTERILVL_ADDON_LOADED", onAddonLoaded)
+ns:RegisterEvent(name .. "_ADDON_LOADED", onAddonLoaded)
 ns:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
 ns:RegisterEvent("INSPECT_READY", onInspectReady)

@@ -1,4 +1,4 @@
-local _, ns = ...
+local name, ns = ...
 
 local settings = ns.settings
 
@@ -15,4 +15,4 @@ local function displayAverageItemLevel(_, unit)
     slot:ShowAverageLabel(itemQuality, itemLevel, alternatePosition)
 end
 
-ns:RegisterEvent("BETTERILVL_ITEMLEVEL_READY", displayAverageItemLevel)
+ns:RegisterEvent(name .. "_ITEMLEVEL_READY", displayAverageItemLevel)

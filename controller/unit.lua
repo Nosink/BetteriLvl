@@ -1,4 +1,4 @@
-local _, ns = ...
+local name, ns = ...
 
 local settings = ns.settings
 
@@ -41,4 +41,4 @@ local function displayUniSlotInfo(_, unit)
     end
 end
 
-ns:RegisterEvent("BETTERILVL_SLOTS_READY", displayUniSlotInfo, MID_PRIORITY)
+ns:RegisterEvent(name .. "_SLOTS_READY", displayUniSlotInfo, MID_PRIORITY)

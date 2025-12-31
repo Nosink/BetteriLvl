@@ -1,4 +1,4 @@
-local _, ns = ...
+local name, ns = ...
 
 local function getItemEquipLoc(item)
     if not item then return nil end
@@ -66,7 +66,7 @@ local function calculateUnitItemLevel(_, unit)
     ns[unit].itemLevel.average = totalLevel / numSlots
     ns[unit].itemLevel.dominantQuality = dominantQuality
 
-    ns:TriggerEvent("BETTERILVL_ITEMLEVEL_CALCULATED", unit)
+    ns:TriggerEvent(name .. "_ITEMLEVEL_CALCULATED", unit)
 end
 
-ns:RegisterEvent("BETTERILVL_ITEMS_CACHED", calculateUnitItemLevel)
+ns:RegisterEvent(name .. "_ITEMS_CACHED", calculateUnitItemLevel)

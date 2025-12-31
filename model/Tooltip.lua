@@ -1,5 +1,5 @@
 
-local _, ns = ...
+local name, ns = ...
 
 local function onTooltipSetItem(tooltip)
     if not tooltip or tooltip:IsForbidden() then return end
@@ -11,7 +11,7 @@ local function onTooltipSetItem(tooltip)
     local item = Item:CreateFromItemLink(itemLink)
 
     if previousItem and previousItem:GetItemLink() == itemLink then 
-        ns:TriggerEvent("BETTERILVL_TOOLTIP_ITEM_SET")
+        ns:TriggerEvent(name .. "_TOOLTIP_ITEM_SET")
     return end
 
     item:ContinueOnItemLoad(function()
@@ -19,7 +19,7 @@ local function onTooltipSetItem(tooltip)
         ns.tooltip.item = item
         ns.tooltip.itemType = itemType
         ns.tooltip.frame = tooltip
-        ns:TriggerEvent("BETTERILVL_TOOLTIP_ITEM_SET")
+        ns:TriggerEvent(name .. "_TOOLTIP_ITEM_SET")
     end)
 
 end

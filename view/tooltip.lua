@@ -1,4 +1,4 @@
-local _, ns = ...
+local name, ns = ...
 local L = ns.L
 
 local function createTooltipLines()
@@ -18,7 +18,7 @@ local function createTooltipLines()
         frame:AddDoubleLine(L["LKEY_TOOLTIP_ITEM_ID"], itemID, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8)
     end
 
-    ns:TriggerEvent("BETTERILVL_TOOLTIP_READY")
+    ns:TriggerEvent(name .. "_TOOLTIP_READY")
 end
 
-ns:RegisterEvent("BETTERILVL_TOOLTIP_ITEM_SET", createTooltipLines)
+ns:RegisterEvent(name .. "_TOOLTIP_ITEM_SET", createTooltipLines)
