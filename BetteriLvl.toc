@@ -26,9 +26,14 @@ database/database.lua
 # --------------------
 
 # Module: Configuration
+configuration/builder.lua
+configuration/frames/checkbox.lua
+configuration/frames/editbox.lua
+configuration/frames/slider.lua
+# --------------------
 configuration/panel.lua
-configuration/settings.lua
 configuration/commands.lua
+configuration/settings.lua
 # --------------------
 
 # Addon - Core
