@@ -9,18 +9,18 @@ builder:CreateOptionsPanel()
 -- Title
 builder:CreateTitle(L["LKEY_OPTIONS_TITLE"])
 
-builder:CreateTitle(L["LKEY_OPTIONS_PLAYER_FRAME"])
+builder:CreateSection(L["LKEY_OPTIONS_PLAYER_FRAME"])
 local playerAverageCB = builder:CreateCheckBox(L["LKEY_OPTIONS_PLAYER_AVERAGE"], "playerAverage")
 local playerAverageAlternatePositionCB = builder:CreateCheckBox(L["LKEY_OPTIONS_PLAYER_AVERAGE_ALTERNATE_POSITION"], "playerAverageAlternatePosition")
 local playerItemLevelCB = builder:CreateCheckBox(L["LKEY_OPTIONS_PLAYER_ITEM_LEVEL"], "playerLevel")
 local playerBorderCB = builder:CreateCheckBox(L["LKEY_OPTIONS_PLAYER_BORDER"], "playerBorder")
 
-builder:CreateTitle(L["LKEY_OPTIONS_TARGET_FRAME"])
+builder:CreateSection(L["LKEY_OPTIONS_TARGET_FRAME"])
 local targetAverageCB = builder:CreateCheckBox(L["LKEY_OPTIONS_TARGET_AVERAGE"], "targetAverage")
 local targetItemLevelCB = builder:CreateCheckBox(L["LKEY_OPTIONS_TARGET_ITEM_LEVEL"], "targetLevel")
 local targetBorderCB = builder:CreateCheckBox(L["LKEY_OPTIONS_TARGET_BORDER"], "targetBorder")
 
-builder:CreateTitle(L["LKEY_OPTIONS_TOOLTIP"])
+builder:CreateSection(L["LKEY_OPTIONS_TOOLTIP"])
 local tooltipItemLevelCB = builder:CreateCheckBox(L["LKEY_OPTIONS_TOOLTIP_ITEM_LEVEL"], "tooltipLevel")
 local tooltipItemIdCB = builder:CreateCheckBox(L["LKEY_OPTIONS_TOOLTIP_ITEM_ID"], "tooltipID")
 local function onShow()
