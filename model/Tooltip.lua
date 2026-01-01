@@ -14,6 +14,8 @@ local function onTooltipSetItem(tooltip)
         ns:TriggerEvent(name .. "_TOOLTIP_ITEM_SET")
     return end
 
+    if item:IsItemEmpty() then return end
+
     item:ContinueOnItemLoad(function()
         local _, itemType = C_Item.GetItemInfoInstant(item:GetItemID())
         ns.tooltip.item = item

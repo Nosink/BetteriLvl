@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.0] - 2025-12-31
+
+### Added
+
+
+### Changed
+
+
+### Fixed
+
+
+### Notes
+
+
+---
+
 ## [1.1.2] - 2025-12-29
 Improved performance, resilience, and accuracy across the board.
 
