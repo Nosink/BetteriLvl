@@ -1,18 +1,22 @@
 # Changelog
 
 ## [1.2.0] - 2025-12-31
+Refactored options panel with a reusable settings builder and events.
 
 ### Added
-
+- New configuration builder with reusable UI frames:
+	- Checkboxes
+	- Edit boxes
+	- Sliders
 
 ### Changed
-
-
-### Fixed
-
+- Options panel rebuilt to use the builder API: cleaner layout, consistent fonts/colors, less duplication.
+- Custom events are now namespaced using the addon name (e.g., `name .. "_ITEMLEVEL_READY"`, `name .. "_SLOTS_READY"`, `name .. "_TOOLTIP_READY"`) replacing hardcoded `BETTERILVL_*` strings across controllers and views.
+- Tooltip model guards against empty items before loading.
 
 ### Notes
-
+- Primary focus is maintainability and robustness of the options UI and event handling.
+- Functional behavior remains equivalent to 1.1.2 with minor resilience improvements.
 
 ---
 
