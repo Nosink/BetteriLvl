@@ -37,9 +37,9 @@ configuration/settings.lua
 # --------------------
 
 # Addon - Core
-addon.lua
-data.lua
 utils.lua
+data.lua
+addon.lua
 
 # MVC Unit Inventory Slots
 model/unit.lua

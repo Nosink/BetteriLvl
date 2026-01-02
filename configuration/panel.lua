@@ -9,6 +9,7 @@ builder:CreateOptionsPanel()
 -- Title
 builder:CreateTitle(L["LKEY_OPTIONS_TITLE"])
 
+-- Options
 builder:CreateSection(L["LKEY_OPTIONS_PLAYER_FRAME"])
 local playerAverageCB = builder:CreateCheckBox(L["LKEY_OPTIONS_PLAYER_AVERAGE"], "playerAverage")
 local playerAverageAlternatePositionCB = builder:CreateCheckBox(L["LKEY_OPTIONS_PLAYER_AVERAGE_ALTERNATE_POSITION"], "playerAverageAlternatePosition")
@@ -24,6 +25,9 @@ builder:CreateSection(L["LKEY_OPTIONS_TOOLTIP"])
 local tooltipLevelCB = builder:CreateCheckBox(L["LKEY_OPTIONS_TOOLTIP_ITEM_LEVEL"], "tooltipLevel")
 local tooltipIDCB = builder:CreateCheckBox(L["LKEY_OPTIONS_TOOLTIP_ITEM_ID"], "tooltipID")
 
+-- Register
+builder:Register()
+
 local function onShow()
     playerAverageCB:FetchFromDB()
     playerAverageAlternatePositionCB:FetchFromDB()
@@ -36,6 +40,4 @@ local function onShow()
     tooltipIDCB:FetchFromDB()
 end
 
-builder.optionsPanel:HookScript("OnShow", onShow)
-
-builder:Register()
+ns:HookScript(builder.optionsPanel, "OnShow", onShow)

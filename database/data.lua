@@ -16,3 +16,7 @@ ns.defaults = {
     tooltipLevel = true,
     tooltipID = false
 }
+
+ns.defaultsPC = {
+
+}
