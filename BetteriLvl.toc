@@ -7,7 +7,7 @@
 ## Notes-esES: Muestra el nivel de objeto, la calidad del objeto en su borde y nivel de objeto promedio del personaje y del objetivo. Muestra información extra en el tooltip.
 
 ## Author: Nosink Ð
-## Version: 1.2.0
+## Version: 1.2.1
 ## SavedVariables: BetteriLvlDB
 
 # Module: Localization

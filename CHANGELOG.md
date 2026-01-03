@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.1] - 2026-01-03
+Fixed inspect error on party, raid, etc frames.
+
+### Fixed
+- Now correctly inspect for all type of targets.
+- Created events "_TARGET_VARS_READY" and "_REQUEST_VARS" to create on demand storage for inspected units.
+
+### Notes
+- Not hard tested, but looks working good on party groups and raids groups.
+
+---
+
 ## [1.2.0] - 2025-12-31
 Refactored options panel with a reusable settings builder and events.
 
