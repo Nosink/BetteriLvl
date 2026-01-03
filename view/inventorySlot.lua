@@ -53,7 +53,7 @@ end
 
 local function createUntSlots(_, unit)
     local slots = ns[unit].slots
-    local frameName = (unit == "target") and "Inspect" or "Character"
+    local frameName = (unit == "player") and "Character" or "Inspect"
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local inventorySlot = _G[frameName .. ns.data.slotNames[slot]]
         if inventorySlot then

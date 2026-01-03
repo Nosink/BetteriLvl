@@ -58,23 +58,26 @@ local function cacheUnitItems(unit)
     end
 end
 
-local function requestUnitSlots(unit)
-    ns:TriggerEvent(name .. "_REQUEST_SLOTS", unit)
-end
-
-local function onInspectReady(_)
-    requestUnitSlots("target")
-    cacheUnitItems("target")
+local function onInspectReady(_, _)
+    createUnitItems(ns.unit)
+    cacheUnitItems(ns.unit)
 end
 
 local function onAddonLoaded()
     createUnitItems("player")
-    createUnitItems("target")
-
-    requestUnitSlots("player")
     cacheUnitItems("player")
+end
+
+local function onNotifyInspect(unit)
+    ns:TriggerEvent(name .. "_REQUEST_VARS", unit)
+end
+
+local function onTargetVarsReady(_, unit)
+    ns.unit = unit
 end
 
 ns:RegisterEvent(name .. "_ADDON_LOADED", onAddonLoaded)
 ns:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
 ns:RegisterEvent("INSPECT_READY", onInspectReady)
+ns:HookSecureFunc("NotifyInspect", onNotifyInspect)
+ns:RegisterEvent(name .. "_TARGET_VARS_READY", onTargetVarsReady)

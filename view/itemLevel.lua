@@ -38,7 +38,7 @@ local function createFrontString(slot)
 end
 
 local function createAverageItemLevelLabel(_, unit)
-    local frameName = (unit == "target") and "Inspect" or "Character"
+    local frameName = (unit == "player") and "Character" or "Inspect"
     local inventorySlot = _G[frameName .. ns.data.slotNames[INVSLOT_OFFHAND]]
     createFrontString(inventorySlot)
     ns[unit].itemLevel.slot = inventorySlot
