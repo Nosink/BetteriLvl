@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.3] - 14/01/2026
+Included RU translation by ZamestoTV (https://github.com/Hubbotu)
+
+### Added
+- ruRu.lua with actual translation
+
+---
+
 ## [1.2.2] - 14/01/2026
 Work for TBC
 
