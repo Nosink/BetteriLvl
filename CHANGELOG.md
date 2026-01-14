@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.4] - 14/01/2026
+Fixed installation processs
+Added interface support for classic
+
+---
+
 ## [1.2.3] - 14/01/2026
 Included RU translation by ZamestoTV (https://github.com/Hubbotu)
 
