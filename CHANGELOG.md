@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.2] - 14/01/2026
+Work for TBC
+
+---
+
 ## [1.2.1] - 2026-01-03
 Fixed inspect error on party, raid, etc frames.
 
