@@ -29,41 +29,35 @@ end
 local function calculateUnitItemLevel(_, unit)
     local items = ns[unit].items
 
-    local twoHands, mainHand, offHand, bothHands, ranged = evaluateWeaponDistribution(items)
-
     local totalLevel, itemsQuality = 0, {}
+    local itemCount = 0
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local item = items[slot].item
         if item then
             local itemEquipLoc = getItemEquipLoc(item)
-            if itemEquipLoc ~= "INVTYPE_TABARD" and itemEquipLoc ~= "INVTYPE_BODY" then
+            if itemEquipLoc ~= "INVTYPE_TABARD" and itemEquipLoc ~= "INVTYPE_BODY" and slot ~= INVSLOT_AMMO then
                 local itemLevel, itemQuality = retrieveItemData(item)
-                if ranged then
-                    totalLevel = totalLevel + itemLevel
-                else
-                    if (slot ~= INVSLOT_RANGED) then
-                        totalLevel = totalLevel + itemLevel
-                    end
+                if itemQuality == (Enum.ItemQuality and Enum.ItemQuality.Heirloom) or itemQuality == 7 then
+                    itemLevel = 0
                 end
+                totalLevel = totalLevel + itemLevel
+                itemCount = itemCount + 1
                 itemsQuality[itemQuality] = (itemsQuality[itemQuality] or 0) + 1
             end
         end
     end
 
     local dominantQuality, maxCount = 0, -1
-    for index = Enum.ItemQuality.Poor, Enum.ItemQuality.Artifact do
+    local endQuality = (Enum.ItemQuality and (Enum.ItemQuality.Heirloom or Enum.ItemQuality.Artifact)) or 7
+    for index = Enum.ItemQuality.Poor, endQuality do
         local count = itemsQuality[index] or 0
         if count >= maxCount then
             dominantQuality, maxCount = index, count
         end
     end
 
-    local numSlots = 16
-    if offHand or (mainHand and not twoHands and not bothHands) then
-        numSlots = numSlots + 1
-    end
-
-    ns[unit].itemLevel.average = totalLevel / numSlots
+    local average = (itemCount > 0) and (totalLevel / itemCount) or 0
+    ns[unit].itemLevel.average = average
     ns[unit].itemLevel.dominantQuality = dominantQuality
 
     BIBus:TriggerEvent(name .. "_ITEMLEVEL_CALCULATED", unit)
