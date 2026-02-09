@@ -11,6 +11,7 @@ local function getPosition(alternatePosition)
 end
 
 local function createFrontString(slot)
+    if not slot then return end
     if slot.averageItemLevel then slot:HideAverageLabel() return end
 
     slot.averageItemLevel = slot:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
@@ -40,6 +41,7 @@ end
 local function createAverageItemLevelLabel(_, unit)
     local frameName = (unit == "player") and "Character" or "Inspect"
     local inventorySlot = _G[frameName .. ns.data.slotNames[INVSLOT_OFFHAND]]
+    if not inventorySlot then return end
     createFrontString(inventorySlot)
     ns[unit].itemLevel.slot = inventorySlot
     BIBus:TriggerEvent(name .. "_ITEMLEVEL_READY", unit)
