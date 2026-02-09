@@ -18,7 +18,7 @@ local function createTooltipLines()
         frame:AddDoubleLine(L["LKEY_TOOLTIP_ITEM_ID"], itemID, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8)
     end
 
-    ns:TriggerEvent(name .. "_TOOLTIP_READY")
+    BIBus:TriggerEvent(name .. "_TOOLTIP_READY")
 end
 
-ns:RegisterEvent(name .. "_TOOLTIP_ITEM_SET", createTooltipLines)
+BIBus:RegisterEvent(name .. "_TOOLTIP_ITEM_SET", createTooltipLines)

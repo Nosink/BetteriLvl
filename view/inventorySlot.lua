@@ -63,12 +63,12 @@ local function createUntSlots(_, unit)
         end
     end
     ns[unit].slots = slots
-    ns:TriggerEvent(name .. "_SLOTS_READY", unit)
+    BIBus:TriggerEvent(name .. "_SLOTS_READY", unit)
 end
 
 local function validateUnitSlots()
     createUntSlots(nil, "player")
 end
 
-ns:RegisterEvent(name .. "_ITEMS_CACHED", createUntSlots)
-ns:RegisterEvent(name .. "_SETTINGS_CHANGED", validateUnitSlots)
+BIBus:RegisterEvent(name .. "_ITEMS_CACHED", createUntSlots)
+BIBus:RegisterEvent(name .. "_SETTINGS_CHANGED", validateUnitSlots)

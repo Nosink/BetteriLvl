@@ -14,7 +14,7 @@ function ns.builder.CreateCheckBox(self, text, key, default)
 
     checkBox:SetScript("OnClick", function(self)
         ns.database[key] = self:GetChecked() or false
-        ns:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
+        BIBus:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
     end)
 
     checkBox.FetchFromDB = function(self)

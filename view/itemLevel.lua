@@ -42,12 +42,12 @@ local function createAverageItemLevelLabel(_, unit)
     local inventorySlot = _G[frameName .. ns.data.slotNames[INVSLOT_OFFHAND]]
     createFrontString(inventorySlot)
     ns[unit].itemLevel.slot = inventorySlot
-    ns:TriggerEvent(name .. "_ITEMLEVEL_READY", unit)
+    BIBus:TriggerEvent(name .. "_ITEMLEVEL_READY", unit)
 end
 
 local function validateAverageItemLevelLabel()
     createAverageItemLevelLabel(nil, "player")
 end
 
-ns:RegisterEvent(name .. "_ITEMLEVEL_CALCULATED", createAverageItemLevelLabel)
-ns:RegisterEvent(name .. "_SETTINGS_CHANGED", validateAverageItemLevelLabel)
+BIBus:RegisterEvent(name .. "_ITEMLEVEL_CALCULATED", createAverageItemLevelLabel)
+BIBus:RegisterEvent(name .. "_SETTINGS_CHANGED", validateAverageItemLevelLabel)

@@ -41,4 +41,4 @@ local function displayUniSlotInfo(_, unit)
     end
 end
 
-ns:RegisterEvent(name .. "_SLOTS_READY", displayUniSlotInfo, MID_PRIORITY)
+BIBus:RegisterEvent(name .. "_SLOTS_READY", displayUniSlotInfo, MID_PRIORITY)

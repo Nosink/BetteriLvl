@@ -40,4 +40,4 @@ local function onShow()
     tooltipIDCB:FetchFromDB()
 end
 
-ns:HookScript(builder.optionsPanel, "OnShow", onShow)
+BIBus:HookScript(builder.optionsPanel, "OnShow", onShow)

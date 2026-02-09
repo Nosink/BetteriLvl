@@ -15,4 +15,4 @@ local function displayAverageItemLevel(_, unit)
     slot:ShowAverageLabel(itemQuality, itemLevel, alternatePosition)
 end
 
-ns:RegisterEvent(name .. "_ITEMLEVEL_READY", displayAverageItemLevel)
+BIBus:RegisterEvent(name .. "_ITEMLEVEL_READY", displayAverageItemLevel)

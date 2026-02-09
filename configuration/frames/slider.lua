@@ -26,7 +26,7 @@ function ns.builder.CreateSlider(self, text, key)
     slider:SetScript("OnValueChanged", function(self, value)
         ns.database[key] = value
         updateValueLabel(value)
-        ns:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
+        BIBus:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
     end)
 
     slider.FetchFromDB = function(self)

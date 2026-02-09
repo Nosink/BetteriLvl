@@ -6,7 +6,7 @@ local function evaluateItemsCache(unit)
         local itemData = ns[unit].items[slot]
         if not itemData or not itemData.cached then return end
     end
-    ns:TriggerEvent(name .. "_ITEMS_CACHED", unit)
+    BIBus:TriggerEvent(name .. "_ITEMS_CACHED", unit)
 end
 
 local function cacheItemSlot(slot, unit)
@@ -69,15 +69,15 @@ local function onAddonLoaded()
 end
 
 local function onNotifyInspect(unit)
-    ns:TriggerEvent(name .. "_REQUEST_VARS", unit)
+    BIBus:TriggerEvent(name .. "_REQUEST_VARS", unit)
 end
 
 local function onTargetVarsReady(_, unit)
     ns.unit = unit
 end
 
-ns:RegisterEvent(name .. "_ADDON_LOADED", onAddonLoaded)
-ns:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
-ns:RegisterEvent("INSPECT_READY", onInspectReady)
-ns:HookSecureFunc("NotifyInspect", onNotifyInspect)
-ns:RegisterEvent(name .. "_TARGET_VARS_READY", onTargetVarsReady)
+BIBus:RegisterEvent(name .. "_ADDON_LOADED", onAddonLoaded)
+BIBus:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
+BIBus:RegisterEvent("INSPECT_READY", onInspectReady)
+BIBus:HookSecureFunc("NotifyInspect", onNotifyInspect)
+BIBus:RegisterEvent(name .. "_TARGET_VARS_READY", onTargetVarsReady)

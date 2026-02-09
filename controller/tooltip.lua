@@ -25,4 +25,4 @@ local function displayTooltipInfo()
     end
 end
 
-ns:RegisterEvent(name .. "_TOOLTIP_READY", displayTooltipInfo)
+BIBus:RegisterEvent(name .. "_TOOLTIP_READY", displayTooltipInfo)

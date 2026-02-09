@@ -11,7 +11,7 @@ local function onTooltipSetItem(tooltip)
     local item = Item:CreateFromItemLink(itemLink)
 
     if previousItem and previousItem:GetItemLink() == itemLink then 
-        ns:TriggerEvent(name .. "_TOOLTIP_ITEM_SET")
+        BIBus:TriggerEvent(name .. "_TOOLTIP_ITEM_SET")
     return end
 
     if item:IsItemEmpty() then return end
@@ -21,9 +21,9 @@ local function onTooltipSetItem(tooltip)
         ns.tooltip.item = item
         ns.tooltip.itemType = itemType
         ns.tooltip.frame = tooltip
-        ns:TriggerEvent(name .. "_TOOLTIP_ITEM_SET")
+        BIBus:TriggerEvent(name .. "_TOOLTIP_ITEM_SET")
     end)
 
 end
 
-ns:HookScript(_G.GameTooltip, "OnTooltipSetItem", onTooltipSetItem)
+BIBus:HookScript(_G.GameTooltip, "OnTooltipSetItem", onTooltipSetItem)

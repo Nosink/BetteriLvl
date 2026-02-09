@@ -66,7 +66,7 @@ local function calculateUnitItemLevel(_, unit)
     ns[unit].itemLevel.average = totalLevel / numSlots
     ns[unit].itemLevel.dominantQuality = dominantQuality
 
-    ns:TriggerEvent(name .. "_ITEMLEVEL_CALCULATED", unit)
+    BIBus:TriggerEvent(name .. "_ITEMLEVEL_CALCULATED", unit)
 end
 
-ns:RegisterEvent(name .. "_ITEMS_CACHED", calculateUnitItemLevel)
+BIBus:RegisterEvent(name .. "_ITEMS_CACHED", calculateUnitItemLevel)

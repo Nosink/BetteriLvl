@@ -1,5 +1,8 @@
 local name, ns = ...
 
+local LibEventBus = LibStub("LibEventBus-1.0")
+BIBus = LibEventBus:NewBus("BIBus", true)
+
 local function initializeToolTipVars()
     ns.tooltip = ns.tooltip or {}
 end
@@ -22,7 +25,7 @@ local function onPlayerEnteringWorld()
     initializeUnitTargetVars()
     initializeUnitVars("player")
 
-    ns:TriggerEvent(name .. "_ADDON_LOADED")
+    BIBus:TriggerEvent(name .. "_ADDON_LOADED")
 end
 local function onTargetRequestVars(_, unit)
     if not unit or unit == "" then return end
@@ -31,8 +34,8 @@ local function onTargetRequestVars(_, unit)
         initializeUnitVars(unit)
     end
 
-    ns:TriggerEvent(name .. "_TARGET_VARS_READY", unit)
+    BIBus:TriggerEvent(name .. "_TARGET_VARS_READY", unit)
 end
 
-ns:RegisterEvent("PLAYER_ENTERING_WORLD", onPlayerEnteringWorld)
-ns:RegisterEvent(name .. "_REQUEST_VARS", onTargetRequestVars)
+BIBus:RegisterEvent("PLAYER_ENTERING_WORLD", onPlayerEnteringWorld)
+BIBus:RegisterEvent(name .. "_REQUEST_VARS", onTargetRequestVars)
