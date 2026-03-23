@@ -49,13 +49,3 @@ data.lua
 model/unit.lua
 view/inventorySlot.lua
 controller/unit.lua
-
-# MVC Average Item Level
-# model/itemLevel.lua
-# view/itemLevel.lua
-# controller/itemLevel.lua
-
-# MVC Tooltips
-# model/tooltip.lua
-# view/tooltip.lua
-# controller/tooltip.lua
