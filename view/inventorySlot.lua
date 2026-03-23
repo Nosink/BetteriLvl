@@ -1,7 +1,5 @@
 local name, ns = ...
 
-local utils = ns.utils
-
 local function createFrontString(slot)
     if slot.itemLevel then slot:HideLabel() return end
 
@@ -12,7 +10,7 @@ local function createFrontString(slot)
 
     slot.ShowLabel = function(self, itemQuality, itemLevel)
         if not self.itemLevel then return end
-        local r, g, b = utils.GetItemQualityColor(itemQuality)
+        local r, g, b = ns.GetItemQualityColor(itemQuality)
         self.itemLevel:SetTextColor(r, g, b)
         self.itemLevel:SetText(itemLevel)
         self.itemLevel:Show()
@@ -38,7 +36,7 @@ local function createBorder(slot)
 
     slot.ShowBorder = function(self, itemQuality)
         if not self.itemBorder then return end
-        local r, g, b = utils.GetItemQualityColor(itemQuality)
+        local r, g, b = ns.GetItemQualityColor(itemQuality)
         self.itemBorder:SetVertexColor(r, g, b)
         self.itemBorder:Show()
     end

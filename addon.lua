@@ -3,6 +3,22 @@ local name, ns = ...
 local LibEventBus = LibStub("LibEventBus-1.0")
 BIBus = LibEventBus:NewBus("BIBus", true)
 
+function ns.GetItemQualityColor(quality)
+    local q = tonumber(quality) or 0
+
+    if C_Item and C_Item.GetItemQualityColor then
+        local r, g, b = C_Item.GetItemQualityColor(q)
+        if type(r) == "table" then
+            return r.r, r.g, r.b
+        end
+        if type(r) == "number" then
+            return r, g, b
+        end
+    end
+
+    return 1, 1, 1
+end
+
 local function initializeToolTipVars()
     ns.tooltip = ns.tooltip or {}
 end

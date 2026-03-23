@@ -1,7 +1,5 @@
 local name, ns = ...
 
-local utils = ns.utils
-
 local function getPosition(alternatePosition)
     if alternatePosition then
         return 0, 42.5
@@ -22,7 +20,7 @@ local function createFrontString(slot)
         if not self.averageItemLevel then return end
         local x, y = getPosition(alternatePosition)
         self.averageItemLevel:SetPoint("TOP", self, "CENTER", x, y)
-        local r, g, b = utils.GetItemQualityColor(itemQuality)
+        local r, g, b = ns.GetItemQualityColor(itemQuality)
         self.averageItemLevel:SetTextColor(r, g, b)
         self.averageItemLevel:SetText(string.format("iLvl: %.1f", itemLevel))
         self.averageItemLevel:Show()

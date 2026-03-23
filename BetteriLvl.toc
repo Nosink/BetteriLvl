@@ -13,6 +13,7 @@
 # Libraries
 libs/LibStub/LibStub.lua
 libs/LibEventBus-1.0/LibEventBus-1.0.lua 
+libs/LibSharedVariables-1.0/LibSharedVariables-1.0.lua
 
 # Addon - Core
 addon.lua
@@ -41,7 +42,6 @@ configuration/settings.lua
 # --------------------
 
 # Addon - Core
-utils.lua
 data.lua
 
 # MVC Unit Inventory Slots
@@ -50,11 +50,11 @@ view/inventorySlot.lua
 controller/unit.lua
 
 # MVC Average Item Level
-model/itemLevel.lua
-view/itemLevel.lua
-controller/itemLevel.lua
+# model/itemLevel.lua
+# view/itemLevel.lua
+# controller/itemLevel.lua
 
 # MVC Tooltips
-model/tooltip.lua
-view/tooltip.lua
-controller/tooltip.lua
+# model/tooltip.lua
+# view/tooltip.lua
+# controller/tooltip.lua
