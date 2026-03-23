@@ -3,8 +3,9 @@
 
 ## Interface: 20505
 
-## Notes-enUS: Shows item level, quality borders and average item level on character and target frames. Show extra tooltip info.
-## Notes-esES: Muestra el nivel de objeto, la calidad del objeto en su borde y nivel de objeto promedio del personaje y del objetivo. Muestra información extra en el tooltip.
+## Notes-enUS: Shows item level, quality borders and durability information on character and target frames about inventory items.
+## Notes-esES: Muestra el nivel de objeto, bordes de calidad e información de durabilidad en los marcos de personaje y objetivo sobre los objetos del inventario.
+## Notes-ruRU: Показывает уровень предметов, рамки качества и информацию о прочности на фреймах персонажа и цели для предметов инвентаря.
 
 ## OptionalDeps: LibStub, LibEventBus-1.0, LibSharedVariables-1.0
 

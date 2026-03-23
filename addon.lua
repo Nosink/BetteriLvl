@@ -19,10 +19,6 @@ function ns.GetItemQualityColor(quality)
     return 1, 1, 1
 end
 
-local function initializeToolTipVars()
-    ns.tooltip = ns.tooltip or {}
-end
-
 local function initializeUnitTargetVars()
     ns.targets = ns.targets or {}
 end
@@ -36,8 +32,6 @@ local function initializeUnitVars(unit)
 end
 
 local function onPlayerEnteringWorld()
-
-    initializeToolTipVars()
     initializeUnitTargetVars()
     initializeUnitVars("player")
 
