@@ -7,7 +7,7 @@ local function isItemDataValid(itemData)
 end
 
 local function retrieveItemData(itemData)
-    return itemData.item:GetCurrentItemLevel(),  itemData.item:GetItemQuality()
+    return itemData.item:GetCurrentItemLevel(), itemData.item:GetItemQuality()
 end
 
 local function isItemBorderEnabled(unit)
@@ -41,4 +41,4 @@ local function displayUniSlotInfo(_, unit)
     end
 end
 
-BIBus:RegisterEvent(name .. "_SLOTS_READY", displayUniSlotInfo, MID_PRIORITY)
+BIBus:RegisterEvent(name .. "_SLOTS_READY", displayUniSlotInfo)

@@ -7,7 +7,7 @@
 ## Notes-esES: Muestra el nivel de objeto, la calidad del objeto en su borde y nivel de objeto promedio del personaje y del objetivo. Muestra información extra en el tooltip.
 
 ## Author: Nosink Ð
-## Version: 1.3.0
+## Version: 1.4.0
 ## SavedVariables: BetteriLvlDB
 
 # Libraries
@@ -15,19 +15,18 @@ libs/LibStub/LibStub.lua
 libs/LibEventBus-1.0/LibEventBus-1.0.lua 
 libs/LibSharedVariables-1.0/LibSharedVariables-1.0.lua
 
+libs/debug.lua
+libs/utils.lua
+
 # Addon - Core
 addon.lua
+database.lua
 
 # Module: Localization
 localization/localization.lua
 localization/enUS.lua
 localization/ruRU.lua
 localization/esES-esMX.lua
-# --------------------
-
-# Module: DataBase
-database/data.lua
-database/database.lua
 # --------------------
 
 # Module: Configuration
