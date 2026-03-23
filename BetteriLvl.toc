@@ -6,6 +6,8 @@
 ## Notes-enUS: Shows item level, quality borders and average item level on character and target frames. Show extra tooltip info.
 ## Notes-esES: Muestra el nivel de objeto, la calidad del objeto en su borde y nivel de objeto promedio del personaje y del objetivo. Muestra información extra en el tooltip.
 
+## OptionalDeps: LibStub, LibEventBus-1.0, LibSharedVariables-1.0
+
 ## Author: Nosink Ð
 ## Version: 1.4.0
 ## SavedVariables: BetteriLvlDB
