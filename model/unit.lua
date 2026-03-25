@@ -1,83 +1,68 @@
+local name, _ = ...
 
-local name, ns = ...
+local items = {}
 
-local function evaluateItemsCache(unit)
-    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        local itemData = ns[unit].items[slot]
-        if not itemData or not itemData.cached then return end
-    end
-    BIBus:TriggerEvent(name .. "_ITEMS_CACHED", unit)
-end
+local function cacheItem(unit, invSlotId)
+    local itemSlot = items[unit].slots[invSlotId]
 
-local function cacheItemSlot(slot, unit)
-    local itemSlot = ns[unit].items[slot]
-    itemSlot:Initialize()
+    itemSlot:ClearItem()
 
-    local itemID = GetInventoryItemID(unit, slot)
-    if not itemID or itemID == 0 then itemSlot:Clear() return end
-    if itemSlot.itemID == itemID and itemSlot.cached then return end
+    local itemId = GetInventoryItemID(unit, invSlotId)
+    if not itemId or itemId == 0 then return end
 
-    local item = Item:CreateFromItemID(itemID)
-    if not item then itemSlot:Clear() return end
+    if itemSlot.itemID == itemId and itemSlot.cached then return end
+
+    local item = Item:CreateFromItemID(itemId)
+    if not item then return end
 
     item:ContinueOnItemLoad(function()
         itemSlot:SetItem(item)
     end)
 end
 
-
-local function onPlayerEquipmentChanged(_, slot)
-    cacheItemSlot(slot, "player")
+local function evaluateItemsCache(unit)
+    for invSlotId = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
+        local itemData = items[unit].slots[invSlotId]
+        if not itemData or not itemData.cached then return end
+    end
+    BIBus:TriggerEvent(name .. "_ITEMS_CACHED", unit, items[unit].slots)
 end
 
-local function createUnitItems(unit)
-    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        local item = {}
-        item.Initialize = function(self)
-            self.item = nil
-            self.cached = false
+local function createItems(unit)
+    items[unit] = items[unit] or { slots = {} }
+
+    for invSlotId = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
+        if not items[unit].slots[invSlotId] then
+            local itemData = { item = nil, cached = false }
+            itemData.SetItem = function(self, item)
+                self.item = item
+                self.cached = true
+                evaluateItemsCache(unit)
+            end
+            itemData.ClearItem = function(self)
+                self.item = nil
+                self.cached = true
+                evaluateItemsCache(unit)
+            end
+            items[unit].slots[invSlotId] = itemData
         end
-        item.SetItem = function (self, item)
-            self.item = item
-            self.cached = true
-            evaluateItemsCache(unit)
-        end
-        item.Clear = function(self)
-            self.item = nil
-            self.cached = true
-            evaluateItemsCache(unit)
-        end
-        item:Initialize()
-        ns[unit].items[slot] = item
+        cacheItem(unit, invSlotId)
     end
 end
 
-local function cacheUnitItems(unit)
-    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        cacheItemSlot(slot, unit)
-    end
+local function onAddonLoaded(_)
+    createItems("player")
 end
 
-local function onInspectReady(_, _)
-    createUnitItems(ns.unit)
-    cacheUnitItems(ns.unit)
+local function onPlayerEquipmentChanged(_, equipmentSlot)
+    cacheItem("player", equipmentSlot)
 end
 
-local function onAddonLoaded()
-    createUnitItems("player")
-    cacheUnitItems("player")
+local function onInspectReady(_, unit)
+    createItems(unit)
 end
 
-local function onNotifyInspect(unit)
-    BIBus:TriggerEvent(name .. "_REQUEST_VARS", unit)
-end
-
-local function onTargetVarsReady(_, unit)
-    ns.unit = unit
-end
-
+BIBus:RegisterEvent(name .. "_PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
 BIBus:RegisterEvent(name .. "_ADDON_LOADED", onAddonLoaded)
-BIBus:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
-BIBus:RegisterEvent("INSPECT_READY", onInspectReady)
-BIBus:HookSecureFunc("NotifyInspect", onNotifyInspect)
-BIBus:RegisterEvent(name .. "_TARGET_VARS_READY", onTargetVarsReady)
+
+BIBus:RegisterEvent(name .. "_INSPECT_READY", onInspectReady)

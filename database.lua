@@ -3,6 +3,7 @@ local name, ns = ...
 ns.db = ns.db or {}
 
 local LibSharedVariables = LibStub("LibSharedVariables-1.0")
+if not LibSharedVariables then return end
 
 local defaults = {
     -- player
@@ -19,9 +20,7 @@ local defaults = {
     targetBorder = true,
 }
 
-local defaultsPC = {
-
-}
+local defaultsPC = {}
 
 local function handleOnLoadDatabase(db)
     ns.db = db

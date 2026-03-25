@@ -84,11 +84,34 @@ local function createDurabilityText(slot)
     slot:HideDurability()
 end
 
+local slotNames = {
+    [INVSLOT_AMMO] = "AmmoSlot",
+    [INVSLOT_HEAD] = "HeadSlot",
+    [INVSLOT_NECK] = "NeckSlot",
+    [INVSLOT_SHOULDER] = "ShoulderSlot",
+    [INVSLOT_BACK] = "BackSlot",
+    [INVSLOT_CHEST] = "ChestSlot",
+    [INVSLOT_BODY] = "ShirtSlot",
+    [INVSLOT_TABARD] = "TabardSlot",
+    [INVSLOT_WRIST] = "WristSlot",
+    [INVSLOT_HAND] = "HandsSlot",
+    [INVSLOT_WAIST] = "WaistSlot",
+    [INVSLOT_LEGS] = "LegsSlot",
+    [INVSLOT_FEET] = "FeetSlot",
+    [INVSLOT_FINGER1] = "Finger0Slot",
+    [INVSLOT_FINGER2] = "Finger1Slot",
+    [INVSLOT_TRINKET1] = "Trinket0Slot",
+    [INVSLOT_TRINKET2] = "Trinket1Slot",
+    [INVSLOT_MAINHAND] = "MainHandSlot",
+    [INVSLOT_OFFHAND] = "SecondaryHandSlot",
+    [INVSLOT_RANGED] = "RangedSlot",
+}
+
 local function createUntSlots(_, unit)
     local slots = ns[unit].slots
     local frameName = (unit == "player") and "Character" or "Inspect"
     for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        local inventorySlot = _G[frameName .. ns.data.slotNames[slot]]
+        local inventorySlot = _G[frameName .. slotNames[slot]]
         if inventorySlot then
             createBorder(inventorySlot)
             createItemLevelText(inventorySlot)
@@ -106,3 +129,58 @@ end
 
 BIBus:RegisterEvent(name .. "_ITEMS_CACHED", createUntSlots)
 BIBus:RegisterEvent(name .. "_SETTINGS_CHANGED", validateUnitSlots)
+
+
+
+local settings = ns.settings
+
+local function isItemDataValid(itemData)
+    return itemData and itemData.cached and itemData.item and itemData.item:IsItemDataCached()
+end
+
+local function retrieveItemData(itemData)
+    return itemData.item:GetCurrentItemLevel(), itemData.item:GetItemQuality()
+end
+
+local function isItemBorderEnabled(unit)
+    return not settings.IsUnitBorderDisabled(unit)
+end
+
+local function isItemLevelEnabled(unit, slot)
+    return not settings.IsItemLevelDisabled(unit) and slot ~= INVSLOT_AMMO
+end
+
+local function displayUniSlotInfo(_, unit)
+    if settings.IsUnitSlotInfoDisabled(unit) then return end
+
+    local slots = ns[unit].slots
+    local items = ns[unit].items
+
+    for slot = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
+        local inventorySlot = slots[slot]
+        local itemData = items[slot]
+        if inventorySlot and isItemDataValid(itemData) then
+            local itemLevel, itemQuality = retrieveItemData(itemData)
+
+            if isItemBorderEnabled(unit) then
+                inventorySlot:ShowBorder(itemQuality)
+            end
+
+            if isItemLevelEnabled(unit, slot) then
+                inventorySlot:ShowLabel(itemQuality, itemLevel)
+            end
+
+            if unit == "player" then
+                local current, maximum = GetInventoryItemDurability(slot)
+                local durabilityPercent = (current and maximum and maximum > 0) and math.floor((current / maximum) * 100)
+                if durabilityPercent then
+                    inventorySlot:ShowDurability(durabilityPercent)
+                else
+                    inventorySlot:HideDurability()
+                end
+            end
+        end
+    end
+end
+
+BIBus:RegisterEvent(name .. "_SLOTS_READY", displayUniSlotInfo)

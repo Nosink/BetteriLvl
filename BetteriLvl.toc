@@ -27,6 +27,7 @@ database.lua
 
 # Module: Localization
 localization/localization.lua
+# --------------------
 localization/enUS.lua
 localization/ruRU.lua
 localization/esES-esMX.lua
@@ -34,7 +35,9 @@ localization/esES-esMX.lua
 
 # Module: Configuration
 configuration/builder.lua
+configuration/frames/button.lua
 configuration/frames/checkbox.lua
+configuration/frames/dropDown.lua
 configuration/frames/editbox.lua
 configuration/frames/slider.lua
 # --------------------
@@ -43,10 +46,7 @@ configuration/commands.lua
 configuration/settings.lua
 # --------------------
 
-# Addon - Core
-data.lua
-
 # MVC Unit Inventory Slots
 model/unit.lua
-view/inventorySlot.lua
 controller/unit.lua
+view/itemLevel.lua
