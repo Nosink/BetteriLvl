@@ -1,7 +1,12 @@
 local name, ns = ...
 
-local function createFrontString(slot)
-    if slot.itemLevel then slot:HideLabel() return end
+local utils = ns.utils
+
+local function createItemLevelText(slot)
+    if slot.itemLevel then
+        slot:HideLabel()
+        return
+    end
 
     slot.itemLevel = slot:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
     slot.itemLevel:SetPoint("TOPLEFT", slot, "TOPLEFT", 1, -2)
@@ -10,7 +15,7 @@ local function createFrontString(slot)
 
     slot.ShowLabel = function(self, itemQuality, itemLevel)
         if not self.itemLevel then return end
-        local r, g, b = ns.GetItemQualityColor(itemQuality)
+        local r, g, b = utils.GetItemQualityColor(itemQuality)
         self.itemLevel:SetTextColor(r, g, b)
         self.itemLevel:SetText(itemLevel)
         self.itemLevel:Show()
@@ -25,7 +30,10 @@ local function createFrontString(slot)
 end
 
 local function createBorder(slot)
-    if slot.itemBorder then slot:HideBorder() return end
+    if slot.itemBorder then
+        slot:HideBorder()
+        return
+    end
 
     slot.itemBorder = slot:CreateTexture(nil, "OVERLAY")
     slot.itemBorder:SetPoint("TOPLEFT", slot, "TOPLEFT", -15, 15)
@@ -36,7 +44,7 @@ local function createBorder(slot)
 
     slot.ShowBorder = function(self, itemQuality)
         if not self.itemBorder then return end
-        local r, g, b = ns.GetItemQualityColor(itemQuality)
+        local r, g, b = utils.GetItemQualityColor(itemQuality)
         self.itemBorder:SetVertexColor(r, g, b)
         self.itemBorder:Show()
     end
@@ -49,6 +57,33 @@ local function createBorder(slot)
     slot:HideBorder()
 end
 
+local function createDurabilityText(slot)
+    if slot.durability then
+        slot:HideDurability()
+        return
+    end
+
+    slot.durability = slot:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
+    slot.durability:SetPoint("BOTTOMRIGHT", slot, "BOTTOMRIGHT", -1, 2)
+    slot.durability:SetShadowOffset(1, -1)
+    slot.durability:SetShadowColor(0, 0, 0, 1)
+
+    slot.ShowDurability = function(self, durabilityPercent)
+        if not self.durability then return end
+        local r, g = utils.GetDurabilityColor(durabilityPercent)
+        self.durability:SetTextColor(r, g, 0)
+        self.durability:SetText(durabilityPercent .. "%")
+        self.durability:Show()
+    end
+
+    slot.HideDurability = function(self)
+        if not self.durability then return end
+        self.durability:Hide()
+    end
+
+    slot:HideDurability()
+end
+
 local function createUntSlots(_, unit)
     local slots = ns[unit].slots
     local frameName = (unit == "player") and "Character" or "Inspect"
@@ -56,7 +91,8 @@ local function createUntSlots(_, unit)
         local inventorySlot = _G[frameName .. ns.data.slotNames[slot]]
         if inventorySlot then
             createBorder(inventorySlot)
-            createFrontString(inventorySlot)
+            createItemLevelText(inventorySlot)
+            createDurabilityText(inventorySlot)
             slots[slot] = inventorySlot
         end
     end

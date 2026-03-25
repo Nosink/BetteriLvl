@@ -1,7 +1,6 @@
 local name, ns = ...
 
 ns.db = ns.db or {}
-ns.dbHandle = ns.dbHandle or nil
 
 local LibSharedVariables = LibStub("LibSharedVariables-1.0")
 
@@ -9,6 +8,11 @@ local defaults = {
     -- player
     playerLevel = true,
     playerBorder = true,
+
+    -- durability
+    durability = true,
+    durabilityType = "BAR", -- "TEXT", "ICON", "BAR"
+    durabilityColor = true,
 
     -- target
     targetLevel = true,
@@ -18,7 +22,6 @@ local defaults = {
 local defaultsPC = {
 
 }
-
 
 local function handleOnLoadDatabase(db)
     ns.db = db
