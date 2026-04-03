@@ -5,10 +5,10 @@ if not LibEventBus then return end
 
 BIBus = LibEventBus:NewBus("BIBus", true)
 
-local function onAddonLoaded(addonName, _)
+local function onAddonLoaded(_, addonName)
     if addonName ~= name then return end
 
-    BIBus:TriggerEvent(name .. "_INITIALIZE_UNITS_REQUEST")
+    BIBus:TriggerEvent(name .. "_ADDON_LOADED")
 end
 
 BIBus:RegisterEvent("ADDON_LOADED", onAddonLoaded)

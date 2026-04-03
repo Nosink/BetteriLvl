@@ -61,9 +61,6 @@ local function onItemsCached(_, unit, slots)
     local frameName = (unit == "player") and "Character" or "Inspect"
     for invSlotId = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
         local slotFrame = _G[frameName .. slotNames[invSlotId]]
-        for k, v in pairs(slotFrame) do
-            print(k .. ": " .. tostring(v))
-        end
         createItemLevelText(slotFrame)
 
         local itemData = slots[invSlotId]
