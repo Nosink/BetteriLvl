@@ -1,10 +1,11 @@
 local name, ns = ...
 
-local pcall = pcall
-local geterrorhandler = geterrorhandler
+local _G = _G
 local type = type
+local pcall = pcall
 local tostring = tostring
 local setmetatable = setmetatable
+local geterrorhandler = geterrorhandler
 
 local function safeCall(fn, ...)
     local ok, err = pcall(fn, ...)

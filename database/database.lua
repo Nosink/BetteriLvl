@@ -1,11 +1,11 @@
 local name, ns = ...
 
 local _G = _G
+local type = type
 local next = next
 local rawget = rawget
 local rawset = rawset
 local setmetatable = setmetatable
-local type = type
 
 ns.database = {
     defaults = {},
