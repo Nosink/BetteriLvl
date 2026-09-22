@@ -1,6 +1,5 @@
 local _, ns = ...
 
-local debug = ns.debug
 local enums = ns.enums
 
 local moduleName = "CHARACTER_FRAME"
@@ -56,7 +55,7 @@ end
 local function loadEquipment(unit)
     items[unit] = items[unit] or { slots = {} }
 
-    for slotKey, _ in debug.pairs(enums.slotIdType) do
+    for slotKey, _ in pairs(enums.slotIdType) do
         local invSlotId = enums.slotIdType[slotKey]
         createItem(unit, invSlotId)
         cacheItem(unit, invSlotId)
@@ -72,7 +71,7 @@ local function onPlayerEquipmentChanged(_, equipmentSlot)
 end
 
 local function onPlayerDurabilityChanged()
-    for slotKey, _ in debug.pairs(enums.slotIdType) do
+    for slotKey, _ in pairs(enums.slotIdType) do
         local invSlotId = enums.slotIdType[slotKey]
         cacheItem("player", invSlotId)
     end

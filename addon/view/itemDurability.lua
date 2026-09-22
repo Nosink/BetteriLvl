@@ -1,7 +1,6 @@
 local name, ns = ...
 
 local utils = ns.utils
-local debug = ns.debug
 local enums = ns.enums
 local durabilityType = enums.durabilityType
 
@@ -105,7 +104,7 @@ local function onItemsCached(_, unit)
     if unit ~= "player" then return end
     if not isDurabilityEnabled() then return end
 
-    for slotId, slotName in debug.pairs(enums.slotNameType) do
+    for slotId, slotName in pairs(enums.slotNameType) do
         local frame = retrieveFrame(slotName)
         createDurability(frame)
         displayDurability(frame, slotId)

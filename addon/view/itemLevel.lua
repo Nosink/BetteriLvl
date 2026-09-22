@@ -1,7 +1,6 @@
 local name, ns = ...
 
 local utils = ns.utils
-local debug = ns.debug
 local enums = ns.enums
 
 
@@ -80,7 +79,7 @@ end
 
 local function onItemsCached(_, unit, slots)
     cachedSlots = slots or {}
-    for key, value in debug.pairs(enums.slotNameType) do
+    for key, value in pairs(enums.slotNameType) do
         if isItemLevelEnabled(unit) then
             local frame = retrieveFrame(unit, value)
             createItemLevelText(frame)

@@ -1,7 +1,6 @@
 local name, ns = ...
 
 local utils = ns.utils
-local debug = ns.debug
 local enums = ns.enums
 
 
@@ -84,7 +83,7 @@ end
 
 local function onItemsCached(_, unit, slots)
     cachedSlots = slots or {}
-    for slotId, slotName in debug.pairs(enums.slotNameType) do
+    for slotId, slotName in pairs(enums.slotNameType) do
         if isItemBorderenabled(unit) then
             local frame = retrieveFrame(unit, slotName)
             createBorderTexture(frame)
