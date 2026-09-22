@@ -3,13 +3,14 @@ local _, ns = ...
 ns.enums = ns.enums or {}
 
 function ns.Enum(t)
-    return setmetatable({}, {
-        __index = t,
+    local enum = {}
+    for key, value in pairs(t) do
+        enum[key] = value
+    end
+
+    return setmetatable(enum, {
         __newindex = function()
             error("enum is read-only")
-        end,
-        __pairs = function()
-            return pairs(t)
         end,
     })
 end
