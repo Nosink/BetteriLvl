@@ -6,7 +6,6 @@ function ns.builder.CreateSlider(self, text, key)
     slider:SetMinMaxValues(0, 1)
     slider:SetValueStep(0.01)
     slider:SetObeyStepOnDrag(true)
-    slider:SetValue(ns.db[key] or 0 --[[@as number]])
 
     local sText = _G[slider:GetName() .. "Text"]
     if sText then sText:SetText(text) end
@@ -17,7 +16,7 @@ function ns.builder.CreateSlider(self, text, key)
 
     local valueText = slider:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
     valueText:SetPoint("RIGHT", slider, "RIGHT", 40, 0)
-    valueText:SetText(string.format("%.2f", ns.db[key] or "0.00"))
+    valueText:SetText("0.00")
 
     local function updateValueLabel(v)
         valueText:SetText(string.format("%.2f", v or slider:GetValue()))

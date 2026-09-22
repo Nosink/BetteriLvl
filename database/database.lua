@@ -123,7 +123,7 @@ function ns.database.Load(callback)
 end
 
 local function evaluate(key, value)
-    if key == nil then return end
+    if value == nil then return end
 
     error("Duplicate key " .. tostring(key) .. " found in defaults.")
 end

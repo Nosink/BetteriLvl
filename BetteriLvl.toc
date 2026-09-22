@@ -12,16 +12,21 @@
 ## SavedVariables: BetteriLvlDB
 ## SavedVariablesPerCharacter: BetteriLvlPCDB
 
+# Utils
+utils/enum.lua
+utils/utils.lua
+
+# Addon - Data
+addon/data/slotIdType.lua
+addon/data/slotNameType.lua
+addon/data/durabilityType.lua
+
 # Database
 database/database.lua
 database/defaults.lua
 
 # Events
 event/bus.lua
-
-# Utils
-utils/enum.lua
-utils/utils.lua
 
 # Localization
 localization/localization.lua
@@ -43,11 +48,6 @@ addon/settings/panel.lua
 addon/settings/commands.lua
 addon/settings/settings.lua
 # --------------------
-
-# Addon - Data
-addon/data/slotIdType.lua
-addon/data/slotNameType.lua
-addon/data/durabilityType.lua
 
 # Addon - MVC
 addon/model/unit.lua

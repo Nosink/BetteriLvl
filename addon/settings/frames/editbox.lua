@@ -13,7 +13,6 @@ function ns.builder.CreateEditBox(self, text, key)
     editBox:SetAutoFocus(false)
     editBox:SetJustifyH("CENTER")
     editBox:SetSize(45, 22)
-    editBox:SetText(tostring(ns.db[key]) or "")
 
     editBox:SetScript("OnTextChanged", function(self, userInput)
         if not userInput then return end

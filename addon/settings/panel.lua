@@ -1,4 +1,4 @@
-local _, ns = ...
+local name, ns = ...
 local L = ns.L
 local durabilityType = ns.enums.durabilityType
 
@@ -31,6 +31,8 @@ local targetBorderCB = builder:CreateCheckBox(L["LKEY_OPTIONS_TARGET_BORDER"], "
 builder:Register()
 
 local function onShow()
+    if not ns.db then return end
+
     playerLevelCB:FetchFromDB()
     playerBorderCB:FetchFromDB()
     durabilityCB:FetchFromDB()
@@ -41,3 +43,4 @@ local function onShow()
 end
 
 ns.bus:HookScript(builder.optionsPanel, "OnShow", onShow)
+ns.bus:RegisterEvent(name .. "_VARIABLES_LOADED", onShow)

@@ -4,7 +4,6 @@ function ns.builder.CreateCheckBox(self, text, key, anchor, offset)
     local checkBox = CreateFrame("CheckButton", name .. "Options" .. key .. "CB", self.optionsPanel,
         "InterfaceOptionsCheckButtonTemplate")
     checkBox:SetPoint("TOPLEFT", anchor or self.anchor, "BOTTOMLEFT", offset or 0, 0)
-    checkBox:SetChecked(ns.db[key] or false --[[@as boolean?]])
 
     local cbText = _G[checkBox:GetName() .. "Text"]
     local font, _, flags = cbText:GetFont()

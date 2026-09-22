@@ -64,16 +64,12 @@ function ns.builder.CreateDropDown(self, text, key, values, default)
         end
     end)
 
-    local initial = ns.db[key]
-    if initial == nil then initial = default end
-    if initial ~= nil then
-        setSelection(initial, true)
-    elseif options[1] then
-        setSelection(options[1].value, true)
-    end
-
     dropDown.FetchFromDB = function(self)
         local v = ns.db[key]
+        if v == nil then v = default end
+        if v == nil and options[1] then
+            v = options[1].value
+        end
         if v ~= nil then
             setSelection(v, true)
         end
