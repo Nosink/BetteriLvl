@@ -40,4 +40,4 @@ local function onShow()
     targetBorderCB:FetchFromDB()
 end
 
-BIBus:HookScript(builder.optionsPanel, "OnShow", onShow)
+ns.bus:HookScript(builder.optionsPanel, "OnShow", onShow)

@@ -46,7 +46,7 @@ function ns.builder.CreateDropDown(self, text, key, values, default)
         UIDropDownMenu_SetText(dropDown, txt)
         if not silent then
             ns.db[key] = val
-            BIBus:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
+            ns.bus:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
         end
     end
 

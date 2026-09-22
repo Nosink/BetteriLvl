@@ -6,7 +6,7 @@ function ns.builder.CreateSlider(self, text, key)
     slider:SetMinMaxValues(0, 1)
     slider:SetValueStep(0.01)
     slider:SetObeyStepOnDrag(true)
-    slider:SetValue(ns.db[key] or 0)
+    slider:SetValue(ns.db[key] or 0 --[[@as number]])
 
     local sText = _G[slider:GetName() .. "Text"]
     if sText then sText:SetText(text) end
@@ -26,7 +26,7 @@ function ns.builder.CreateSlider(self, text, key)
     slider:SetScript("OnValueChanged", function(self, value)
         ns.db[key] = value
         updateValueLabel(value)
-        BIBus:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
+        ns.bus:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
     end)
 
     slider.FetchFromDB = function(self)
