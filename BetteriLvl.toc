@@ -3,12 +3,20 @@
 
 ## Interface: 20505
 
-## Notes-enUS: Shows item level, quality borders and durability information on character and target frames about inventory items.
-## Notes-esES: Muestra el nivel de objeto, bordes de calidad e información de durabilidad en los marcos de personaje y objetivo sobre los objetos del inventario.
-## Notes-ruRU: Показывает уровень предметов, рамки качества и информацию о прочности на фреймах персонажа и цели для предметов инвентаря.
+## Notes-enUS: Shows item level, quality borders and durability information on character and target frames about equipped items.
+## Notes-enGB: Shows item level, quality borders and durability information on character and target frames about equipped items.
+## Notes-esES: Muestra el nivel de objeto, bordes de calidad e información de durabilidad en los marcos de personaje y objetivo sobre los objetos de equipamiento.
+## Notes-ruRU: Показывает уровень предметов, цветные рамки качества и информацию о прочности на фреймах персонажа и цели для экипированных предметов.
+## Notes-deDE: Zeigt Gegenstandsstufen, Qualitätsrahmen und Haltbarkeitsinformationen an Charakter- und Zielfenstern für ausgerüstete Gegenstände.
+## Notes-frFR: Affiche le niveau des objets, les bordures de qualité et les informations de durabilité sur les cadres du personnage et de la cible pour les objets équipés.
+## Notes-itIT: Mostra il livello degli oggetti, i bordi della qualità e le informazioni sulla durabilità nei riquadri del personaggio e del bersaglio per gli oggetti equipaggiati.
+## Notes-ptBR: Exibe o nível dos itens, as bordas de qualidade e as informações de durabilidade nos quadros do personagem e do alvo para itens equipados.
+## Notes-koKR: 장착한 아이템의 아이템 레벨, 품질 테두리 및 내구도 정보를 캐릭터와 대상 프레임에 표시합니다.
+## Notes-zhCN: 在角色和目标框架上显示已装备物品的物品等级、品质边框和耐久度信息。
+## Notes-zhTW: 在角色和目標框架上顯示已裝備物品的物品等級、品質邊框和耐久度資訊。
 
 ## Author: Nosink Ð
-## Version: 1.4.0
+## Version: 1.5.0
 ## SavedVariables: BetteriLvlDB
 ## SavedVariablesPerCharacter: BetteriLvlPCDB
 
@@ -45,9 +53,16 @@ addon/data/durabilityType.lua
 addon/defaults.lua
 
 # Addon - Locales
-addon/locales/enUS.lua
+addon/locales/enUS-enGB.lua
 addon/locales/ruRU.lua
 addon/locales/esES-esMX.lua
+addon/locales/deDE.lua
+addon/locales/frFR.lua
+addon/locales/itIT.lua
+addon/locales/ptBR.lua
+addon/locales/koKR.lua
+addon/locales/zhCN.lua
+addon/locales/zhTW.lua
 
 # Addon - Settings
 addon/settings/panel.lua
