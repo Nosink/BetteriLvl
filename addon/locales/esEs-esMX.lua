@@ -5,7 +5,6 @@ if ns.locale == "esES" or ns.locale == "esMX" then
 	L["COMMAND_USE"] = "Usa"
 	L["COMMAND_OR"] = "o"
 	L["COMMAND_DESCRIPTION"] = "para abrir la configuración"
-	L["COMMAND_VERSION"] = "Versión"
 
 	L["OPTIONS_PLAYER_FRAME"] = "Panel de Personaje"
 	L["OPTIONS_PLAYER_ITEM_LEVEL"] = "Mostrar Nivel de Objeto"

@@ -6,7 +6,6 @@ if ns.locale == "ruRU" then
     L["COMMAND_USE"] = "Используйте"
     L["COMMAND_OR"] = "или"
     L["COMMAND_DESCRIPTION"] = "чтобы открыть настройки"
-    L["COMMAND_VERSION"] = "Версия"
 
     L["OPTIONS_PLAYER_FRAME"] = "Фрейм персонажа"
     L["OPTIONS_PLAYER_ITEM_LEVEL"] = "Показывать уровень предметов"

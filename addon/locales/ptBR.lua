@@ -5,7 +5,6 @@ if ns.locale == "ptBR" then
     L["COMMAND_USE"] = "Use"
     L["COMMAND_OR"] = "ou"
     L["COMMAND_DESCRIPTION"] = "para abrir as configurações"
-    L["COMMAND_VERSION"] = "Versão"
 
     L["OPTIONS_TITLE"] = "Better iLvl"
 
