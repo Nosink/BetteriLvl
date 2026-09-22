@@ -1,5 +1,6 @@
 local name, ns = ...
 local L = ns.L
+
 -- Translator ZamestoTV
 if ns.locale == "ruRU" then
     L["LKEY_OPTIONS_TITLE"] = name .. " " .. "Настройки"

@@ -27,9 +27,9 @@ utils/utils.lua
 # Localization
 localization/localization.lua
 # --------------------
-localization/enUS.lua
-localization/ruRU.lua
-localization/esES-esMX.lua
+localization/locales/enUS.lua
+localization/locales/ruRU.lua
+localization/locales/esES-esMX.lua
 # --------------------
 
 # Configuration
