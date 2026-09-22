@@ -2,7 +2,7 @@
 ## Title: BetteriLvl
 
 ## Interface: 20506
-## Category: User Interface
+## Category: Interface Enhancements
 
 ## Notes-enUS: Shows item level, quality borders and durability information on character and target frames about equipped items.
 ## Notes-enGB: Shows item level, quality borders and durability information on character and target frames about equipped items.
