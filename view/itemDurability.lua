@@ -1,9 +1,8 @@
-local _, ns = ...
+local name, ns = ...
 
 local utils = ns.utils
 local debug = ns.debug
 local enums = ns.enums
-
 
 local function isDurabilityTypeBar()
     return ns.db.durabilityType == "BAR"
@@ -112,4 +111,4 @@ local function onItemsCached(_, unit)
     end
 end
 
-bus:RegisterEvent(moduleName .. "_ITEMS_CACHED", onItemsCached)
+ns.bus:RegisterEvent(name .. "_ITEMS_CACHED", onItemsCached)

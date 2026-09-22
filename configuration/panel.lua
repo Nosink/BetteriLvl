@@ -19,7 +19,6 @@ local durabilityCB = builder:CreateCheckBox(L["LKEY_OPTIONS_DURABILITY_ENABLE"],
 local durabilityTypeDropdown = builder:CreateDropDown(L["LKEY_OPTIONS_DURABILITY_TYPE"], "durabilityType", {
     { value = "BAR",  text = L["LKEY_OPTIONS_DURABILITY_TYPE_BAR"] },
     { value = "TEXT", text = L["LKEY_OPTIONS_DURABILITY_TYPE_TEXT"] },
-    { value = "ICON", text = L["LKEY_OPTIONS_DURABILITY_TYPE_ICON"] },
 })
 local durabilityColorCB = builder:CreateCheckBox(L["LKEY_OPTIONS_DURABILITY_COLOR"], "durabilityColor")
 

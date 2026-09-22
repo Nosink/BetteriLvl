@@ -1,11 +1,9 @@
-local _, ns = ...
+local name, ns = ...
 
 local utils = ns.utils
 local debug = ns.debug
 local enums = ns.enums
 
-local moduleName = "CHARACTER_FRAME"
-local bus = ns.Module(moduleName):GetBus()
 
 local cachedSlots = {}
 
@@ -97,4 +95,4 @@ local function onItemsCached(_, unit, slots)
     evaluateAmmoSlot(unit)
 end
 
-bus:RegisterEvent(moduleName .. "_ITEMS_CACHED", onItemsCached)
+ns.bus:RegisterEvent(name .. "_ITEMS_CACHED", onItemsCached)
