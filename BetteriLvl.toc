@@ -1,7 +1,8 @@
 
 ## Title: BetteriLvl
 
-## Interface: 20505
+## Interface: 20506
+## Category: User Interface
 
 ## Notes-enUS: Shows item level, quality borders and durability information on character and target frames about equipped items.
 ## Notes-enGB: Shows item level, quality borders and durability information on character and target frames about equipped items.
@@ -17,11 +18,13 @@
 
 ## Author: Nosink Ð
 ## Version: 1.5.0
+## IconTexture: Interface\Icons\INV_Chest_Cloth_17
+
 ## SavedVariables: BetteriLvlDB
 ## SavedVariablesPerCharacter: BetteriLvlPCDB
 
-# Enums
-enums/enum.lua
+# Enum
+enum/enum.lua
 
 # Events
 event/bus.lua
@@ -54,13 +57,13 @@ addon/defaults.lua
 
 # Addon - Locales
 addon/locales/enUS-enGB.lua
-addon/locales/ruRU.lua
-addon/locales/esES-esMX.lua
 addon/locales/deDE.lua
+addon/locales/esES-esMX.lua
 addon/locales/frFR.lua
 addon/locales/itIT.lua
-addon/locales/ptBR.lua
 addon/locales/koKR.lua
+addon/locales/ptBR.lua
+addon/locales/ruRU.lua
 addon/locales/zhCN.lua
 addon/locales/zhTW.lua
 
@@ -69,11 +72,15 @@ addon/settings/panel.lua
 addon/settings/commands.lua
 
 # Addon - MVC
+# ---------------------
 addon/model/unit.lua
+# ---------------------
 addon/controller/unit.lua
+# ---------------------
 addon/view/itemLevel.lua
 addon/view/itemBorder.lua
 addon/view/itemDurability.lua
+# ---------------------
 
 # Addon - Core
 addon.lua
