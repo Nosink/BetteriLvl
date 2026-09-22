@@ -4,9 +4,10 @@
 ## Interface: 20506
 ## Category: Interface Enhancements
 
-## Notes-enUS: Shows item level, quality borders and durability information on character and target frames about equipped items.
+## Notes: Shows item level, quality borders and durability information on character and target frames about equipped items.
 ## Notes-enGB: Shows item level, quality borders and durability information on character and target frames about equipped items.
 ## Notes-esES: Muestra el nivel de objeto, bordes de calidad e información de durabilidad en los marcos de personaje y objetivo sobre los objetos de equipamiento.
+## Notes-esMX: Muestra el nivel de objeto, bordes de calidad e información de durabilidad en los marcos de personaje y objetivo sobre los objetos de equipamiento.
 ## Notes-ruRU: Показывает уровень предметов, цветные рамки качества и информацию о прочности на фреймах персонажа и цели для экипированных предметов.
 ## Notes-deDE: Zeigt Gegenstandsstufen, Qualitätsrahmen und Haltbarkeitsinformationen an Charakter- und Zielfenstern für ausgerüstete Gegenstände.
 ## Notes-frFR: Affiche le niveau des objets, les bordures de qualité et les informations de durabilité sur les cadres du personnage et de la cible pour les objets équipés.
