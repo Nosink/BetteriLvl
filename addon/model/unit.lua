@@ -4,6 +4,22 @@ local enums = ns.enums
 
 local items = {}
 
+local function getItemQualityColor(quality)
+    local q = tonumber(quality) or 0
+
+    if C_Item and C_Item.GetItemQualityColor then
+        local r, g, b = C_Item.GetItemQualityColor(q)
+        if type(r) == "table" then
+            return r.r, r.g, r.b
+        end
+        if type(r) == "number" then
+            return r, g, b
+        end
+    end
+
+    return 1, 1, 1
+end
+
 local function cacheItem(unit, invSlotId)
     items[unit] = items[unit] or { slots = {} }
     local itemSlot = items[unit].slots[invSlotId]
@@ -38,6 +54,8 @@ local function createItem(unit, invSlotId)
     local itemData = { item = nil, cached = false }
     itemData.SetItem = function(self, item)
         self.item = item
+        self.itemQuality = item:GetItemQuality(self)
+        self.itemQualityColor = { getItemQualityColor(self.itemQuality) }
         self.cached = true
         evaluateItemsCache(unit)
     end

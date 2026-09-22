@@ -12,22 +12,6 @@ local function isItemBorderenabled(unit)
     end
 end
 
-function GetItemQualityColor(quality)
-    local q = tonumber(quality) or 0
-
-    if C_Item and C_Item.GetItemQualityColor then
-        local r, g, b = C_Item.GetItemQualityColor(q)
-        if type(r) == "table" then
-            return r.r, r.g, r.b
-        end
-        if type(r) == "number" then
-            return r, g, b
-        end
-    end
-
-    return 1, 1, 1
-end
-
 local function createBorderTexture(frame)
     if not frame or frame.border then return end
 
@@ -40,7 +24,7 @@ local function createBorderTexture(frame)
 
     frame.ShowBorder = function(self, itemQuality)
         if not self.border then return end
-        local r, g, b = GetItemQualityColor(itemQuality)
+        local r, g, b = itemQuality[1], itemQuality[2], itemQuality[3]
         self.border:SetVertexColor(r, g, b)
         self.border:Show()
     end
@@ -63,17 +47,12 @@ local function isItemValid(invSlotId)
     return itemData and itemData.item
 end
 
-local function getItemQuality(invSlotId)
-    local itemData = cachedSlots[invSlotId]
-    return itemData.item:GetItemQuality(itemData)
-end
-
 local function displayItemBorder(frame, slotId)
     if not frame then return end
     local invSlotId = enums.slotIdType[slotId]
     if isItemValid(invSlotId) then
-        local itemQuality = getItemQuality(invSlotId)
-        frame:ShowBorder(itemQuality)
+        local itemData = cachedSlots[invSlotId]
+        frame:ShowBorder(itemData.itemQualityColor)
     else
         frame:HideBorder()
     end

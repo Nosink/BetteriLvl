@@ -12,22 +12,6 @@ local function isItemLevelEnabled(unit)
     end
 end
 
-function GetItemQualityColor(quality)
-    local q = tonumber(quality) or 0
-
-    if C_Item and C_Item.GetItemQualityColor then
-        local r, g, b = C_Item.GetItemQualityColor(q)
-        if type(r) == "table" then
-            return r.r, r.g, r.b
-        end
-        if type(r) == "number" then
-            return r, g, b
-        end
-    end
-
-    return 1, 1, 1
-end
-
 local function createItemLevelText(frame)
     if not frame or frame.itemLevel then return end
 
@@ -36,9 +20,9 @@ local function createItemLevelText(frame)
     frame.itemLevel:SetShadowOffset(1, -1)
     frame.itemLevel:SetShadowColor(0, 0, 0, 1)
 
-    frame.ShowItemLabel = function(self, itemQuality, itemLevel)
+    frame.ShowItemLabel = function(self, itemQualityColor, itemLevel)
         if not self.itemLevel then return end
-        local r, g, b = GetItemQualityColor(itemQuality)
+        local r, g, b = itemQualityColor[1], itemQualityColor[2], itemQualityColor[3]
         self.itemLevel:SetTextColor(r, g, b)
         self.itemLevel:SetText(itemLevel)
         self.itemLevel:Show()
@@ -55,7 +39,7 @@ end
 
 
 local function retrieveItemData(itemData)
-    return itemData.item:GetCurrentItemLevel(), itemData.item:GetItemQuality()
+    return itemData.item:GetCurrentItemLevel(), itemData.itemQualityColor
 end
 
 local function retrieveFrame(unit, slotName)
