@@ -1,21 +1,21 @@
 local name, ns = ...
 local L = ns.L
 
-L["LKEY_OPTIONS_TITLE"] = "Better iLvl"
+L["OPTIONS_TITLE"] = "Better iLvl"
 
-L["LKEY_OPTIONS_PLAYER_FRAME"] = "Character Frame"
-L["LKEY_OPTIONS_PLAYER_ITEM_LEVEL"] = "Show Item Level"
-L["LKEY_OPTIONS_PLAYER_BORDER"] = "Show Border"
+L["OPTIONS_PLAYER_FRAME"] = "Character Frame"
+L["OPTIONS_PLAYER_ITEM_LEVEL"] = "Show Item Level"
+L["OPTIONS_PLAYER_BORDER"] = "Show Border"
 
-L["LKEY_OPTIONS_DURABILITY"] = "Durability"
-L["LKEY_OPTIONS_DURABILITY_ENABLE"] = "Enable Durability Display"
-L["LKEY_OPTIONS_DURABILITY_TYPE"] = "Durability Display Type"
+L["OPTIONS_DURABILITY"] = "Durability"
+L["OPTIONS_DURABILITY_ENABLE"] = "Enable Durability Display"
+L["OPTIONS_DURABILITY_TYPE"] = "Durability Display Type"
 
-L["LKEY_OPTIONS_DURABILITY_TYPE_BAR"] = "Bar"
-L["LKEY_OPTIONS_DURABILITY_TYPE_TEXT"] = "Text"
+L["OPTIONS_DURABILITY_TYPE_BAR"] = "Bar"
+L["OPTIONS_DURABILITY_TYPE_TEXT"] = "Text"
 
-L["LKEY_OPTIONS_DURABILITY_COLOR"] = "Display Colored Durability"
+L["OPTIONS_DURABILITY_COLOR"] = "Display Colored Durability"
 
-L["LKEY_OPTIONS_TARGET_FRAME"] = "Target Frame"
-L["LKEY_OPTIONS_TARGET_ITEM_LEVEL"] = "Show Item Level"
-L["LKEY_OPTIONS_TARGET_BORDER"] = "Show Border"
+L["OPTIONS_TARGET_FRAME"] = "Target Frame"
+L["OPTIONS_TARGET_ITEM_LEVEL"] = "Show Item Level"
+L["OPTIONS_TARGET_BORDER"] = "Show Border"

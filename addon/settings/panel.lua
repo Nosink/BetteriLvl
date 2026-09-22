@@ -8,24 +8,24 @@ local builder = ns.builder
 builder:CreateOptionsPanel()
 
 -- Title
-builder:CreateTitle(L["LKEY_OPTIONS_TITLE"])
+builder:CreateTitle(L["OPTIONS_TITLE"])
 
 -- Options
-builder:CreateSection(L["LKEY_OPTIONS_PLAYER_FRAME"])
-local playerLevelCB = builder:CreateCheckBox(L["LKEY_OPTIONS_PLAYER_ITEM_LEVEL"], "itemLevel")
-local playerBorderCB = builder:CreateCheckBox(L["LKEY_OPTIONS_PLAYER_BORDER"], "borderColor")
+builder:CreateSection(L["OPTIONS_PLAYER_FRAME"])
+local playerLevelCB = builder:CreateCheckBox(L["OPTIONS_PLAYER_ITEM_LEVEL"], "itemLevel")
+local playerBorderCB = builder:CreateCheckBox(L["OPTIONS_PLAYER_BORDER"], "borderColor")
 
-builder:CreateSection(L["LKEY_OPTIONS_DURABILITY"])
-local durabilityCB = builder:CreateCheckBox(L["LKEY_OPTIONS_DURABILITY_ENABLE"], "durability")
-local durabilityTypeDropdown = builder:CreateDropDown(L["LKEY_OPTIONS_DURABILITY_TYPE"], "durabilityType", {
-    { value = durabilityType.Bars, text = L["LKEY_OPTIONS_DURABILITY_TYPE_BAR"] },
-    { value = durabilityType.Text, text = L["LKEY_OPTIONS_DURABILITY_TYPE_TEXT"] },
+builder:CreateSection(L["OPTIONS_DURABILITY"])
+local durabilityCB = builder:CreateCheckBox(L["OPTIONS_DURABILITY_ENABLE"], "durability")
+local durabilityTypeDropdown = builder:CreateDropDown(L["OPTIONS_DURABILITY_TYPE"], "durabilityType", {
+    { value = durabilityType.Bars, text = L["OPTIONS_DURABILITY_TYPE_BAR"] },
+    { value = durabilityType.Text, text = L["OPTIONS_DURABILITY_TYPE_TEXT"] },
 })
-local durabilityColorCB = builder:CreateCheckBox(L["LKEY_OPTIONS_DURABILITY_COLOR"], "durabilityColor")
+local durabilityColorCB = builder:CreateCheckBox(L["OPTIONS_DURABILITY_COLOR"], "durabilityColor")
 
-builder:CreateSection(L["LKEY_OPTIONS_TARGET_FRAME"])
-local targetLevelCB = builder:CreateCheckBox(L["LKEY_OPTIONS_TARGET_ITEM_LEVEL"], "targetItemLevel")
-local targetBorderCB = builder:CreateCheckBox(L["LKEY_OPTIONS_TARGET_BORDER"], "targetBorderColor")
+builder:CreateSection(L["OPTIONS_TARGET_FRAME"])
+local targetLevelCB = builder:CreateCheckBox(L["OPTIONS_TARGET_ITEM_LEVEL"], "targetItemLevel")
+local targetBorderCB = builder:CreateCheckBox(L["OPTIONS_TARGET_BORDER"], "targetBorderColor")
 
 -- Register
 builder:Register()
