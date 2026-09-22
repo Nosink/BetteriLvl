@@ -2,6 +2,10 @@ local _, ns = ...
 local L = ns.L
 
 if ns.locale == "deDE" then
+    L["COMMAND_USE"] = "Verwende"
+    L["COMMAND_OR"] = "oder"
+    L["COMMAND_DESCRIPTION"] = "um die Einstellungen zu öffnen"
+
     L["OPTIONS_TITLE"] = "Better iLvl"
 
     L["OPTIONS_PLAYER_FRAME"] = "Charakterfenster"

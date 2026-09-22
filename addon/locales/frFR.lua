@@ -2,6 +2,10 @@ local _, ns = ...
 local L = ns.L
 
 if ns.locale == "frFR" then
+    L["COMMAND_USE"] = "Utilisez"
+    L["COMMAND_OR"] = "ou"
+    L["COMMAND_DESCRIPTION"] = "pour ouvrir les paramètres"
+
     L["OPTIONS_TITLE"] = "Better iLvl"
 
     L["OPTIONS_PLAYER_FRAME"] = "Cadre du personnage"

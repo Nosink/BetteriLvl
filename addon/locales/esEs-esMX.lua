@@ -2,6 +2,10 @@ local name, ns = ...
 local L = ns.L
 
 if ns.locale == "esES" or ns.locale == "esMX" then
+	L["COMMAND_USE"] = "Usa"
+	L["COMMAND_OR"] = "o"
+	L["COMMAND_DESCRIPTION"] = "para abrir la configuración"
+
 	L["OPTIONS_PLAYER_FRAME"] = "Panel de Personaje"
 	L["OPTIONS_PLAYER_ITEM_LEVEL"] = "Mostrar Nivel de Objeto"
 	L["OPTIONS_PLAYER_BORDER"] = "Mostrar Borde de Objeto"

@@ -2,6 +2,10 @@ local _, ns = ...
 local L = ns.L
 
 if ns.locale == "itIT" then
+    L["COMMAND_USE"] = "Usa"
+    L["COMMAND_OR"] = "oppure"
+    L["COMMAND_DESCRIPTION"] = "per aprire le impostazioni"
+
     L["OPTIONS_TITLE"] = "Better iLvl"
 
     L["OPTIONS_PLAYER_FRAME"] = "Riquadro del personaggio"

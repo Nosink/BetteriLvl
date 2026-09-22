@@ -1,6 +1,10 @@
 local name, ns = ...
 local L = ns.L
 
+L["COMMAND_USE"] = "Use"
+L["COMMAND_OR"] = "or"
+L["COMMAND_DESCRIPTION"] = "to open the settings"
+
 L["OPTIONS_TITLE"] = "Better iLvl"
 
 L["OPTIONS_PLAYER_FRAME"] = "Character Frame"

@@ -2,6 +2,10 @@ local _, ns = ...
 local L = ns.L
 
 if ns.locale == "koKR" then
+    L["COMMAND_USE"] = "사용"
+    L["COMMAND_OR"] = "또는"
+    L["COMMAND_DESCRIPTION"] = "설정을 엽니다"
+
     L["OPTIONS_TITLE"] = "Better iLvl"
 
     L["OPTIONS_PLAYER_FRAME"] = "캐릭터 프레임"

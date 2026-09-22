@@ -1,4 +1,5 @@
 local name, ns = ...
+local L = ns.L
 
 SLASH_BETTERILVL1 = "/betterilvl"
 SLASH_BETTERILVL2 = "/bilvl"
@@ -15,7 +16,7 @@ SlashCmdList.BETTERILVL = function(message)
     if (message == "" or message == "config" or message == "options" or message == "settings") then
         return openSettings()
     else
-        print("|cffffd200" .. name .. ":|r Unknown Command:", message)
-        print("|cffffd200" .. name .. ":|r Use |cff00ff00/betterilvl|r or |cff00ff00/bilvl|r to open the settings.")
+        print(string.format("|c%s%s|r %s |cff00ff00/betterilvl|r %s |cff00ff00/bilvl|r %s.",
+            "ffffd200", name, L["COMMAND_USE"], L["COMMAND_OR"], L["COMMAND_DESCRIPTION"]))
     end
 end
