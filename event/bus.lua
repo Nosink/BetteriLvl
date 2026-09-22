@@ -251,7 +251,7 @@ function ns.HookSecureFunc(frame, funcName, handler)
     if hookedFuncs[key] then return end
     hookedFuncs[key] = true
 
-    hooksecurefunc(frame, funcName, function(...)
+    hooksecurefunc(frame, funcName --[[@as string]], function(...)
         safeCall(handler, ...)
     end)
 end

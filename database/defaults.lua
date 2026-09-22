@@ -21,8 +21,6 @@ function ns.RegisterDefaults(account, perChar)
     registerOn(ns.defaultsPC, perChar)
 end
 
-local _, ns = ...
-
 local enums = ns.enums
 local durabilityType = enums.durabilityType
 
