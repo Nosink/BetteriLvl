@@ -46,11 +46,11 @@ configuration/settings.lua
 # --------------------
 
 # Addon - MVC
-model/unit.lua
-controller/unit.lua
-view/itemLevel.lua
-view/itemBorder.lua
-view/itemDurability.lua
+addon/model/unit.lua
+addon/controller/unit.lua
+addon/view/itemLevel.lua
+addon/view/itemBorder.lua
+addon/view/itemDurability.lua
 
 # Addon - Core
 addon.lua
