@@ -1,4 +1,5 @@
 local _, ns = ...
+local durabilityType = ns.enums.durabilityType
 
 local defaults = {
     enabled = true,
@@ -9,7 +10,7 @@ local defaults = {
 
     -- durability
     durability = true,
-    durabilityType = "BAR",
+    durabilityType = durabilityType.Bars,
     durabilityColor = true,
 
     -- target
@@ -20,5 +21,4 @@ local defaults = {
 local defaultsPC = {
 }
 
-ns.database.Register(ns.defaults, defaults)
-ns.database.Register(ns.defaultsPC, defaultsPC)
+ns.database.Register(defaults, defaultsPC)

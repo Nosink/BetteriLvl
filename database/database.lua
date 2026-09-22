@@ -7,127 +7,137 @@ local rawset = rawset
 local setmetatable = setmetatable
 local type = type
 
-local proto = {}
+ns.database = {
+    defaults = {},
+    defaultsPC = {},
+}
 
-function proto:__index(key)
-    local s = rawget(self, "_state")
+local prototype = {
+    __index = function(self, key)
+        local state = rawget(self, "_state")
 
-    local v = rawget(s.charDB, key)
-    if v ~= nil then return v end
+        local v = rawget(state.charDB, key)
+        if v ~= nil then return v end
 
-    v = rawget(s.accountDB, key)
-    if v ~= nil then
-        return v
-    end
-
-    v = s.defaultsPC and rawget(s.defaultsPC, key)
-    if v ~= nil then
-        return v
-    end
-
-    v = s.defaults and rawget(s.defaults, key)
-    if v ~= nil then
-        return v
-    end
-end
-
-function proto:__newindex(key, value)
-    local s = rawget(self, "_state")
-
-    if s.defaultsPC and rawget(s.defaultsPC, key) ~= nil then
-        rawset(s.charDB, key, value)
-        return
-    end
-
-    if s.defaults and rawget(s.defaults, key) ~= nil then
-        rawset(s.accountDB, key, value)
-        return
-    end
-
-    if rawget(s.charDB, key) ~= nil then
-        rawset(s.charDB, key, value)
-        return
-    end
-
-    if rawget(s.accountDB, key) ~= nil then
-        rawset(s.accountDB, key, value)
-        return
-    end
-
-    rawset(s.charDB, key, value)
-end
-
-function proto:__pairs()
-    local s = rawget(self, "_state")
-
-    local layers = {}
-    layers[#layers + 1] = s.charDB
-    layers[#layers + 1] = s.accountDB
-    if s.defaultsPC then layers[#layers + 1] = s.defaultsPC end
-    if s.defaults then layers[#layers + 1] = s.defaults end
-
-    local seen, i, key = {}, 1, nil
-
-    local function iterator()
-        while i <= #layers do
-            local layer = layers[i]
-            key = next(layer, key)
-            while key ~= nil and seen[key] do
-                key = next(layer, key)
-            end
-            if key ~= nil then
-                seen[key] = true
-                return key, self[key]
-            end
-            i, key = i + 1, nil
+        v = rawget(state.accountDB, key)
+        if v ~= nil then
+            return v
         end
-    end
 
-    return iterator, self, nil
-end
+        v = state.defaultsPC and rawget(state.defaultsPC, key)
+        if v ~= nil then
+            return v
+        end
 
-local function ensureDB(globalName)
-    local t = rawget(_G, globalName)
+        v = state.defaults and rawget(state.defaults, key)
+        if v ~= nil then
+            return v
+        end
+    end,
+
+    __newindex = function(self, key, value)
+        local state = rawget(self, "_state")
+
+        if state.defaultsPC and rawget(state.defaultsPC, key) ~= nil then
+            rawset(state.charDB, key, value)
+            return
+        end
+
+        if state.defaults and rawget(state.defaults, key) ~= nil then
+            rawset(state.accountDB, key, value)
+            return
+        end
+
+        if rawget(state.charDB, key) ~= nil then
+            rawset(state.charDB, key, value)
+            return
+        end
+
+        if rawget(state.accountDB, key) ~= nil then
+            rawset(state.accountDB, key, value)
+            return
+        end
+
+        rawset(state.charDB, key, value)
+    end,
+
+    __pairs = function(self)
+        local state = rawget(self, "_state")
+
+        local layers = {}
+        layers[#layers + 1] = state.charDB
+        layers[#layers + 1] = state.accountDB
+        if state.defaultsPC then layers[#layers + 1] = state.defaultsPC end
+        if state.defaults then layers[#layers + 1] = state.defaults end
+
+        local seen, i, key = {}, 1, nil
+
+        local function iterator()
+            while i <= #layers do
+                local layer = layers[i]
+                key = next(layer, key)
+                while key ~= nil and seen[key] do
+                    key = next(layer, key)
+                end
+                if key ~= nil then
+                    seen[key] = true
+                    return key, self[key]
+                end
+                i, key = i + 1, nil
+            end
+        end
+
+        return iterator, self, nil
+    end,
+}
+
+local function ensureDB(databaseName)
+    local t = rawget(_G, databaseName)
     if type(t) == "table" then return t end
 
     t = {}
-    _G[globalName] = t
+    _G[databaseName] = t
     return t
 end
 
-local function validateOnLoad(onLoad)
-    assert(onLoad == nil or type(onLoad) == "function", "onLoad must be a function or nil")
+local function isFunction(callback)
+    return type(callback) == "function"
+end
+local function validateCallback(callback)
+    assert(callback == nil or isFunction(callback), "onLoad must be a function or nil")
 end
 
-ns.database = {}
-ns.defaults = ns.defaults or {}
-ns.defaultsPC = ns.defaultsPC or {}
-
-function ns.database.Evaluate(key, value)
-    if value ~= nil then
-        error("Duplicate key " .. tostring(key) .. " found in defaults.")
-    end
-end
-
-function ns.database.Register(target, source)
-    if not source then return end
-    for key, value in pairs(source) do
-        ns.database.Evaluate(key, target[key])
-        target[key] = value
-    end
-end
-
-function ns.database.Load(defaults, defaultsPC, onLoad)
-    validateOnLoad(onLoad)
+function ns.database.Load(callback)
+    validateCallback(callback)
 
     ns.db = setmetatable({
         _state = {
             charDB     = ensureDB(name .. "PCDB"),
             accountDB  = ensureDB(name .. "DB"),
-            defaults   = defaults,
-            defaultsPC = defaultsPC,
+            defaults   = ns.database.defaults,
+            defaultsPC = ns.database.defaultsPC,
         }
-    }, proto)
+    }, prototype)
 
-    if onLoad then onLoad() end
+    if isFunction(callback) then callback() end
+end
+
+local function evaluate(key, value)
+    if key == nil then return end
+
+    error("Duplicate key " .. tostring(key) .. " found in defaults.")
+end
+
+local function register(target, source)
+    if not source then return end
+
+    for key, value in pairs(source) do
+        evaluate(key, target[key])
+        target[key] = value
+    end
+end
+
+function ns.database.Register(defaults, defaultsPC)
+    register(ns.database.defaults, defaults)
+    register(ns.database.defaultsPC, defaultsPC)
 end

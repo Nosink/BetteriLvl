@@ -3,9 +3,10 @@ local name, ns = ...
 local utils = ns.utils
 local debug = ns.debug
 local enums = ns.enums
+local durabilityType = enums.durabilityType
 
 local function isDurabilityTypeBar()
-    return ns.db.durabilityType == "BAR"
+    return ns.db.durabilityType == durabilityType.Bars
 end
 
 local function getDurabilityColor(durabilityPercent)

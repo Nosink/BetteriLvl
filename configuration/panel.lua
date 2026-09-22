@@ -1,5 +1,6 @@
 local _, ns = ...
 local L = ns.L
+local durabilityType = ns.enums.durabilityType
 
 local builder = ns.builder
 
@@ -17,8 +18,8 @@ local playerBorderCB = builder:CreateCheckBox(L["LKEY_OPTIONS_PLAYER_BORDER"], "
 builder:CreateSection(L["LKEY_OPTIONS_DURABILITY"])
 local durabilityCB = builder:CreateCheckBox(L["LKEY_OPTIONS_DURABILITY_ENABLE"], "durability")
 local durabilityTypeDropdown = builder:CreateDropDown(L["LKEY_OPTIONS_DURABILITY_TYPE"], "durabilityType", {
-    { value = "BAR",  text = L["LKEY_OPTIONS_DURABILITY_TYPE_BAR"] },
-    { value = "TEXT", text = L["LKEY_OPTIONS_DURABILITY_TYPE_TEXT"] },
+    { value = durabilityType.Bars, text = L["LKEY_OPTIONS_DURABILITY_TYPE_BAR"] },
+    { value = durabilityType.Text, text = L["LKEY_OPTIONS_DURABILITY_TYPE_TEXT"] },
 })
 local durabilityColorCB = builder:CreateCheckBox(L["LKEY_OPTIONS_DURABILITY_COLOR"], "durabilityColor")
 

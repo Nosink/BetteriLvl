@@ -12,6 +12,11 @@ ns.RegisterEnum("FRAME_STRATA", {
     TOOLTIP = " TOOLTIP",
 })
 
+ns.RegisterEnum("durabilityType", {
+    Bars = "BAR",
+    Text = "TEXT",
+})
+
 ns.RegisterEnum("slotIdType", {
     INVSLOT_HEAD = INVSLOT_HEAD,
     INVSLOT_NECK = INVSLOT_NECK,

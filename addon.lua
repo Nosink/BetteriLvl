@@ -6,12 +6,12 @@ local function onAddonLoaded(_, addonName)
     ns.bus:TriggerEvent(name .. "_ADDON_LOADED")
 end
 
-local function handleOnLoad()
+local function onLoad()
     ns.bus:TriggerEvent(name .. "_VARIABLES_LOADED")
 end
 
 local function onVariablesLoaded()
-    ns.database.Load(ns.defaults, ns.defaultsPC, handleOnLoad)
+    ns.database.Load(onLoad)
 end
 
 ns.bus:RegisterEvent("ADDON_LOADED", onAddonLoaded)
