@@ -16,38 +16,43 @@
 utils/enum.lua
 utils/utils.lua
 
+# Events
+event/bus.lua
+
+# Database
+database/database.lua
+
+# Localization
+localization/localization.lua
+
+# Settings
+settings/builder.lua
+settings/frames/button.lua
+settings/frames/checkbox.lua
+settings/frames/dropDown.lua
+settings/frames/editbox.lua
+settings/frames/slider.lua
+
+# //////////////////////////////
+#            ADDON
+# //////////////////////////////
+
 # Addon - Data
 addon/data/slotIdType.lua
 addon/data/slotNameType.lua
 addon/data/durabilityType.lua
 
-# Database
-database/database.lua
-database/defaults.lua
+# Addon - Database
+addon/defaults.lua
 
-# Events
-event/bus.lua
-
-# Localization
-localization/localization.lua
-# --------------------
-localization/locales/enUS.lua
-localization/locales/ruRU.lua
-localization/locales/esES-esMX.lua
-# --------------------
+# Addon - Locales
+addon/locales/enUS.lua
+addon/locales/ruRU.lua
+addon/locales/esES-esMX.lua
 
 # Addon - Settings
-addon/settings/builder.lua
-addon/settings/frames/button.lua
-addon/settings/frames/checkbox.lua
-addon/settings/frames/dropDown.lua
-addon/settings/frames/editbox.lua
-addon/settings/frames/slider.lua
-# --------------------
 addon/settings/panel.lua
 addon/settings/commands.lua
-addon/settings/settings.lua
-# --------------------
 
 # Addon - MVC
 addon/model/unit.lua
