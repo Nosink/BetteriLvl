@@ -3,7 +3,6 @@ local name, ns = ...
 local utils = ns.utils
 local enums = ns.enums
 
-
 local cachedSlots = {}
 
 local function isItemLevelEnabled(unit)

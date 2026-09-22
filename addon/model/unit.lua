@@ -1,9 +1,6 @@
-local _, ns = ...
+local name, ns = ...
 
 local enums = ns.enums
-
-local moduleName = "CHARACTER_FRAME"
-local bus = ns.Module(moduleName):GetBus()
 
 local items = {}
 
@@ -32,7 +29,7 @@ local function evaluateItemsCache(unit)
         local itemData = items[unit].slots[invSlotId]
         if not itemData or not itemData.cached then return end
     end
-    bus:TriggerEvent(moduleName .. "_ITEMS_CACHED", unit, items[unit].slots)
+    ns.bus:TriggerEvent(name .. "_ITEMS_CACHED", unit, items[unit].slots)
 end
 
 local function createItem(unit, invSlotId)
@@ -81,8 +78,8 @@ local function onInspectReady(_, unit)
     loadEquipment(unit)
 end
 
-bus:RegisterEvent(moduleName .. "_VARIABLES_LOADED", onVariablesLoaded)
-bus:RegisterEvent(moduleName .. "_PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
-bus:RegisterEvent(moduleName .. "_UPDATE_INVENTORY_DURABILITY", onPlayerDurabilityChanged)
+ns.bus:RegisterEvent(name .. "_VARIABLES_LOADED", onVariablesLoaded)
+ns.bus:RegisterEvent(name .. "_PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
+ns.bus:RegisterEvent(name .. "_UPDATE_INVENTORY_DURABILITY", onPlayerDurabilityChanged)
 
-bus:RegisterEvent(moduleName .. "_INSPECT_READY", onInspectReady)
+ns.bus:RegisterEvent(name .. "_INSPECT_READY", onInspectReady)

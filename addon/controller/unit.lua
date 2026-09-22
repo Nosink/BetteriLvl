@@ -1,6 +1,5 @@
 local name, ns = ...
 
-
 local unitId = nil
 
 local function onNotifyInspect(unit)
