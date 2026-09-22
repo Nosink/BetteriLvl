@@ -2,10 +2,40 @@ local name, ns = ...
 
 ns.builder = ns.builder or {}
 
+local sectionPrototype = {}
+sectionPrototype.__index = sectionPrototype
+
+function sectionPrototype:AddControl(control)
+    self.controls[#self.controls + 1] = control
+    return control
+end
+
+function sectionPrototype:AddCheckBox(text, key, options)
+    return self:AddControl(ns.builder.CreateCheckBox(self, text, key, options))
+end
+
+function sectionPrototype:AddDropDown(text, key, values, default, options)
+    return self:AddControl(ns.builder.CreateDropDown(self, text, key, values, default, options))
+end
+
+function sectionPrototype:AddText(text, options)
+    return self:AddControl(ns.builder.CreateText(self, text, options))
+end
+
+function sectionPrototype:FetchFromDB()
+    for _, control in ipairs(self.controls) do
+        if control.FetchFromDB then
+            control:FetchFromDB()
+        end
+    end
+end
+
 function ns.builder.CreateOptionsPanel(self)
     local optionsPanel = CreateFrame("Frame", name .. "OptionsPanel", UIParent)
     optionsPanel.name = name
+    optionsPanel.sections = {}
     self.optionsPanel = optionsPanel
+    return optionsPanel
 end
 
 function ns.builder.CreateTitle(self, text)
@@ -37,8 +67,20 @@ function ns.builder.CreateSection(self, text, anchor)
     title:SetText(text)
     title:Show()
 
-    self.anchor = title
-    return title
+    local section = setmetatable({
+        optionsPanel = self.optionsPanel,
+        anchor = title,
+        controls = {},
+    }, sectionPrototype)
+
+    self.optionsPanel.sections[#self.optionsPanel.sections + 1] = section
+    return section
+end
+
+function ns.builder.FetchFromDB(self)
+    for _, section in ipairs(self.optionsPanel.sections) do
+        section:FetchFromDB()
+    end
 end
 
 function ns.builder.Register(self)

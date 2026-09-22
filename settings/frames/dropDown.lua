@@ -1,15 +1,18 @@
 local name, ns = ...
 
-function ns.builder.CreateDropDown(self, text, key, values, default)
-    local label = self.optionsPanel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    label:SetPoint("TOPLEFT", self.anchor, "BOTTOMLEFT", 0, -16)
+function ns.builder.CreateDropDown(section, text, key, values, default, config)
+    config = config or {}
+    local label = section.optionsPanel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    label:SetPoint("TOPLEFT", section.anchor, "BOTTOMLEFT", config.x or 0, config.y or -16)
     local font, _, flags = label:GetFont()
-    label:SetFont(tostring(font), 12, flags)
-    label:SetTextColor(1, 1, 1, 1)
+    label:SetFont(tostring(config.font or font), config.fontSize or 12, config.fontFlags or flags)
+    local color = config.textColor or { 1, 1, 1, 1 }
+    label:SetTextColor(unpack(color))
     label:SetText(" " .. text)
 
-    local dropDown = CreateFrame("Frame", name .. "Options" .. key .. "DD", self.optionsPanel, "UIDropDownMenuTemplate")
-    dropDown:SetPoint("LEFT", label, "RIGHT", 10, 0)
+    local dropDown = CreateFrame("Frame", name .. "Options" .. key .. "DD", section.optionsPanel,
+        "UIDropDownMenuTemplate")
+    dropDown:SetPoint("LEFT", label, "RIGHT", config.controlOffset or 10, 0)
 
     local function normalizeValues(vals)
         local out = {}
@@ -50,7 +53,7 @@ function ns.builder.CreateDropDown(self, text, key, values, default)
         end
     end
 
-    UIDropDownMenu_SetWidth(dropDown, 140)
+    UIDropDownMenu_SetWidth(dropDown, config.width or 140)
 
     UIDropDownMenu_Initialize(dropDown, function(self, level)
         for _, opt in ipairs(options) do
@@ -104,6 +107,6 @@ function ns.builder.CreateDropDown(self, text, key, values, default)
         setSelection(v)
     end
 
-    self.anchor = label
+    section.anchor = label
     return dropDown
 end

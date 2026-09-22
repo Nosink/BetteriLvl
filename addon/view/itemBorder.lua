@@ -88,3 +88,12 @@ local function onItemsCached(_, unit, slots)
 end
 
 ns.bus:RegisterEvent(name .. "_ITEMS_CACHED", onItemsCached)
+
+local function onSettingsChanged(_, key)
+    if key == "border" then
+        onItemsCached(nil, "player", cachedSlots)
+        onItemsCached(nil, "target", cachedSlots)
+    end
+end
+
+ns.bus:RegisterEvent(name .. "_SETTINGS_CHANGED", onSettingsChanged)

@@ -39,11 +39,9 @@ localization/localization.lua
 
 # Settings
 settings/builder.lua
-settings/frames/button.lua
 settings/frames/checkbox.lua
 settings/frames/dropDown.lua
-settings/frames/editbox.lua
-settings/frames/slider.lua
+settings/frames/text.lua
 
 # //////////////////////////////
 #            ADDON
