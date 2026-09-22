@@ -27,7 +27,7 @@ local function cacheItem(unit, invSlotId)
 end
 
 local function evaluateItemsCache(unit)
-    for slotKey, _ in debug.pairs(enums.slotIdType) do
+    for slotKey, _ in pairs(enums.slotIdType) do
         local invSlotId = enums.slotIdType[slotKey]
         local itemData = items[unit].slots[invSlotId]
         if not itemData or not itemData.cached then return end
