@@ -12,9 +12,8 @@
 ## SavedVariables: BetteriLvlDB
 ## SavedVariablesPerCharacter: BetteriLvlPCDB
 
-# Utils
-utils/enum.lua
-utils/utils.lua
+# Enums
+enums/enum.lua
 
 # Events
 event/bus.lua

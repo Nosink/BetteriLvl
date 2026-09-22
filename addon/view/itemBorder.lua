@@ -1,6 +1,5 @@
 local name, ns = ...
 
-local utils = ns.utils
 local enums = ns.enums
 
 local cachedSlots = {}
@@ -11,6 +10,22 @@ local function isItemBorderenabled(unit)
     else
         return ns.db.targetBorderColor
     end
+end
+
+function GetItemQualityColor(quality)
+    local q = tonumber(quality) or 0
+
+    if C_Item and C_Item.GetItemQualityColor then
+        local r, g, b = C_Item.GetItemQualityColor(q)
+        if type(r) == "table" then
+            return r.r, r.g, r.b
+        end
+        if type(r) == "number" then
+            return r, g, b
+        end
+    end
+
+    return 1, 1, 1
 end
 
 local function createBorderTexture(frame)
@@ -25,7 +40,7 @@ local function createBorderTexture(frame)
 
     frame.ShowBorder = function(self, itemQuality)
         if not self.border then return end
-        local r, g, b = utils.GetItemQualityColor(itemQuality)
+        local r, g, b = GetItemQualityColor(itemQuality)
         self.border:SetVertexColor(r, g, b)
         self.border:Show()
     end

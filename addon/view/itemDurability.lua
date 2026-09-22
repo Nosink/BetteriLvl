@@ -1,6 +1,5 @@
 local name, ns = ...
 
-local utils = ns.utils
 local enums = ns.enums
 local durabilityType = enums.durabilityType
 
@@ -10,7 +9,11 @@ end
 
 local function getDurabilityColor(durabilityPercent)
     if ns.db.durabilityColor then
-        return utils.GetDurabilityColor(durabilityPercent)
+        local percent = tonumber(durabilityPercent) or 0
+        local r = math.min(1, (100 - percent) / 50)
+        local g = math.min(1, percent / 50)
+        local b = 0
+        return r, g, b
     else
         return 1, 1, 1
     end
