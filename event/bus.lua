@@ -1,11 +1,4 @@
-local LibStub = LibStub
-local error = error
-
-local major, minor = "LibEventBus-1.0", 1
-if not LibStub then error(major .. " requires LibStub") end
-
-local lib = LibStub:NewLibrary(major, minor)
-if not lib then return end
+local name, ns = ...
 
 local pcall = pcall
 local geterrorhandler = geterrorhandler
@@ -26,31 +19,64 @@ local function fastCall(fn, ...)
     return fn(...)
 end
 
--- Prototype
+local frame = CreateFrame("Frame")
+local subscribers = {}
+
+frame:SetScript("OnEvent", function(_, event, ...)
+    local list = subscribers[event]
+    if not list then return end
+    for i = 1, #list do
+        list[i]:dispatch(event, ...)
+    end
+end)
+
+local function subscribeNative(bus, event)
+    local list = subscribers[event]
+    if list then
+        for i = 1, #list do
+            if list[i] == bus then return true end
+        end
+        list[#list + 1] = bus
+        return true
+    end
+
+    local ok = pcall(frame.RegisterEvent, frame, event)
+    if not ok then return false end
+
+    subscribers[event] = { bus }
+    return true
+end
+
+local function unsubscribeNative(bus, event)
+    local list = subscribers[event]
+    if not list then return end
+
+    for i = #list, 1, -1 do
+        if list[i] == bus then
+            table.remove(list, i)
+            break
+        end
+    end
+
+    if #list == 0 then
+        subscribers[event] = nil
+        pcall(frame.UnregisterEvent, frame, event)
+    end
+end
+
 local proto = {}
 proto.__index = proto
 
--- Bus Creation
-local function NewBus(name, safe)
-    local frame = CreateFrame("Frame")
-
-    local bus = setmetatable({
-        name         = name or "Bus",
-        frame        = frame,
+local function newBus(busName, safe)
+    return setmetatable({
+        name         = busName or "UnnamedBus",
         handlers     = {},
         onceHandlers = {},
         nativeEvents = {},
-        safe         = safe or true,
+        safe         = safe ~= false,
     }, proto)
-
-    frame:SetScript("OnEvent", function(_, event, ...)
-        bus:dispatch(event, ...)
-    end)
-
-    return bus
 end
 
--- Internal helpers (instance methods)
 function proto:registerEvent(event)
     local list = self.handlers[event]
     if list then return list end
@@ -58,21 +84,20 @@ function proto:registerEvent(event)
     list = {}
     self.handlers[event] = list
 
-    local ok = pcall(self.frame.RegisterEvent, self.frame, event)
-    if ok then
+    if subscribeNative(self, event) then
         self.nativeEvents[event] = true
     end
 
     return list
 end
 
-function proto:unregisterEvents(event, list)
+function proto:unregisterEvent(event, list)
     if #list > 0 then return end
 
     self.handlers[event] = nil
 
     if self.nativeEvents[event] then
-        pcall(self.frame.UnregisterEvent, self.frame, event)
+        unsubscribeNative(self, event)
         self.nativeEvents[event] = nil
     end
 
@@ -107,7 +132,7 @@ function proto:dispatch(event, ...)
         list.dirty = false
     end
 
-    self:unregisterEvents(event, list)
+    self:unregisterEvent(event, list)
 end
 
 function proto:clearHandler(event, fn)
@@ -123,7 +148,6 @@ function proto:clearHandler(event, fn)
     end
 end
 
--- Public Bus API
 function proto:RegisterEvent(event, fn)
     if type(event) ~= "string" or type(fn) ~= "function" then return end
 
@@ -182,7 +206,7 @@ function proto:UnregisterEvent(event, fn)
     end
 
     self:clearHandler(event, proxy)
-    self:unregisterEvents(event, list)
+    self:unregisterEvent(event, list)
 end
 
 function proto:UnregisterAll(event)
@@ -194,7 +218,7 @@ function proto:UnregisterAll(event)
     end
 
     self.onceHandlers[event] = nil
-    self:unregisterEvents(event, list)
+    self:unregisterEvent(event, list)
 end
 
 function proto:TriggerEvent(event, ...)
@@ -206,11 +230,18 @@ function proto:IsRegistered(event)
     return list and #list > 0 or false
 end
 
--- Hooks (shared, not per-bus)
+function proto:HookSecureFunc(...)
+    return ns.HookSecureFunc(...)
+end
+
+function proto:HookScript(...)
+    return ns.HookScript(...)
+end
+
 local hookedFuncs = {}
 local hookedScripts = setmetatable({}, { __mode = "k" })
 
-function proto:HookSecureFunc(frame, funcName, handler)
+function ns.HookSecureFunc(frame, funcName, handler)
     if type(frame) == "string" then
         frame, funcName, handler = _G, frame, funcName
     end
@@ -225,7 +256,7 @@ function proto:HookSecureFunc(frame, funcName, handler)
     end)
 end
 
-function proto:HookScript(frame, script, handler)
+function ns.HookScript(frame, script, handler)
     if type(frame) ~= "table" or type(handler) ~= "function" then return end
 
     local set = hookedScripts[frame]
@@ -241,53 +272,8 @@ function proto:HookScript(frame, script, handler)
     end)
 end
 
--- Global Bus Singleton
-local globalBus
+ns.bus = newBus(name, true)
 
-local function GetGlobalBus()
-    if not globalBus then
-        globalBus = NewBus("Global", true)
-    end
-    return globalBus
-end
-
--- bus API proxies
-function lib:NewBus(...)
-    return NewBus(...)
-end
-
-function lib:GetGlobalBus()
-    return GetGlobalBus()
-end
-
-function lib:RegisterEvent(...)
-    return GetGlobalBus():RegisterEvent(...)
-end
-
-function lib:RegisterEventOnce(...)
-    return GetGlobalBus():RegisterEventOnce(...)
-end
-
-function lib:UnregisterEvent(...)
-    return GetGlobalBus():UnregisterEvent(...)
-end
-
-function lib:UnregisterAll(...)
-    return GetGlobalBus():UnregisterAll(...)
-end
-
-function lib:TriggerEvent(...)
-    return GetGlobalBus():TriggerEvent(...)
-end
-
-function lib:IsRegistered(...)
-    return GetGlobalBus():IsRegistered(...)
-end
-
-function lib:HookSecureFunc(...)
-    return GetGlobalBus():HookSecureFunc(...)
-end
-
-function lib:HookScript(...)
-    return GetGlobalBus():HookScript(...)
+function ns.bus:NewBus(...)
+    return newBus(...)
 end

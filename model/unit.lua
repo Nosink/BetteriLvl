@@ -1,8 +1,15 @@
-local name, _ = ...
+local _, ns = ...
+
+local debug = ns.debug
+local enums = ns.enums
+
+local moduleName = "CHARACTER_FRAME"
+local bus = ns.Module(moduleName):GetBus()
 
 local items = {}
 
 local function cacheItem(unit, invSlotId)
+    items[unit] = items[unit] or { slots = {} }
     local itemSlot = items[unit].slots[invSlotId]
 
     itemSlot:ClearItem()
@@ -21,48 +28,62 @@ local function cacheItem(unit, invSlotId)
 end
 
 local function evaluateItemsCache(unit)
-    for invSlotId = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
+    for slotKey, _ in debug.pairs(enums.slotIdType) do
+        local invSlotId = enums.slotIdType[slotKey]
         local itemData = items[unit].slots[invSlotId]
         if not itemData or not itemData.cached then return end
     end
-    BIBus:TriggerEvent(name .. "_ITEMS_CACHED", unit, items[unit].slots)
+    bus:TriggerEvent(moduleName .. "_ITEMS_CACHED", unit, items[unit].slots)
 end
 
-local function createItems(unit)
+local function createItem(unit, invSlotId)
+    if items[unit].slots[invSlotId] then return end
+
+    local itemData = { item = nil, cached = false }
+    itemData.SetItem = function(self, item)
+        self.item = item
+        self.cached = true
+        evaluateItemsCache(unit)
+    end
+    itemData.ClearItem = function(self)
+        self.item = nil
+        self.cached = true
+        evaluateItemsCache(unit)
+    end
+    items[unit].slots[invSlotId] = itemData
+end
+
+local function loadEquipment(unit)
     items[unit] = items[unit] or { slots = {} }
 
-    for invSlotId = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        if not items[unit].slots[invSlotId] then
-            local itemData = { item = nil, cached = false }
-            itemData.SetItem = function(self, item)
-                self.item = item
-                self.cached = true
-                evaluateItemsCache(unit)
-            end
-            itemData.ClearItem = function(self)
-                self.item = nil
-                self.cached = true
-                evaluateItemsCache(unit)
-            end
-            items[unit].slots[invSlotId] = itemData
-        end
+    for slotKey, _ in debug.pairs(enums.slotIdType) do
+        local invSlotId = enums.slotIdType[slotKey]
+        createItem(unit, invSlotId)
         cacheItem(unit, invSlotId)
     end
 end
 
-local function onAddonLoaded(_)
-    createItems("player")
+local function onVariablesLoaded(_)
+    loadEquipment("player")
 end
 
 local function onPlayerEquipmentChanged(_, equipmentSlot)
     cacheItem("player", equipmentSlot)
 end
 
-local function onInspectReady(_, unit)
-    createItems(unit)
+local function onPlayerDurabilityChanged()
+    for slotKey, _ in debug.pairs(enums.slotIdType) do
+        local invSlotId = enums.slotIdType[slotKey]
+        cacheItem("player", invSlotId)
+    end
 end
 
-BIBus:RegisterEvent(name .. "_PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
-BIBus:RegisterEvent(name .. "_ADDON_LOADED", onAddonLoaded)
+local function onInspectReady(_, unit)
+    loadEquipment(unit)
+end
 
-BIBus:RegisterEvent(name .. "_INSPECT_READY", onInspectReady)
+bus:RegisterEvent(moduleName .. "_VARIABLES_LOADED", onVariablesLoaded)
+bus:RegisterEvent(moduleName .. "_PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
+bus:RegisterEvent(moduleName .. "_UPDATE_INVENTORY_DURABILITY", onPlayerDurabilityChanged)
+
+bus:RegisterEvent(moduleName .. "_INSPECT_READY", onInspectReady)

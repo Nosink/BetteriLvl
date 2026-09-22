@@ -60,7 +60,22 @@ function utils.GetDurabilityColor(durabilityPercent)
     local percent = tonumber(durabilityPercent) or 0
     local r = math.min(1, (100 - percent) / 50)
     local g = math.min(1, percent / 50)
-    return r, g
+    local b = 0
+    return r, g, b
+end
+
+function utils.GetNamePlate(unitToken)
+    local nameplate = C_NamePlate.GetNamePlateForUnit(unitToken)
+    if not nameplate then return end
+    return nameplate
+end
+
+function utils.GetAllNameplates()
+    local nameplates = {}
+    for _, nameplate in pairs(C_NamePlate.GetNamePlates()) do
+        table.insert(nameplates, nameplate)
+    end
+    return nameplates
 end
 
 ns.utils = utils

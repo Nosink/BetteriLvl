@@ -1,14 +1,18 @@
-local name, _ = ...
-
-local LibEventBus = LibStub("LibEventBus-1.0")
-if not LibEventBus then return end
-
-BIBus = LibEventBus:NewBus("BIBus", true)
+local name, ns = ...
 
 local function onAddonLoaded(_, addonName)
     if addonName ~= name then return end
 
-    BIBus:TriggerEvent(name .. "_ADDON_LOADED")
+    ns.bus:TriggerEvent(name .. "_ADDON_LOADED")
 end
 
-BIBus:RegisterEvent("ADDON_LOADED", onAddonLoaded)
+local function handleOnLoad()
+    ns.bus:TriggerEvent(name .. "_VARIABLES_LOADED")
+end
+
+local function onVariablesLoaded()
+    ns.db:Load(ns.defaults, ns.defaultsPC, handleOnLoad)
+end
+
+ns.bus:RegisterEvent("ADDON_LOADED", onAddonLoaded)
+ns.bus:RegisterEvent("VARIABLES_LOADED", onVariablesLoaded)

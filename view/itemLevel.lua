@@ -1,18 +1,29 @@
 local name, ns = ...
 
 local utils = ns.utils
+local debug = ns.debug
+local enums = ns.enums
 
-local fontStrings = {}
 
-local function createItemLevelText(slotFrame)
-    if fontStrings[slotFrame] then return end
+local cachedSlots = {}
 
-    slotFrame.itemLevel = slotFrame:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
-    slotFrame.itemLevel:SetPoint("TOPLEFT", slotFrame, "TOPLEFT", 1, -2)
-    slotFrame.itemLevel:SetShadowOffset(1, -1)
-    slotFrame.itemLevel:SetShadowColor(0, 0, 0, 1)
+local function isItemLevelEnabled(unit)
+    if (unit == "player") then
+        return ns.db.itemLevel
+    else
+        return ns.db.targetItemLevel
+    end
+end
 
-    slotFrame.ShowItemLabel = function(self, itemQuality, itemLevel)
+local function createItemLevelText(frame)
+    if not frame or frame.itemLevel then return end
+
+    frame.itemLevel = frame:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
+    frame.itemLevel:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -2)
+    frame.itemLevel:SetShadowOffset(1, -1)
+    frame.itemLevel:SetShadowColor(0, 0, 0, 1)
+
+    frame.ShowItemLabel = function(self, itemQuality, itemLevel)
         if not self.itemLevel then return end
         local r, g, b = utils.GetItemQualityColor(itemQuality)
         self.itemLevel:SetTextColor(r, g, b)
@@ -20,57 +31,64 @@ local function createItemLevelText(slotFrame)
         self.itemLevel:Show()
     end
 
-    slotFrame.HideItemLabel = function(self)
+    frame.HideItemLabel = function(self)
         if not self.itemLevel then return end
         self.itemLevel:Hide()
     end
 
-    slotFrame:HideItemLabel()
-    return slotFrame.itemLevel
+    frame:HideItemLabel()
+    return frame.itemLevel
 end
-
-local slotNames = {
-    [INVSLOT_AMMO] = "AmmoSlot",
-    [INVSLOT_HEAD] = "HeadSlot",
-    [INVSLOT_NECK] = "NeckSlot",
-    [INVSLOT_SHOULDER] = "ShoulderSlot",
-    [INVSLOT_BACK] = "BackSlot",
-    [INVSLOT_CHEST] = "ChestSlot",
-    [INVSLOT_BODY] = "ShirtSlot",
-    [INVSLOT_TABARD] = "TabardSlot",
-    [INVSLOT_WRIST] = "WristSlot",
-    [INVSLOT_HAND] = "HandsSlot",
-    [INVSLOT_WAIST] = "WaistSlot",
-    [INVSLOT_LEGS] = "LegsSlot",
-    [INVSLOT_FEET] = "FeetSlot",
-    [INVSLOT_FINGER1] = "Finger0Slot",
-    [INVSLOT_FINGER2] = "Finger1Slot",
-    [INVSLOT_TRINKET1] = "Trinket0Slot",
-    [INVSLOT_TRINKET2] = "Trinket1Slot",
-    [INVSLOT_MAINHAND] = "MainHandSlot",
-    [INVSLOT_OFFHAND] = "SecondaryHandSlot",
-    [INVSLOT_RANGED] = "RangedSlot",
-}
 
 
 local function retrieveItemData(itemData)
     return itemData.item:GetCurrentItemLevel(), itemData.item:GetItemQuality()
 end
 
-local function onItemsCached(_, unit, slots)
+local function retrieveFrame(unit, slotName)
     local frameName = (unit == "player") and "Character" or "Inspect"
-    for invSlotId = INVSLOT_AMMO, INVSLOT_LAST_EQUIPPED do
-        local slotFrame = _G[frameName .. slotNames[invSlotId]]
-        createItemLevelText(slotFrame)
+    return _G[frameName .. slotName]
+end
 
-        local itemData = slots[invSlotId]
-        if itemData and itemData.item then
-            local itemLevel, itemQuality = retrieveItemData(itemData)
-            slotFrame:ShowItemLabel(itemQuality, itemLevel)
-        else
-            slotFrame:HideItemLabel()
-        end
+local function displayItemBorder(frame, key)
+    if not frame then return end
+    local itemData = cachedSlots[enums.slotIdType[key]]
+
+    if itemData and itemData.item then
+        local itemLevel, itemQuality = retrieveItemData(itemData)
+        frame:ShowItemLabel(itemQuality, itemLevel)
+    else
+        frame:HideItemLabel()
     end
 end
 
-BIBus:RegisterEvent(name .. "_ITEMS_CACHED", onItemsCached)
+local function canRangedWeaponUseAmmo()
+    local itemData = cachedSlots[enums.slotIdType.INVSLOT_RANGED]
+    if not itemData or not itemData.item then return false end
+
+    local itemId = itemData.item:GetItemID(itemData)
+    local _, _, _, _, _, _, itemSubType = C_Item.GetItemInfo(itemId)
+    return (itemSubType == "Crossbow" or itemSubType == "Bows" or itemSubType == "Guns")
+end
+
+local function evaluateAmmoSlot(unit)
+    if canRangedWeaponUseAmmo() then return end
+
+    local frame = retrieveFrame(unit, enums.slotNameType.INVSLOT_AMMO)
+    if not frame or not frame.itemLevel then return else frame:HideItemLabel() end
+end
+
+local function onItemsCached(_, unit, slots)
+    cachedSlots = slots or {}
+    for key, value in debug.pairs(enums.slotNameType) do
+        if isItemLevelEnabled(unit) then
+            local frame = retrieveFrame(unit, value)
+            createItemLevelText(frame)
+            displayItemBorder(frame, key)
+        end
+    end
+
+    evaluateAmmoSlot(unit)
+end
+
+ns.bus:RegisterEvent(name .. "_ITEMS_CACHED", onItemsCached)

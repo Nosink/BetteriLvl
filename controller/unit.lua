@@ -1,4 +1,6 @@
-local name, _ = ...
+local _, ns = ...
+
+local bus = ns.Module(moduleName):GetBus()
 
 local unitId = nil
 
@@ -8,13 +10,19 @@ end
 
 local function onInspectReady()
     if not unitId then return end
-    BIBus:TriggerEvent(name .. "_INSPECT_READY", unitId)
+    bus:TriggerEvent(moduleName .. "_INSPECT_READY", unitId)
 end
 
 local function onPlayerEquipmentChanged(_, equipmentSlot)
-    BIBus:TriggerEvent(name .. "_PLAYER_EQUIPMENT_CHANGED", equipmentSlot)
+    bus:TriggerEvent(moduleName .. "_PLAYER_EQUIPMENT_CHANGED", equipmentSlot)
 end
 
-BIBus:HookSecureFunc("NotifyInspect", onNotifyInspect)
-BIBus:RegisterEvent("INSPECT_READY", onInspectReady)
-BIBus:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
+local function onPlayerDurabilityChanged()
+    bus:TriggerEvent(moduleName .. "_UPDATE_INVENTORY_DURABILITY")
+end
+
+bus:HookSecureFunc("NotifyInspect", onNotifyInspect)
+bus:RegisterEvent("INSPECT_READY", onInspectReady)
+
+bus:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
+bus:RegisterEvent("UPDATE_INVENTORY_DURABILITY", onPlayerDurabilityChanged)
