@@ -4,10 +4,7 @@ function ns.builder.CreateDropDown(section, text, key, values, default, config)
     config = config or {}
     local label = section.optionsPanel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     label:SetPoint("TOPLEFT", section.anchor, "BOTTOMLEFT", config.x or 0, config.y or -16)
-    local font, _, flags = label:GetFont()
-    label:SetFont(tostring(config.font or font), config.fontSize or 12, config.fontFlags or flags)
-    local color = config.textColor or { 1, 1, 1, 1 }
-    label:SetTextColor(unpack(color))
+    ns.builder.StyleText(label, config)
     label:SetText(" " .. text)
 
     local dropDown = CreateFrame("Frame", name .. "Options" .. key .. "DD", section.optionsPanel,
@@ -55,7 +52,7 @@ function ns.builder.CreateDropDown(section, text, key, values, default, config)
 
     UIDropDownMenu_SetWidth(dropDown, config.width or 140)
 
-    UIDropDownMenu_Initialize(dropDown, function(self, level)
+    local function initializeMenu(_, level)
         for _, opt in ipairs(options) do
             local info = UIDropDownMenu_CreateInfo()
             info.text = opt.text
@@ -65,9 +62,11 @@ function ns.builder.CreateDropDown(section, text, key, values, default, config)
             end
             UIDropDownMenu_AddButton(info, level)
         end
-    end)
+    end
 
-    dropDown.FetchFromDB = function(self)
+    UIDropDownMenu_Initialize(dropDown, initializeMenu)
+
+    dropDown.Fetch = function(self)
         local v = ns.db[key]
         if v == nil then v = default end
         if v == nil and options[1] then
@@ -80,17 +79,7 @@ function ns.builder.CreateDropDown(section, text, key, values, default, config)
 
     dropDown.SetOptions = function(self, newValues)
         options = normalizeValues(newValues or {})
-        UIDropDownMenu_Initialize(dropDown, function(self, level)
-            for _, opt in ipairs(options) do
-                local info = UIDropDownMenu_CreateInfo()
-                info.text = opt.text
-                info.value = opt.value
-                info.func = function()
-                    setSelection(opt.value)
-                end
-                UIDropDownMenu_AddButton(info, level)
-            end
-        end)
+        UIDropDownMenu_Initialize(dropDown, initializeMenu)
         local v = ns.db[key]
         if v ~= nil then
             setSelection(v, true)
@@ -107,6 +96,6 @@ function ns.builder.CreateDropDown(section, text, key, values, default, config)
         setSelection(v)
     end
 
-    section.anchor = label
+    section:SetAnchor(label)
     return dropDown
 end
