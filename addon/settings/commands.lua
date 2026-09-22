@@ -9,30 +9,13 @@ local function openSettings()
     end
 end
 
-local function contains(args, options)
-    for _, arg in pairs(args) do
-        for _, option in pairs(options) do
-            if arg == option then return true end
-        end
-    end
-    return false
-end
-
-local function getArgs(message)
-    local args = {}
-    for argument in message:gmatch("%S+") do
-        args[#args + 1] = argument
-    end
-    return args
-end
-
 SlashCmdList.BETTERILVL = function(message)
     message = (message or ""):match("^%s*(.-)%s*$"):lower()
-    local args = getArgs(message)
 
-    if #args == 0 or contains(args, { "config", "options", "settings" }) then
+    if (message == "" or message == "config" or message == "options" or message == "settings") then
         return openSettings()
     else
         print("|cffffd200" .. name .. ":|r Unknown Command:", message)
+        print("|cffffd200" .. name .. ":|r Use |cff00ff00/betterilvl|r or |cff00ff00/bilvl|r to open the settings.")
     end
 end
