@@ -5,6 +5,7 @@ if ns.locale == "koKR" then
     L["COMMAND_USE"] = "사용"
     L["COMMAND_OR"] = "또는"
     L["COMMAND_DESCRIPTION"] = "설정을 엽니다"
+    L["COMMAND_VERSION"] = "버전"
 
     L["OPTIONS_TITLE"] = "Better iLvl"
 

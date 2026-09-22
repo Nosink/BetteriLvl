@@ -19,6 +19,7 @@
 
 ## Author: Nosink Ð
 ## Version: 1.5.0
+## X-Version: 1.5.0
 ## IconTexture: Interface\Icons\INV_Chest_Cloth_17
 
 ## SavedVariables: BetteriLvlDB

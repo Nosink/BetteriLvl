@@ -5,6 +5,7 @@ if ns.locale == "itIT" then
     L["COMMAND_USE"] = "Usa"
     L["COMMAND_OR"] = "oppure"
     L["COMMAND_DESCRIPTION"] = "per aprire le impostazioni"
+    L["COMMAND_VERSION"] = "Versione"
 
     L["OPTIONS_TITLE"] = "Better iLvl"
 

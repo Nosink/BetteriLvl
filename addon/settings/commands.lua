@@ -13,10 +13,16 @@ end
 SlashCmdList.BETTERILVL = function(message)
     message = (message or ""):match("^%s*(.-)%s*$"):lower()
 
+    local version = GetAddOnMetadata(name, "Version")
+    print("Addon Info " .. version)
+
     if (message == "" or message == "config" or message == "options" or message == "settings") then
         return openSettings()
+    elseif (message == "v" or message == "version") then
+        print(string.format("|c%s%s:|r %s %s.",
+            "ffffd200", name, L["COMMAND_VERSION"], ns.version))
     else
-        print(string.format("|c%s%s|r %s |cff00ff00/betterilvl|r %s |cff00ff00/bilvl|r %s.",
+        print(string.format("|c%s%s:|r %s |cff00ff00/betterilvl|r %s |cff00ff00/bilvl|r %s.",
             "ffffd200", name, L["COMMAND_USE"], L["COMMAND_OR"], L["COMMAND_DESCRIPTION"]))
     end
 end
