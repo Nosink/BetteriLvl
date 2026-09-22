@@ -4,15 +4,13 @@ local utils = ns.utils
 local debug = ns.debug
 local enums = ns.enums
 
-local moduleName = "CHARACTER_FRAME"
-local bus = ns.Module(moduleName):GetBus()
 
 local function isDurabilityTypeBar()
-    return ns.database[moduleName].durabilityType == enums.durabilityType.Bars
+    return ns.db.durabilityType == "BAR"
 end
 
 local function getDurabilityColor(durabilityPercent)
-    if ns.database[moduleName].durabilityColor then
+    if ns.db.durabilityColor then
         return utils.GetDurabilityColor(durabilityPercent)
     else
         return 1, 1, 1
@@ -20,7 +18,7 @@ local function getDurabilityColor(durabilityPercent)
 end
 
 local function isDurabilityEnabled()
-    return ns.database[moduleName].durability
+    return ns.db.durability
 end
 
 local function createDurabilityText(frame)

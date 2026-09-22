@@ -11,9 +11,9 @@ local cachedSlots = {}
 
 local function isItemBorderenabled(unit)
     if (unit == "player") then
-        return ns.database[moduleName].borderColor
+        return ns.db.borderColor
     else
-        return ns.database[moduleName].targetBorderColor
+        return ns.db.targetBorderColor
     end
 end
 

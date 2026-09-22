@@ -12,20 +12,19 @@
 ## Author: Nosink Ð
 ## Version: 1.4.0
 ## SavedVariables: BetteriLvlDB
+## SavedVariablesPerCharacter: BetteriLvlPCDB
 
-# Libraries
-libs/LibStub/LibStub.lua
-libs/LibEventBus-1.0/LibEventBus-1.0.lua 
-libs/LibSharedVariables-1.0/LibSharedVariables-1.0.lua
+# Database
+database/database.lua
+database/defaults.lua
 
-libs/debug.lua
-libs/utils.lua
+# Runtime
+event/bus.lua
+utils/enum.lua
+utils/enums.lua
+utils/utils.lua
 
-# Addon - Core
-addon.lua
-database.lua
-
-# Module: Localization
+# Localization
 localization/localization.lua
 # --------------------
 localization/enUS.lua
@@ -33,7 +32,7 @@ localization/ruRU.lua
 localization/esES-esMX.lua
 # --------------------
 
-# Module: Configuration
+# Configuration
 configuration/builder.lua
 configuration/frames/button.lua
 configuration/frames/checkbox.lua
@@ -46,7 +45,12 @@ configuration/commands.lua
 configuration/settings.lua
 # --------------------
 
-# MVC Unit Inventory Slots
+# Addon - MVC
 model/unit.lua
 controller/unit.lua
 view/itemLevel.lua
+view/itemBorder.lua
+view/itemDurability.lua
+
+# Addon - Core
+addon.lua

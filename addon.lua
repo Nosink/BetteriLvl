@@ -11,7 +11,7 @@ local function handleOnLoad()
 end
 
 local function onVariablesLoaded()
-    ns.db:Load(ns.defaults, ns.defaultsPC, handleOnLoad)
+    ns.database.Load(ns.defaults, ns.defaultsPC, handleOnLoad)
 end
 
 ns.bus:RegisterEvent("ADDON_LOADED", onAddonLoaded)

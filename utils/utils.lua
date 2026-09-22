@@ -2,6 +2,8 @@ local _, ns = ...
 
 local utils = {}
 
+ns.debug = ns.debug or { pairs = pairs }
+
 function utils.GetUnitName()
     return UnitName("player")
 end
