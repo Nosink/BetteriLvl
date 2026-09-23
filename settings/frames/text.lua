@@ -3,7 +3,7 @@ local _, ns = ...
 local label = {}
 
 local function createFontString(section, params)
-    local fontString = params.fontString or
+    local fontString = params and params.fontString or
         ns.builder.fontString(nil, "ARTWORK", "GameFontNormal")
     local point = params and params.textPoint or
         ns.builder.point("TOPLEFT", section.anchor, "BOTTOMLEFT", 0, -8)

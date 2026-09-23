@@ -3,10 +3,9 @@ local name, ns = ...
 local label = {}
 
 local function createLabel(section, params)
-    params = params or {}
-    local fontString = params.fontString or
+    local fontString = params and params.fontString or
         ns.builder.fontString(nil, "ARTWORK", "GameFontNormal")
-    local point = params.textPoint or
+    local point = params and params.textPoint or
         ns.builder.point("TOPLEFT", section.anchor, "BOTTOMLEFT", 0, -8)
 
     label = section.anchor:CreateFontString(fontString.name, fontString.layer, fontString.template)
@@ -14,9 +13,10 @@ local function createLabel(section, params)
 end
 
 local function setText(text, params)
-    params = params or {}
-    local color = params.textColor or ns.builder.color()
-    local size = params.size or 12
+    local color = params and params.textColor or
+        ns.builder.color()
+    local size = params and params.size or
+        12
 
     local file, _, flags = label:GetFont()
     label:SetFont(tostring(file), size, flags)
@@ -25,8 +25,7 @@ local function setText(text, params)
 end
 
 local function createDropDown(section, key, params)
-    params = params or {}
-    local point = params.controlPoint or
+    local point = params and params.controlPoint or
         ns.builder.point("LEFT", label, "RIGHT", params.controlOffset or 10)
 
     local dropDown = CreateFrame("Frame", name .. "Options" .. key .. "DD", section.optionsPanel,

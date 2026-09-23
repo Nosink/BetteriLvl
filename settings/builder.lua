@@ -5,8 +5,6 @@ ns.builder = {}
 local section = {}
 section.__index = section
 
-
-
 function section:SetAnchor(anchor)
     self.anchor = anchor
     self.builder.anchor = anchor
