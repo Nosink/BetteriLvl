@@ -5,19 +5,7 @@ ns.builder = {}
 local section = {}
 section.__index = section
 
-function ns.builder.StyleText(fontString, options)
-    options = options or {}
 
-    local font, size, flags = fontString:GetFont()
-    fontString:SetFont(
-        tostring(options.font or font),
-        options.fontSize or size,
-        options.fontFlags or flags
-    )
-
-    local color = options.textColor or { 1, 1, 1, 1 }
-    fontString:SetTextColor(unpack(color))
-end
 
 function section:SetAnchor(anchor)
     self.anchor = anchor
@@ -30,16 +18,16 @@ function section:AddControl(control)
     return control
 end
 
-function section:AddCheckBox(text, key)
-    return self:AddControl(ns.builder.CreateCheckBox(self, text, key))
+function section:AddCheckBox(text, key, params)
+    return self:AddControl(ns.builder.CreateCheckBox(self, text, key, params))
 end
 
-function section:AddDropDown(text, key, values, default, options)
-    return self:AddControl(ns.builder.CreateDropDown(self, text, key, values, default, options))
+function section:AddDropDown(text, key, values, default, params)
+    return self:AddControl(ns.builder.CreateDropDown(self, text, key, values, default, params))
 end
 
-function section:AddText(text, options)
-    return self:AddControl(ns.builder.CreateText(self, text, options))
+function section:AddText(text, params)
+    return self:AddControl(ns.builder.CreateText(self, text, params))
 end
 
 function section:Fetch()
@@ -59,10 +47,10 @@ end
 function ns.builder.CreateTitle(self, text)
     local title = self.optionsPanel:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", 8, -16)
-    ns.builder.StyleText(title, {
-        fontSize = 20,
-        textColor = { 0.2, 0.6, 1, 1 },
-    })
+
+    local file, _, flags = title:GetFont()
+    title:SetFont(tostring(file), 20, flags)
+    title:SetTextColor(0.2, 0.6, 1, 1)
     title:SetText(text)
 
     local body = CreateFrame("Frame", nil, self.optionsPanel)
@@ -81,9 +69,10 @@ end
 function ns.builder.CreateSection(self, text, anchor)
     local title = self.optionsPanel:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", anchor or self.anchor, "BOTTOMLEFT", 0, -8)
-    ns.builder.StyleText(title, { textColor = { 1, 0.82, 0, 1 } })
+    title:SetTextColor(1, 0.82, 0, 1)
     title:SetHeight(30)
     title:SetText(text)
+
     title:Show()
 
     local section = setmetatable({
@@ -109,4 +98,31 @@ function ns.builder.Register(self)
         ns.settingsCategory = Settings.RegisterCanvasLayoutCategory(self.optionsPanel, name)
         Settings.RegisterAddOnCategory(ns.settingsCategory)
     end
+end
+
+function ns.builder.point(point, relativeTo, relativePoint, x, y)
+    return {
+        point = point or "CENTER",
+        relativeTo = relativeTo or UIParent,
+        relativePoint = relativePoint or "CENTER",
+        x = x or 0,
+        y = y or 0
+    }
+end
+
+function ns.builder.color(r, g, b, a)
+    r = r or 1
+    g = g or 1
+    b = b or 1
+    a = a or 1
+
+    return { r = r, g = g, b = b, a = a, r, g, b, a }
+end
+
+function ns.builder.fontString(name, layer, template)
+    return {
+        name = name or nil,
+        layer = layer or "ARTWORK",
+        template = template or "GameFontNormal"
+    }
 end

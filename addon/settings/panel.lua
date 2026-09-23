@@ -26,6 +26,7 @@ durability:AddDropDown(L["OPTIONS_DURABILITY_TYPE"], "durabilityType", {
 local target = builder:CreateSection(L["OPTIONS_TARGET_FRAME"])
 target:AddCheckBox(L["OPTIONS_TARGET_ITEM_LEVEL"], "targetItemLevel")
 target:AddCheckBox(L["OPTIONS_TARGET_BORDER"], "targetBorderColor")
+target:AddText("Este esu n textoo", { point = "LEFT", relativePoint = "RIGHT" })
 
 -- Register
 builder:Register()

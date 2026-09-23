@@ -1,15 +1,46 @@
 local name, ns = ...
 
-function ns.builder.CreateDropDown(section, text, key, values, default, config)
-    config = config or {}
-    local label = section.optionsPanel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    label:SetPoint("TOPLEFT", section.anchor, "BOTTOMLEFT", config.x or 0, config.y or -16)
-    ns.builder.StyleText(label, config)
-    label:SetText(" " .. text)
+local label = {}
+
+local function createLabel(section, params)
+    params = params or {}
+    local fontString = params.fontString or
+        ns.builder.fontString(nil, "ARTWORK", "GameFontNormal")
+    local point = params.textPoint or
+        ns.builder.point("TOPLEFT", section.anchor, "BOTTOMLEFT", 0, -8)
+
+    label = section.anchor:CreateFontString(fontString.name, fontString.layer, fontString.template)
+    label:SetPoint(point.point, point.relativeTo, point.relativePoint, point.x, point.y)
+end
+
+local function setText(text, params)
+    params = params or {}
+    local color = params.textColor or ns.builder.color()
+    local size = params.size or 12
+
+    local file, _, flags = label:GetFont()
+    label:SetFont(tostring(file), size, flags)
+    label:SetTextColor(color.r, color.g, color.b, color.a)
+    label:SetText(text)
+end
+
+local function createDropDown(section, key, params)
+    params = params or {}
+    local point = params.controlPoint or
+        ns.builder.point("LEFT", label, "RIGHT", params.controlOffset or 10)
 
     local dropDown = CreateFrame("Frame", name .. "Options" .. key .. "DD", section.optionsPanel,
         "UIDropDownMenuTemplate")
-    dropDown:SetPoint("LEFT", label, "RIGHT", config.controlOffset or 10, 0)
+    dropDown:SetPoint(point.point, point.relativeTo, point.relativePoint, point.x, point.y)
+    UIDropDownMenu_SetWidth(dropDown, params.width or 140)
+    return dropDown
+end
+
+function ns.builder.CreateDropDown(section, text, key, values, default, params)
+    createLabel(section, params)
+    setText(" " .. text, params)
+
+    local dropDown = createDropDown(section, key, params)
 
     local function normalizeValues(vals)
         local out = {}
@@ -49,8 +80,6 @@ function ns.builder.CreateDropDown(section, text, key, values, default, config)
             ns.bus:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
         end
     end
-
-    UIDropDownMenu_SetWidth(dropDown, config.width or 140)
 
     local function initializeMenu(_, level)
         for _, opt in ipairs(options) do
