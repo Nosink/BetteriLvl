@@ -8,7 +8,7 @@ local function createFontString(section, params)
     local point = params and params.textPoint or
         ns.builder.point("TOPLEFT", section.anchor, "BOTTOMLEFT", 0, -8)
 
-    label = section.anchor:CreateFontString(fontString.name, fontString.layer, fontString.template)
+    label = section.optionsPanel:CreateFontString(fontString.name, fontString.layer, fontString.template)
     label:SetPoint(point.point, point.relativeTo, point.relativePoint, point.x, point.y)
 end
 
@@ -18,7 +18,7 @@ local function setText(text, params)
     local size = params and params.size or
         12
 
-    local file, _, flags = label.Text:GetFont()
+    local file, _, flags = label:GetFont()
     label:SetFont(tostring(file), size, flags)
     label:SetTextColor(color.r, color.g, color.b, color.a)
     label:SetText(text)

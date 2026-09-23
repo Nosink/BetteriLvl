@@ -25,13 +25,15 @@ local function setText(text, params)
 end
 
 local function createDropDown(section, key, params)
+    local width = params and params.width or
+        140
     local point = params and params.controlPoint or
-        ns.builder.point("LEFT", label, "RIGHT", params.controlOffset or 10)
+        ns.builder.point("LEFT", label, "RIGHT", 10)
 
     local dropDown = CreateFrame("Frame", name .. "Options" .. key .. "DD", section.optionsPanel,
         "UIDropDownMenuTemplate")
     dropDown:SetPoint(point.point, point.relativeTo, point.relativePoint, point.x, point.y)
-    UIDropDownMenu_SetWidth(dropDown, params.width or 140)
+    UIDropDownMenu_SetWidth(dropDown, width)
     return dropDown
 end
 
