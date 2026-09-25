@@ -41,24 +41,24 @@ local function retrieveFrame(unit, slotName)
     return _G[frameName .. slotName]
 end
 
-local function isItemValid(invSlotId)
-    local itemData = cachedSlots[invSlotId]
+local function isItemValid(unit, invSlotId)
+    local itemData = cachedSlots[unit] and cachedSlots[unit][invSlotId]
     return itemData and itemData.item
 end
 
-local function displayItemBorder(frame, slotId)
+local function displayItemBorder(unit, frame, slotId)
     if not frame then return end
     local invSlotId = enums.slotIdType[slotId]
-    if isItemValid(invSlotId) then
-        local itemData = cachedSlots[invSlotId]
+    if isItemValid(unit, invSlotId) then
+        local itemData = cachedSlots[unit][invSlotId]
         frame:ShowBorder(itemData.itemQualityColor)
     else
         frame:HideBorder()
     end
 end
 
-local function canRangedWeaponUseAmmo()
-    local itemData = cachedSlots[enums.slotIdType.INVSLOT_RANGED]
+local function canRangedWeaponUseAmmo(unit)
+    local itemData = cachedSlots[unit] and cachedSlots[unit][enums.slotIdType.INVSLOT_RANGED]
     if not itemData or not itemData.item then return false end
 
     local itemId = itemData.item:GetItemID(itemData)
@@ -67,30 +67,48 @@ local function canRangedWeaponUseAmmo()
 end
 
 local function evaluateAmmoSlot(unit)
-    if canRangedWeaponUseAmmo() then return end
+    if canRangedWeaponUseAmmo(unit) then return end
 
     local frame = retrieveFrame(unit, enums.slotNameType.INVSLOT_AMMO)
     if not frame or not frame.border then return else frame:HideBorder() end
 end
 
-local function onItemsCached(_, unit, slots)
-    cachedSlots = slots or {}
-    for slotId, slotName in pairs(enums.slotNameType) do
-        if isItemBorderenabled(unit) then
-            local frame = retrieveFrame(unit, slotName)
-            createBorderTexture(frame)
-            displayItemBorder(frame, slotId)
+local function hideBorders(unit)
+    for _, slotName in pairs(enums.slotNameType) do
+        local frame = retrieveFrame(unit, slotName)
+        if frame and frame.border then
+            frame:HideBorder()
         end
+    end
+end
+
+local function refreshBorders(unit)
+    if not isItemBorderenabled(unit) then
+        hideBorders(unit)
+        return
+    end
+
+    for slotId, slotName in pairs(enums.slotNameType) do
+        local frame = retrieveFrame(unit, slotName)
+        createBorderTexture(frame)
+        displayItemBorder(unit, frame, slotId)
     end
 
     evaluateAmmoSlot(unit)
+end
+
+local function onItemsCached(_, unit, slots)
+    cachedSlots[unit] = slots or {}
+    refreshBorders(unit)
 end
 
 ns.bus:RegisterEvent(name .. "_ITEMS_CACHED", onItemsCached)
 
 local function onSettingsChanged(_, key)
     if key == "borderColor" then
+        refreshBorders("player")
     elseif key == "targetBorderColor" then
+        refreshBorders("target")
     end
 end
 

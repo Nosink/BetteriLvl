@@ -29,6 +29,7 @@ local function createItemLevelText(frame)
 
     frame.HideItemLabel = function(self)
         if not self.itemLevel then return end
+        self.itemLevel:SetText("")
         self.itemLevel:Hide()
     end
 
@@ -46,9 +47,9 @@ local function retrieveFrame(unit, slotName)
     return _G[frameName .. slotName]
 end
 
-local function displayItemLevel(frame, key)
+local function displayItemLevel(unit, frame, key)
     if not frame then return end
-    local itemData = cachedSlots[enums.slotIdType[key]]
+    local itemData = cachedSlots[unit] and cachedSlots[unit][enums.slotIdType[key]]
 
     if itemData and itemData.item then
         local itemLevel, itemQuality = retrieveItemData(itemData)
@@ -58,8 +59,8 @@ local function displayItemLevel(frame, key)
     end
 end
 
-local function canRangedWeaponUseAmmo()
-    local itemData = cachedSlots[enums.slotIdType.INVSLOT_RANGED]
+local function canRangedWeaponUseAmmo(unit)
+    local itemData = cachedSlots[unit] and cachedSlots[unit][enums.slotIdType.INVSLOT_RANGED]
     if not itemData or not itemData.item then return false end
 
     local itemId = itemData.item:GetItemID(itemData)
@@ -68,30 +69,48 @@ local function canRangedWeaponUseAmmo()
 end
 
 local function evaluateAmmoSlot(unit)
-    if canRangedWeaponUseAmmo() then return end
+    if canRangedWeaponUseAmmo(unit) then return end
 
     local frame = retrieveFrame(unit, enums.slotNameType.INVSLOT_AMMO)
     if not frame or not frame.itemLevel then return else frame:HideItemLabel() end
 end
 
-local function onItemsCached(_, unit, slots)
-    cachedSlots = slots or {}
-    for key, value in pairs(enums.slotNameType) do
-        if isItemLevelEnabled(unit) then
-            local frame = retrieveFrame(unit, value)
-            createItemLevelText(frame)
-            displayItemLevel(frame, key)
+local function hideItemLevels(unit)
+    for _, slotName in pairs(enums.slotNameType) do
+        local frame = retrieveFrame(unit, slotName)
+        if frame and frame.itemLevel then
+            frame:HideItemLabel()
         end
+    end
+end
+
+local function refreshItemLevels(unit)
+    if not isItemLevelEnabled(unit) then
+        hideItemLevels(unit)
+        return
+    end
+
+    for key, slotName in pairs(enums.slotNameType) do
+        local frame = retrieveFrame(unit, slotName)
+        createItemLevelText(frame)
+        displayItemLevel(unit, frame, key)
     end
 
     evaluateAmmoSlot(unit)
+end
+
+local function onItemsCached(_, unit, slots)
+    cachedSlots[unit] = slots or {}
+    refreshItemLevels(unit)
 end
 
 ns.bus:RegisterEvent(name .. "_ITEMS_CACHED", onItemsCached)
 
 local function onSettingsChanged(_, key)
     if key == "itemLevel" then
+        refreshItemLevels("player")
     elseif key == "targetItemLevel" then
+        refreshItemLevels("target")
     end
 end
 

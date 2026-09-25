@@ -71,6 +71,8 @@ local function createDurability(frame)
 
     frame.ShowDurability = function(self, durabilityPercent)
         if not self.durability then return end
+        self.durability.bar:Hide()
+        self.durability.text:Hide()
         if isDurabilityTypeBar() then
             self.durability.bar:ShowDurability(durabilityPercent)
         else
@@ -103,9 +105,20 @@ local function displayDurability(frame, slotId)
     end
 end
 
-local function onItemsCached(_, unit)
-    if unit ~= "player" then return end
-    if not isDurabilityEnabled() then return end
+local function hideDurability()
+    for _, slotName in pairs(enums.slotNameType) do
+        local frame = retrieveFrame(slotName)
+        if frame and frame.durability then
+            frame:HideDurability()
+        end
+    end
+end
+
+local function refreshDurability()
+    if not isDurabilityEnabled() then
+        hideDurability()
+        return
+    end
 
     for slotId, slotName in pairs(enums.slotNameType) do
         local frame = retrieveFrame(slotName)
@@ -114,13 +127,21 @@ local function onItemsCached(_, unit)
     end
 end
 
+local function onItemsCached(_, unit)
+    if unit ~= "player" then return end
+    refreshDurability()
+end
+
 ns.bus:RegisterEvent(name .. "_ITEMS_CACHED", onItemsCached)
 
 
 local function onSettingsChanged(_, key)
     if key == "durability" then
+        refreshDurability()
     elseif key == "durabilityType" then
+        refreshDurability()
     elseif key == "durabilityColor" then
+        refreshDurability()
     end
 end
 
