@@ -39,21 +39,6 @@ local function setWidth(params)
     UIDropDownMenu_SetWidth(dropDown, width)
 end
 
-local function setOptions(options)
-    local normalizedOptions = {}
-    for _, option in ipairs(options) do
-        if type(option) == "table" and option.value and option.text then
-            table.insert(normalizedOptions, option)
-        elseif option ~= nil then
-            table.insert(normalizedOptions, {
-                value = option,
-                text = tostring(option),
-            })
-        end
-    end
-    dropDown.options = normalizedOptions
-end
-
 local function getTextForValue(value)
     for _, opt in ipairs(dropDown.options) do
         if opt.value == value then return opt.text end
@@ -87,9 +72,25 @@ local function setFetch(key)
     end
 end
 
-local function initializeDropDown(key)
+local function normalizeOptions(options)
+    local normalizedOptions = {}
+    for _, option in ipairs(options) do
+        if type(option) == "table" and option.value and option.text then
+            table.insert(normalizedOptions, option)
+        elseif option ~= nil then
+            table.insert(normalizedOptions, {
+                value = option,
+                text = tostring(option),
+            })
+        end
+    end
+    return normalizedOptions
+end
+
+local function initialize(key, options)
+    local normalizedOptions = normalizeOptions(options)
     local function initFunction(_, level)
-        for _, opt in ipairs(dropDown.options) do
+        for _, opt in ipairs(normalizedOptions) do
             local info = UIDropDownMenu_CreateInfo()
             info.text = opt.text
             info.value = opt.value
@@ -109,10 +110,8 @@ function ns.builder.CreateDropDown(section, text, key, options, params)
 
     createDropDown(section, key, params)
     setWidth(params)
-    setOptions(options)
     setFetch(key)
-
-    initializeDropDown(key)
+    initialize(key, options)
 
     section:SetAnchor(label)
     return dropDown
