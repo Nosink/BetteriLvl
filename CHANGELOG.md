@@ -1,8 +1,27 @@
 # Changelog
 
+## [1.5.0] - 2026-09-25
+Live overlay settings and refreshed MVC view behavior.
+
+### Added
+- Immediate settings updates for player and target item levels and quality borders.
+- Immediate durability updates for enabling, display type, and color changes.
+- Text and bar durability modes now switch without leaving the inactive mode visible.
+
+### Changed
+- Player and inspect item caches are kept separate when refreshing overlays.
+- Disabled item levels, borders, and durability indicators are hidden immediately.
+- The options panel now reflects settings changes through namespaced addon events.
+
+### Fixed
+- Stale player or target overlays no longer remain visible after their setting is disabled.
+- Changing durability display type now hides the previous representation.
+
+---
+
 ## [1.2.4] - 14/01/2026
-Fixed installation processs
-Added interface support for classic
+Fixed installation process.
+Added interface support for Classic.
 
 ---
 
