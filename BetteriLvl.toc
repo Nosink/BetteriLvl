@@ -38,7 +38,7 @@ database/database.lua
 localization/localization.lua
 
 # Settings
-settings/builder/helpers.lua
+settings/builder/helper.lua
 settings/builder/panel.lua
 settings/builder/section.lua
 

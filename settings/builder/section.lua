@@ -3,28 +3,28 @@ local _, ns = ...
 local section = {}
 section.__index = section
 
-function section:SetAnchor(anchor)
+function section:setAnchor(anchor)
     self.anchor = anchor
     self.builder.anchor = anchor
     self.builder:UpdateContentSize()
 end
 
-function section:AddControl(control)
+function section:addControl(control)
     self.controls[#self.controls + 1] = control
-    self:SetAnchor(self.anchor)
+    self:setAnchor(self.anchor)
     return control
 end
 
 function section:AddCheckBox(text, key, params)
-    return self:AddControl(ns.builder.CreateCheckBox(self, text, key, params))
+    return self:addControl(ns.builder.CreateCheckBox(self, text, key, params))
 end
 
 function section:AddDropDown(text, key, options, params)
-    return self:AddControl(ns.builder.CreateDropDown(self, text, key, options, params))
+    return self:addControl(ns.builder.CreateDropDown(self, text, key, options, params))
 end
 
 function section:AddText(text, params)
-    return self:AddControl(ns.builder.CreateText(self, text, params))
+    return self:addControl(ns.builder.CreateText(self, text, params))
 end
 
 function section:Fetch()
