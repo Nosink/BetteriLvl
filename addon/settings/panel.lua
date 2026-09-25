@@ -20,13 +20,11 @@ durability:AddCheckBox(L["OPTIONS_DURABILITY_ENABLE"], "durability")
 durability:AddCheckBox(L["OPTIONS_DURABILITY_COLOR"], "durabilityColor")
 durability:AddDropDown(L["OPTIONS_DURABILITY_TYPE"], "durabilityType", {
     { value = durabilityType.Bars, text = L["OPTIONS_DURABILITY_TYPE_BAR"] },
-    { value = durabilityType.Text, text = L["OPTIONS_DURABILITY_TYPE_TEXT"] },
-})
+    { value = durabilityType.Text, text = L["OPTIONS_DURABILITY_TYPE_TEXT"] } })
 
 local target = builder:CreateSection(L["OPTIONS_TARGET_FRAME"])
 target:AddCheckBox(L["OPTIONS_TARGET_ITEM_LEVEL"], "targetItemLevel")
 target:AddCheckBox(L["OPTIONS_TARGET_BORDER"], "targetBorderColor")
-target:AddText("Este esu n textoo", { point = "LEFT", relativePoint = "RIGHT" })
 
 -- Register
 builder:Register()

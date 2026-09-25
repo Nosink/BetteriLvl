@@ -1,6 +1,7 @@
 local name, ns = ...
 
 local label = {}
+local dropDown = {}
 
 local function createLabel(section, params)
     local fontString = params and params.fontString or
@@ -14,7 +15,7 @@ end
 
 local function setText(text, params)
     local color = params and params.textColor or
-        ns.builder.color()
+        ns.builder.color(1, 1, 1, 1)
     local size = params and params.size or
         12
 
@@ -25,49 +26,44 @@ local function setText(text, params)
 end
 
 local function createDropDown(section, key, params)
-    local width = params and params.width or
-        140
     local point = params and params.controlPoint or
-        ns.builder.point("LEFT", label, "RIGHT", 10)
+        ns.builder.point("LEFT", label, "RIGHT", 6)
 
-    local dropDown = CreateFrame("Frame", name .. "Options" .. key .. "DD", section.optionsPanel,
-        "UIDropDownMenuTemplate")
+    dropDown = CreateFrame("Frame", nil, section.anchor, "UIDropDownMenuTemplate")
     dropDown:SetPoint(point.point, point.relativeTo, point.relativePoint, point.x, point.y)
-    UIDropDownMenu_SetWidth(dropDown, width)
-    return dropDown
 end
 
-function ns.builder.CreateDropDown(section, text, key, values, default, params)
-    createLabel(section, params)
-    setText(" " .. text, params)
+local function setWidth(params)
+    local width = params and params.width or
+        50
+    UIDropDownMenu_SetWidth(dropDown, width)
+end
 
-    local dropDown = createDropDown(section, key, params)
-
+local function setOptions(options)
     local function normalizeValues(vals)
         local out = {}
-        if type(vals) == "table" then
-            local isArray = (#vals > 0)
-            if isArray then
-                for _, v in ipairs(vals) do
-                    if type(v) == "table" then
-                        table.insert(out, { value = v.value, text = v.text or tostring(v.value) })
-                    else
-                        table.insert(out, { value = v, text = tostring(v) })
-                    end
-                end
+        for _, option in ipairs(vals or {}) do
+            if type(option) == "table" then
+                out[#out + 1] = {
+                    value = option.value,
+                    text = option.text or tostring(option.value),
+                }
             else
-                for v, t in pairs(vals) do
-                    table.insert(out, { value = v, text = tostring(t) })
-                end
+                out[#out + 1] = {
+                    value = option,
+                    text = tostring(option),
+                }
             end
         end
         return out
     end
 
-    local options = normalizeValues(values or {})
+    dropDown.options = normalizeValues(options or {})
+end
 
+local function initializeDropDown(key)
     local function findTextForValue(val)
-        for _, opt in ipairs(options) do
+        for _, opt in ipairs(dropDown.options) do
             if opt.value == val then return opt.text end
         end
     end
@@ -83,7 +79,7 @@ function ns.builder.CreateDropDown(section, text, key, values, default, params)
     end
 
     local function initializeMenu(_, level)
-        for _, opt in ipairs(options) do
+        for _, opt in ipairs(dropDown.options) do
             local info = UIDropDownMenu_CreateInfo()
             info.text = opt.text
             info.value = opt.value
@@ -98,33 +94,24 @@ function ns.builder.CreateDropDown(section, text, key, values, default, params)
 
     dropDown.Fetch = function(self)
         local v = ns.db[key]
-        if v == nil then v = default end
-        if v == nil and options[1] then
-            v = options[1].value
+        if v == nil and self.options[1] then
+            v = self.options[1].value
         end
         if v ~= nil then
             setSelection(v, true)
         end
     end
+end
 
-    dropDown.SetOptions = function(self, newValues)
-        options = normalizeValues(newValues or {})
-        UIDropDownMenu_Initialize(dropDown, initializeMenu)
-        local v = ns.db[key]
-        if v ~= nil then
-            setSelection(v, true)
-        elseif options[1] then
-            setSelection(options[1].value, true)
-        end
-    end
+function ns.builder.CreateDropDown(section, text, key, options, params)
+    createLabel(section, params)
+    setText(text, params)
 
-    dropDown.GetValue = function()
-        return UIDropDownMenu_GetSelectedValue(dropDown)
-    end
+    createDropDown(section, key, params)
+    setWidth(params)
+    setOptions(options)
 
-    dropDown.SetValue = function(self, v)
-        setSelection(v)
-    end
+    initializeDropDown(key)
 
     section:SetAnchor(label)
     return dropDown

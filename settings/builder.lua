@@ -20,8 +20,8 @@ function section:AddCheckBox(text, key, params)
     return self:AddControl(ns.builder.CreateCheckBox(self, text, key, params))
 end
 
-function section:AddDropDown(text, key, values, default, params)
-    return self:AddControl(ns.builder.CreateDropDown(self, text, key, values, default, params))
+function section:AddDropDown(text, key, options, params)
+    return self:AddControl(ns.builder.CreateDropDown(self, text, key, options, params))
 end
 
 function section:AddText(text, params)
