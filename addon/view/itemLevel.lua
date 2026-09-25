@@ -88,3 +88,11 @@ local function onItemsCached(_, unit, slots)
 end
 
 ns.bus:RegisterEvent(name .. "_ITEMS_CACHED", onItemsCached)
+
+local function onSettingsChanged(_, key)
+    if key == "itemLevel" then
+    elseif key == "targetItemLevel" then
+    end
+end
+
+ns.bus:RegisterEvent(name .. "_SETTINGS_CHANGED", onSettingsChanged)

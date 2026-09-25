@@ -89,7 +89,8 @@ end
 ns.bus:RegisterEvent(name .. "_ITEMS_CACHED", onItemsCached)
 
 local function onSettingsChanged(_, key)
-    if key == "border" then
+    if key == "borderColor" then
+    elseif key == "targetBorderColor" then
     end
 end
 
