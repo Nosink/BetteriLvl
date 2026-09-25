@@ -29,6 +29,6 @@ function ns.builder.CreateText(section, text, params)
 
     setText(text, params)
 
-    section:SetAnchor(label)
+    section:setAnchor(label)
     return label
 end

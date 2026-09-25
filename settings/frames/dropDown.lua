@@ -114,6 +114,6 @@ function ns.builder.CreateDropDown(section, text, key, options, params)
 
     initialize(key)
 
-    section:SetAnchor(label)
+    section:setAnchor(label)
     return dropDown
 end
