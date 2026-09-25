@@ -26,10 +26,15 @@ local function setText(text, params)
     checkBox.Text:SetText(text)
 end
 
+local function triggerSettingsChanged(key, value)
+    ns.db[key] = value
+    ns.bus:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
+end
+
 local function setOnClick(key)
     checkBox:SetScript("OnClick", function(self)
-        ns.db[key] = self:GetChecked() or false
-        ns.bus:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
+        local value = self:GetChecked() or false
+        triggerSettingsChanged(key, value)
     end)
 end
 
