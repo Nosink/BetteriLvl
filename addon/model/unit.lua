@@ -34,9 +34,13 @@ local function cacheItem(unit, invSlotId)
     local item = Item:CreateFromItemID(itemId)
     if not item then return end
 
-    item:ContinueOnItemLoad(function()
+    if item:IsItemDataCached() then
         itemSlot:SetItem(item)
-    end)
+    else
+        item:ContinueOnItemLoad(function()
+            itemSlot:SetItem(item)
+        end)
+    end
 end
 
 local function evaluateItemsCache(unit)
