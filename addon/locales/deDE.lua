@@ -5,6 +5,7 @@ if ns.locale == "deDE" then
     L["COMMAND_USE"] = "Verwende"
     L["COMMAND_OR"] = "oder"
     L["COMMAND_DESCRIPTION"] = "um die Einstellungen zu öffnen"
+    L["COMMAND_VERSION"] = "Version"
 
     L["OPTIONS_TITLE"] = "Better iLvl"
 

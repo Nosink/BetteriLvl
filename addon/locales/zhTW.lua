@@ -5,6 +5,7 @@ if ns.locale == "zhTW" then
     L["COMMAND_USE"] = "使用"
     L["COMMAND_OR"] = "或"
     L["COMMAND_DESCRIPTION"] = "開啟設定"
+    L["COMMAND_VERSION"] = "版本"
 
     L["OPTIONS_TITLE"] = "Better iLvl"
 
