@@ -11,20 +11,20 @@ builder:CreateOptionsPanel()
 builder:CreateTitle(L["OPTIONS_TITLE"])
 
 -- Options
-local player = builder:CreateSection(L["OPTIONS_PLAYER_FRAME"])
-player:AddCheckBox(L["OPTIONS_PLAYER_ITEM_LEVEL"], "itemLevel")
-player:AddCheckBox(L["OPTIONS_PLAYER_BORDER"], "borderColor")
+local playerSection = builder:CreateSection(L["OPTIONS_PLAYER_FRAME"])
+playerSection:AddCheckBox(L["OPTIONS_PLAYER_ITEM_LEVEL"], "itemLevel")
+playerSection:AddCheckBox(L["OPTIONS_PLAYER_BORDER"], "borderColor")
 
-local durability = builder:CreateSection(L["OPTIONS_DURABILITY"])
-durability:AddCheckBox(L["OPTIONS_DURABILITY_ENABLE"], "durability")
-durability:AddCheckBox(L["OPTIONS_DURABILITY_COLOR"], "durabilityColor")
-durability:AddDropDown(L["OPTIONS_DURABILITY_TYPE"], "durabilityType", {
+local durabilitySection = builder:CreateSection(L["OPTIONS_DURABILITY"])
+durabilitySection:AddCheckBox(L["OPTIONS_DURABILITY_ENABLE"], "durability")
+durabilitySection:AddCheckBox(L["OPTIONS_DURABILITY_COLOR"], "durabilityColor")
+durabilitySection:AddDropDown(L["OPTIONS_DURABILITY_TYPE"], "durabilityType", {
     { value = durabilityType.Bars, text = L["OPTIONS_DURABILITY_TYPE_BAR"] },
     { value = durabilityType.Text, text = L["OPTIONS_DURABILITY_TYPE_TEXT"] } })
 
-local target = builder:CreateSection(L["OPTIONS_TARGET_FRAME"])
-target:AddCheckBox(L["OPTIONS_TARGET_ITEM_LEVEL"], "targetItemLevel")
-target:AddCheckBox(L["OPTIONS_TARGET_BORDER"], "targetBorderColor")
+local targetSection = builder:CreateSection(L["OPTIONS_TARGET_FRAME"])
+targetSection:AddCheckBox(L["OPTIONS_TARGET_ITEM_LEVEL"], "targetItemLevel")
+targetSection:AddCheckBox(L["OPTIONS_TARGET_BORDER"], "targetBorderColor")
 
 -- Register
 builder:Register()

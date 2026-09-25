@@ -38,7 +38,11 @@ database/database.lua
 localization/localization.lua
 
 # Settings
-settings/builder.lua
+settings/builder/helpers.lua
+settings/builder/panel.lua
+settings/builder/section.lua
+
+# Settings - Frames
 settings/frames/checkbox.lua
 settings/frames/dropDown.lua
 settings/frames/text.lua
