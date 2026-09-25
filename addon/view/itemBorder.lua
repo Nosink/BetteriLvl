@@ -1,7 +1,6 @@
 local name, ns = ...
 
 local enums = ns.enums
-
 local cachedSlots = {}
 
 local function isItemBorderenabled(unit)
@@ -91,8 +90,6 @@ ns.bus:RegisterEvent(name .. "_ITEMS_CACHED", onItemsCached)
 
 local function onSettingsChanged(_, key)
     if key == "border" then
-        onItemsCached(nil, "player", cachedSlots)
-        onItemsCached(nil, "target", cachedSlots)
     end
 end
 

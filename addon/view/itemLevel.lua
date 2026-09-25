@@ -1,7 +1,6 @@
 local name, ns = ...
 
 local enums = ns.enums
-
 local cachedSlots = {}
 
 local function isItemLevelEnabled(unit)
@@ -47,7 +46,7 @@ local function retrieveFrame(unit, slotName)
     return _G[frameName .. slotName]
 end
 
-local function displayItemBorder(frame, key)
+local function displayItemLevel(frame, key)
     if not frame then return end
     local itemData = cachedSlots[enums.slotIdType[key]]
 
@@ -81,7 +80,7 @@ local function onItemsCached(_, unit, slots)
         if isItemLevelEnabled(unit) then
             local frame = retrieveFrame(unit, value)
             createItemLevelText(frame)
-            displayItemBorder(frame, key)
+            displayItemLevel(frame, key)
         end
     end
 
