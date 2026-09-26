@@ -75,11 +75,9 @@ addon/locales/zhTW.lua
 addon/settings/panel.lua
 addon/settings/commands.lua
 
-# Addon - MVC
+# Addon 
 # ---------------------
 addon/model/unit.lua
-# ---------------------
-addon/controller/unit.lua
 # ---------------------
 addon/view/itemLevel.lua
 addon/view/itemBorder.lua

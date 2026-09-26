@@ -1,23 +1,14 @@
 local name, ns = ...
 
 local enums = ns.enums
-
 local items = {}
 
 local function getItemQualityColor(quality)
-    local q = tonumber(quality) or 0
-
     if C_Item and C_Item.GetItemQualityColor then
-        local r, g, b = C_Item.GetItemQualityColor(q)
-        if type(r) == "table" then
-            return r.r, r.g, r.b
-        end
-        if type(r) == "number" then
-            return r, g, b
-        end
+        return C_Item.GetItemQualityColor(quality)
+    else
+        return 1, 1, 1
     end
-
-    return 1, 1, 1
 end
 
 local function cacheItem(unit, invSlotId)
@@ -96,12 +87,23 @@ local function onPlayerDurabilityChanged()
     end
 end
 
-local function onInspectReady(_, unit)
-    loadEquipment(unit)
+ns.bus:RegisterEvent(name .. "_VARIABLES_LOADED", onVariablesLoaded)
+
+ns.bus:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
+ns.bus:RegisterEvent("UPDATE_INVENTORY_DURABILITY", onPlayerDurabilityChanged)
+
+
+
+local unitId = nil
+
+local function onNotifyInspect(unit)
+    unitId = unit
 end
 
-ns.bus:RegisterEvent(name .. "_VARIABLES_LOADED", onVariablesLoaded)
-ns.bus:RegisterEvent(name .. "_PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
-ns.bus:RegisterEvent(name .. "_UPDATE_INVENTORY_DURABILITY", onPlayerDurabilityChanged)
+local function onInspectReady(_)
+    if not unitId then return end
+    loadEquipment(unitId)
+end
 
-ns.bus:RegisterEvent(name .. "_INSPECT_READY", onInspectReady)
+ns.bus:HookSecureFunc("NotifyInspect", onNotifyInspect)
+ns.bus:RegisterEvent("INSPECT_READY", onInspectReady)
