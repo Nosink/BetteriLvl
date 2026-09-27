@@ -87,23 +87,13 @@ local function onPlayerDurabilityChanged()
     end
 end
 
+local function onInspectReady(_, unit)
+    loadEquipment(unit)
+end
+
 ns.bus:RegisterEvent(name .. "_VARIABLES_LOADED", onVariablesLoaded)
 
-ns.bus:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
-ns.bus:RegisterEvent("UPDATE_INVENTORY_DURABILITY", onPlayerDurabilityChanged)
+ns.bus:RegisterEvent(name .. "_PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
+ns.bus:RegisterEvent(name .. "_UPDATE_INVENTORY_DURABILITY", onPlayerDurabilityChanged)
 
-
-
-local unitId = nil
-
-local function onNotifyInspect(unit)
-    unitId = unit
-end
-
-local function onInspectReady(_)
-    if not unitId then return end
-    loadEquipment(unitId)
-end
-
-ns.bus:HookSecureFunc("NotifyInspect", onNotifyInspect)
-ns.bus:RegisterEvent("INSPECT_READY", onInspectReady)
+ns.bus:RegisterEvent(name .. "_INSPECT_READY", onInspectReady)
