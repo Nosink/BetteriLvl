@@ -20,7 +20,7 @@
 ## Author: Nosink Ð
 ## Version: 1.5.0
 ## X-Version: 1.5.0
-## IconTexture: Interface\Icons\achievement_level_40
+## IconTexture: Interface\Icons\inv_misc_note_06
 
 ## SavedVariables: BetteriLvlDB
 ## SavedVariablesPerCharacter: BetteriLvlPCDB
@@ -47,10 +47,6 @@ settings/frames/checkbox.lua
 settings/frames/dropDown.lua
 settings/frames/text.lua
 
-# //////////////////////////////
-#            ADDON
-# //////////////////////////////
-
 # Addon - Data
 addon/data/slotIdType.lua
 addon/data/slotNameType.lua
@@ -75,7 +71,7 @@ addon/locales/zhTW.lua
 addon/settings/panel.lua
 addon/settings/commands.lua
 
-# Addon 
+# Addon - MVC
 # ---------------------
 addon/controller/unit.lua
 # ---------------------
