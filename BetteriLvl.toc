@@ -18,8 +18,7 @@
 ## Notes-zhTW: 在角色和目標框架上顯示已裝備物品的物品等級、品質邊框和耐久度資訊。
 
 ## Author: Nosink Ð
-## Version: 1.5.0
-## X-Version: 1.5.0
+## Version: 1.5.1
 ## IconTexture: Interface\Icons\inv_misc_note_06
 
 ## SavedVariables: BetteriLvlDB

@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.1] - 2026-09-29
+Improved equipment overlay initialization and item data handling.
+
+### Added
+- Shirt slot support for item level, quality border, and related equipment overlays.
+
+### Changed
+- Item data loading now handles already-cached items immediately.
+- Controller files are loaded before model files to preserve the MVC initialization order.
+
+---
+
 ## [1.5.0] - 2026-09-25
 Live overlay settings and refreshed MVC view behavior.
 
