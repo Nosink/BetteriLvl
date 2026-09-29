@@ -134,7 +134,6 @@ end
 
 ns.bus:RegisterEvent(name .. "_ITEMS_CACHED", onItemsCached)
 
-
 local function onSettingsChanged(_, key)
     if key == "durability" then
         refreshDurability()

@@ -77,6 +77,8 @@ addon/settings/commands.lua
 
 # Addon 
 # ---------------------
+addon/controller/unit.lua
+# ---------------------
 addon/model/unit.lua
 # ---------------------
 addon/view/itemLevel.lua
