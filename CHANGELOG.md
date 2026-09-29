@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.2] - 2026-09-29
+
+### Added
+- Support for Classic Interface
+
+---
+
 ## [1.5.1] - 2026-09-29
 Improved equipment overlay initialization and item data handling.
 
