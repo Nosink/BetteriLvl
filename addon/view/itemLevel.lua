@@ -12,35 +12,31 @@ local function isItemLevelEnabled(unit)
 end
 
 local function createItemLevelText(frame)
-    if not frame or frame.itemLevel then return end
+    if not frame or frame.ItemLevel and frame.ItemLevel.isInitialized then return end
 
-    frame.itemLevel = frame:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
-    frame.itemLevel:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -2)
-    frame.itemLevel:SetShadowOffset(1, -1)
-    frame.itemLevel:SetShadowColor(0, 0, 0, 1)
+    frame.ItemLevel = frame:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
+    frame.ItemLevel:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -2)
+    frame.ItemLevel:SetShadowOffset(1, -1)
+    frame.ItemLevel:SetShadowColor(0, 0, 0, 1)
 
-    frame.ShowItemLabel = function(self, itemQualityColor, itemLevel)
-        if not self.itemLevel then return end
-        local r, g, b = itemQualityColor[1], itemQualityColor[2], itemQualityColor[3]
-        self.itemLevel:SetTextColor(r, g, b)
-        self.itemLevel:SetText(itemLevel)
-        self.itemLevel:Show()
+    frame.ShowItemLabel = function(self, itemData)
+        if not self.ItemLevel then return end
+        local r, g, b = itemData.itemQualityColor.r, itemData.itemQualityColor.g, itemData.itemQualityColor.b
+        self.ItemLevel:SetTextColor(r, g, b)
+        self.ItemLevel:SetText(itemData.itemLevel)
+        self.ItemLevel:Show()
     end
 
     frame.HideItemLabel = function(self)
-        if not self.itemLevel then return end
-        self.itemLevel:SetText("")
-        self.itemLevel:Hide()
+        if not self.ItemLevel then return end
+        self.ItemLevel:SetText("")
+        self.ItemLevel:Hide()
     end
 
+    frame.ItemLevel.isInitialized = true
     frame:HideItemLabel()
-    return frame.itemLevel
 end
 
-
-local function retrieveItemData(itemData)
-    return itemData.item:GetCurrentItemLevel(), itemData.itemQualityColor
-end
 
 local function retrieveFrame(unit, slotName)
     local frameName = (unit == "player") and "Character" or "Inspect"
@@ -51,9 +47,8 @@ local function displayItemLevel(unit, frame, key)
     if not frame then return end
     local itemData = cachedSlots[unit] and cachedSlots[unit][enums.slotIdType[key]]
 
-    if itemData and itemData.item then
-        local itemLevel, itemQuality = retrieveItemData(itemData)
-        frame:ShowItemLabel(itemQuality, itemLevel)
+    if itemData then
+        frame:ShowItemLabel(itemData)
     else
         frame:HideItemLabel()
     end
@@ -61,11 +56,9 @@ end
 
 local function canRangedWeaponUseAmmo(unit)
     local itemData = cachedSlots[unit] and cachedSlots[unit][enums.slotIdType.INVSLOT_RANGED]
-    if not itemData or not itemData.item then return false end
+    if not itemData then return false end
 
-    local itemId = itemData.item:GetItemID(itemData)
-    local _, _, _, _, _, _, itemSubType = C_Item.GetItemInfo(itemId)
-    return (itemSubType == "Crossbow" or itemSubType == "Bows" or itemSubType == "Guns")
+    return (itemData.itemSubType == "Crossbow" or itemData.itemSubType == "Bows" or itemData.itemSubType == "Guns")
 end
 
 local function evaluateAmmoSlot(unit)

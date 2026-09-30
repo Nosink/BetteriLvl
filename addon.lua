@@ -1,5 +1,7 @@
 local name, ns = ...
 
+ns.expansion = GetExpansionLevel()
+
 local function onLoad()
     ns.bus:TriggerEvent(name .. "_VARIABLES_LOADED")
 end

@@ -2,12 +2,12 @@ local name, ns = ...
 
 local enums = ns.enums
 local items = {}
-
 local function getItemQualityColor(quality)
     if C_Item and C_Item.GetItemQualityColor then
-        return C_Item.GetItemQualityColor(quality)
+        local r, g, b = C_Item.GetItemQualityColor(quality)
+        return { r = r, g = g, b = b }
     else
-        return 1, 1, 1
+        return { r = 1, g = 1, b = 1 }
     end
 end
 
@@ -18,20 +18,12 @@ local function cacheItem(unit, invSlotId)
     itemSlot:ClearItem()
 
     local itemId = GetInventoryItemID(unit, invSlotId)
-    if not itemId or itemId == 0 then return end
+    local itemLink = GetInventoryItemLink(unit, invSlotId)
+    if not itemLink or itemId == 0 then return end
 
     if itemSlot.itemID == itemId and itemSlot.cached then return end
 
-    local item = Item:CreateFromItemID(itemId)
-    if not item then return end
-
-    if item:IsItemDataCached() then
-        itemSlot:SetItem(item)
-    else
-        item:ContinueOnItemLoad(function()
-            itemSlot:SetItem(item)
-        end)
-    end
+    itemSlot:SetItem(itemLink)
 end
 
 local function evaluateItemsCache(unit)
@@ -47,15 +39,16 @@ local function createItem(unit, invSlotId)
     if items[unit].slots[invSlotId] then return end
 
     local itemData = { item = nil, cached = false }
-    itemData.SetItem = function(self, item)
-        self.item = item
-        self.itemQuality = item:GetItemQuality(self)
-        self.itemQualityColor = { getItemQualityColor(self.itemQuality) }
+    itemData.SetItem = function(self, itemLink)
+        local _, _, itemQuality, itemLevel, _, _, itemSubType = C_Item.GetItemInfo(itemLink)
+        self.itemLevel = itemLevel
+        self.itemQuality = itemQuality
+        self.itemSubType = itemSubType
+        self.itemQualityColor = getItemQualityColor(itemQuality)
         self.cached = true
         evaluateItemsCache(unit)
     end
     itemData.ClearItem = function(self)
-        self.item = nil
         self.cached = true
         evaluateItemsCache(unit)
     end
@@ -76,6 +69,10 @@ local function onVariablesLoaded(_)
     loadEquipment("player")
 end
 
+local function onCharacterFrameShown(_)
+    loadEquipment("player")
+end
+
 local function onPlayerEquipmentChanged(_, equipmentSlot)
     cacheItem("player", equipmentSlot)
 end
@@ -93,6 +90,7 @@ end
 
 ns.bus:RegisterEvent(name .. "_VARIABLES_LOADED", onVariablesLoaded)
 
+ns.bus:RegisterEvent(name .. "_CHARACTER_FRAME_SHOWN", onCharacterFrameShown)
 ns.bus:RegisterEvent(name .. "_PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
 ns.bus:RegisterEvent(name .. "_UPDATE_INVENTORY_DURABILITY", onPlayerDurabilityChanged)
 

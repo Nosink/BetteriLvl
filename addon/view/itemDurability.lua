@@ -24,16 +24,16 @@ local function isDurabilityEnabled()
 end
 
 local function createDurabilityText(frame)
-    frame.durability.text = frame:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
-    frame.durability.text:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 0, 2)
-    frame.durability.text:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, 16)
-    frame.durability.text:SetShadowOffset(1, -1)
-    frame.durability.text:SetShadowColor(0, 0, 0, 1)
-    local fontName, _, flags = frame.durability.text:GetFont()
-    frame.durability.text:SetFont(tostring(fontName), 12, flags)
-    frame.durability.text:Hide()
+    frame.Durability.Text = frame:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
+    frame.Durability.Text:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 0, 2)
+    frame.Durability.Text:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, 16)
+    frame.Durability.Text:SetShadowOffset(1, -1)
+    frame.Durability.Text:SetShadowColor(0, 0, 0, 1)
+    local fontName, _, flags = frame.Durability.Text:GetFont()
+    frame.Durability.Text:SetFont(tostring(fontName), 12, flags)
+    frame.Durability.Text:Hide()
 
-    frame.durability.text.ShowDurability = function(self, durabilityPercent)
+    frame.Durability.Text.ShowDurability = function(self, durabilityPercent)
         local r, g, b = getDurabilityColor(durabilityPercent)
         self:SetTextColor(r, g, b)
         self:SetText(durabilityPercent .. "%")
@@ -43,18 +43,18 @@ local function createDurabilityText(frame)
 end
 
 local function createDurabilityBar(frame)
-    frame.durability.bar = CreateFrame("StatusBar", nil, frame)
-    frame.durability.bar:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 2, 2)
-    frame.durability.bar:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -3, 0)
-    frame.durability.bar:SetHeight(4)
-    frame.durability.bar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
-    local bg = frame.durability.bar:CreateTexture(nil, "BACKGROUND")
-    bg:SetAllPoints(frame.durability.bar)
+    frame.Durability.Bar = CreateFrame("StatusBar", nil, frame)
+    frame.Durability.Bar:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 2, 2)
+    frame.Durability.Bar:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -3, 0)
+    frame.Durability.Bar:SetHeight(4)
+    frame.Durability.Bar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+    local bg = frame.Durability.Bar:CreateTexture(nil, "BACKGROUND")
+    bg:SetAllPoints(frame.Durability.Bar)
     bg:SetColorTexture(0, 0, 0, 0.9)
-    frame.durability.bar:SetMinMaxValues(0, 100)
-    frame.durability.bar:Hide()
+    frame.Durability.Bar:SetMinMaxValues(0, 100)
+    frame.Durability.Bar:Hide()
 
-    frame.durability.bar.ShowDurability = function(self, durabilityPercent)
+    frame.Durability.Bar.ShowDurability = function(self, durabilityPercent)
         local r, g, b = getDurabilityColor(durabilityPercent)
         self:SetStatusBarColor(r, g, b)
         self:SetValue(durabilityPercent)
@@ -63,30 +63,31 @@ local function createDurabilityBar(frame)
 end
 
 local function createDurability(frame)
-    if not frame or frame.durability then return end
+    if not frame or frame.Durability and frame.Durability.isInitialized then return end
 
-    frame.durability = { bar = {}, text = {} }
+    frame.Durability = { Bar = {}, text = {} }
     createDurabilityBar(frame)
     createDurabilityText(frame)
 
     frame.ShowDurability = function(self, durabilityPercent)
-        if not self.durability then return end
-        self.durability.bar:Hide()
-        self.durability.text:Hide()
+        if not self.Durability then return end
+        self.Durability.Bar:Hide()
+        self.Durability.Text:Hide()
         if isDurabilityTypeBar() then
-            self.durability.bar:ShowDurability(durabilityPercent)
+            self.Durability.Bar:ShowDurability(durabilityPercent)
         else
-            self.durability.text:ShowDurability(durabilityPercent)
+            self.Durability.Text:ShowDurability(durabilityPercent)
         end
     end
 
     frame.HideDurability = function(self)
-        if not self.durability then return end
-        self.durability.bar:Hide()
-        self.durability.text:Hide()
+        if not self.Durability then return end
+        self.Durability.Bar:Hide()
+        self.Durability.Text:Hide()
     end
 
     frame:HideDurability()
+    frame.Durability.isInitialized = true
 end
 
 local function retrieveFrame(slotName)
@@ -108,7 +109,7 @@ end
 local function hideDurability()
     for _, slotName in pairs(enums.slotNameType) do
         local frame = retrieveFrame(slotName)
-        if frame and frame.durability then
+        if frame and frame.Durability then
             frame:HideDurability()
         end
     end

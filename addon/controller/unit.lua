@@ -2,6 +2,17 @@ local name, ns = ...
 
 local unitId = nil
 
+local function onCharacterFrameShown()
+    ns.bus:TriggerEvent(name .. "_CHARACTER_FRAME_SHOWN")
+end
+
+local function onVariablesLoaded()
+    local characterFrame = _G["CharacterFrame"]
+    if not characterFrame then return end
+
+    characterFrame:HookScript("OnShow", onCharacterFrameShown)
+end
+
 local function onNotifyInspect(unit)
     unitId = unit
 end
@@ -18,6 +29,8 @@ end
 local function onPlayerDurabilityChanged()
     ns.bus:TriggerEvent(name .. "_UPDATE_INVENTORY_DURABILITY")
 end
+
+ns.bus:RegisterEvent(name .. "_VARIABLES_LOADED", onVariablesLoaded)
 
 ns.bus:HookSecureFunc("NotifyInspect", onNotifyInspect)
 ns.bus:RegisterEvent("INSPECT_READY", onInspectReady)
