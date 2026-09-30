@@ -27,14 +27,24 @@ local function setItemBorderPoint(frame)
     end
 end
 
+local function setItemTexture(frame)
+    if (ns.expansion == enums.expansion.CLASSIC
+            or ns.expansion == enums.expansion.BURNING_CRUSADE
+            or ns.expansion == enums.expansion.WRATH_OF_THE_LICH_KING
+            or ns.expansion == enums.expansion.CATACLYSM
+            or ns.expansion == enums.expansion.MISTS_OF_PANDARIA) then
+        frame.IconBorder:SetTexture("Interface/Buttons/UI-ActionButton-Border")
+        frame.IconBorder:SetBlendMode("ADD")
+        frame.IconBorder:SetAlpha(1)
+    end
+end
+
 local function createBorderTexture(frame)
     if not frame or frame.IconBorder and frame.IconBorder.isInitialized then return end
 
     frame.IconBorder = getItemBorderFrame(frame)
     setItemBorderPoint(frame)
-    frame.IconBorder:SetTexture("Interface/Buttons/UI-ActionButton-Border")
-    frame.IconBorder:SetBlendMode("ADD")
-    frame.IconBorder:SetAlpha(0.5)
+    setItemTexture(frame)
 
     frame.ShowBorder = function(self, itemData)
         if not self.IconBorder then return end
