@@ -3,6 +3,8 @@ local name, ns = ...
 local enums = ns.enums
 local items = {}
 
+local maxAttempts = 10
+
 local function cacheItem(unit, invSlotId)
     items[unit] = items[unit] or { slots = {} }
     local itemSlot = items[unit].slots[invSlotId]
@@ -18,12 +20,17 @@ local function cacheItem(unit, invSlotId)
     itemSlot:SetItem(itemLink)
 end
 
-local function evaluateItemsCache(unit)
+local function areItemsCached(unit)
     for slotKey, _ in pairs(enums.slotIdType) do
         local invSlotId = enums.slotIdType[slotKey]
         local itemData = items[unit].slots[invSlotId]
-        if not itemData or not itemData.cached then return end
+        if not itemData or not itemData.cached then return false end
     end
+    return true
+end
+
+local function evaluateItemsCache(unit)
+    if not areItemsCached(unit) then return end
     ns.bus:TriggerEvent(name .. "_ITEMS_CACHED", unit, items[unit].slots)
 end
 
@@ -37,7 +44,7 @@ local function createItem(unit, invSlotId)
         self.itemQuality = itemQuality
         self.itemSubType = itemSubType
         self.itemQualityColor = { C_Item.GetItemQualityColor(itemQuality) }
-        self.cached = true
+        self.cached = itemLevel ~= nil
         evaluateItemsCache(unit)
     end
     itemData.ClearItem = function(self)
@@ -80,8 +87,17 @@ local function onPlayerDurabilityChanged()
     end
 end
 
+local function loadEquipmentWithRetry(unit, attempt)
+    if attempt > maxAttempts then return end
+
+    C_Timer.After(0.1, function()
+        loadEquipment(unit)
+        loadEquipmentWithRetry(unit, attempt + 1)
+    end)
+end
+
 local function onInspectReady(_, unit)
-    loadEquipment(unit)
+    loadEquipmentWithRetry(unit, 1)
 end
 
 ns.bus:RegisterEvent(name .. "_VARIABLES_LOADED", onVariablesLoaded)
