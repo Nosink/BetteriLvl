@@ -1,7 +1,7 @@
 
 ## Title: BetteriLvl
 
-## Interface: 120100, 50504, 20506, 11509
+## Interface: 120100, 50504, 40402, 30405, 20506, 11509
 
 ## Category: Interface Enhancements
 ## Category-enGB: Interface Enhancements
@@ -30,7 +30,7 @@
 ## Notes-zhTW: 在角色和目標框架上顯示已裝備物品的物品等級、品質邊框和耐久度資訊。
 
 ## Author: Nosink Ð
-## Version: 1.5.2
+## Version: 1.5.3
 
 ## IconTexture: Interface\Icons\inv_misc_note_06
 

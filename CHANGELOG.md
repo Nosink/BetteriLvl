@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.5.3] - 2026-09-30
+Expanded expansion support and improved equipment item data loading.
+
+### Added
+- Support for Mists of Pandaria, Wrath of the Lich King, Cataclysm, and Midnight.
+- Localized addon category names for the supported game clients.
+
+### Improved
+- Item information is reused immediately when it is already available in the client cache.
+- Inspect data loading retries briefly when item links or item metadata are not ready on the first `INSPECT_READY` event.
+- Empty equipment slots are cleared without displaying stale item levels or quality borders.
+- Item quality colors are normalized before being used by item level text and quality border views.
+
+---
+
 ## [1.5.2] - 2026-09-29
 
 ### Added
