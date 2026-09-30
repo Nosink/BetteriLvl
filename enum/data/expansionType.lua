@@ -1,5 +1,7 @@
 local _, ns = ...
 
+ns.expansion = GetExpansionLevel()
+
 ns.RegisterEnum("expansion", {
     CLASSIC = 0,
     BURNING_CRUSADE = 1,
