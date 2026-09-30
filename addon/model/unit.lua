@@ -33,11 +33,10 @@ local function createItem(unit, invSlotId)
     local itemData = { item = nil, cached = false }
     itemData.SetItem = function(self, itemLink)
         local _, _, itemQuality, itemLevel, _, _, itemSubType = C_Item.GetItemInfo(itemLink)
-        local itemQualityColor = C_Item.GetItemQualityColor(itemQuality)
         self.itemLevel = itemLevel
         self.itemQuality = itemQuality
         self.itemSubType = itemSubType
-        self.itemQualityColor = itemQualityColor
+        self.itemQualityColor = { C_Item.GetItemQualityColor(itemQuality) }
         self.cached = true
         evaluateItemsCache(unit)
     end

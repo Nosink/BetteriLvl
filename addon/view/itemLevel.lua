@@ -37,7 +37,6 @@ local function createItemLevelText(frame)
     frame:HideItemLabel()
 end
 
-
 local function retrieveFrame(unit, slotName)
     local frameName = (unit == "player") and "Character" or "Inspect"
     return _G[frameName .. slotName]
