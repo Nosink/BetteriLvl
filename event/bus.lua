@@ -3,6 +3,7 @@ local name, ns = ...
 local _G = _G
 local type = type
 local pcall = pcall
+local print = print
 local tostring = tostring
 local setmetatable = setmetatable
 local geterrorhandler = geterrorhandler
@@ -68,13 +69,14 @@ end
 local proto = {}
 proto.__index = proto
 
-local function newBus(busName, safe)
+local function newBus(busName, safe, verbose)
     return setmetatable({
         name         = busName or "UnnamedBus",
         handlers     = {},
         onceHandlers = {},
         nativeEvents = {},
         safe         = safe ~= false,
+        verbose      = verbose ~= false,
     }, proto)
 end
 
@@ -106,6 +108,10 @@ function proto:unregisterEvent(event, list)
 end
 
 function proto:dispatch(event, ...)
+    if self.verbose then
+        print(self.name, "event:", event, ...)
+    end
+
     local list = self.handlers[event]
     if not list then return end
 
