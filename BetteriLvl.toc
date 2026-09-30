@@ -1,7 +1,7 @@
 
 ## Title: BetteriLvl
 
-## Interface: 20506, 11509
+## Interface: 50504, 20506, 11509
 ## Category: Interface Enhancements
 
 ## Notes: Shows item level, quality borders and durability information on character and target frames about equipped items.
