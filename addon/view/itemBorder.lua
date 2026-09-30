@@ -38,7 +38,7 @@ local function createBorderTexture(frame)
 
     frame.ShowBorder = function(self, itemData)
         if not self.IconBorder then return end
-        local r, g, b = itemData.itemQualityColor.r, itemData.itemQualityColor.g, itemData.itemQualityColor.b
+        local r, g, b = unpack(itemData.itemQualityColor)
         self.IconBorder:SetVertexColor(r, g, b)
         self.IconBorder:Show()
     end
@@ -58,12 +58,13 @@ local function retrieveFrame(unit, slotName)
 end
 
 local function isItemValid(unit, invSlotId)
-    return cachedSlots[unit] and cachedSlots[unit][invSlotId]
+    return cachedSlots[unit] and cachedSlots[unit][invSlotId] and cachedSlots[unit][invSlotId].itemQualityColor
 end
 
 local function displayItemBorder(unit, frame, slotId)
     if not frame then return end
     local invSlotId = enums.slotIdType[slotId]
+
     if isItemValid(unit, invSlotId) then
         local itemData = cachedSlots[unit][invSlotId]
         frame:ShowBorder(itemData)

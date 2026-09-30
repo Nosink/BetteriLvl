@@ -21,7 +21,7 @@ local function createItemLevelText(frame)
 
     frame.ShowItemLabel = function(self, itemData)
         if not self.ItemLevel then return end
-        local r, g, b = itemData.itemQualityColor.r, itemData.itemQualityColor.g, itemData.itemQualityColor.b
+        local r, g, b = unpack(itemData.itemQualityColor)
         self.ItemLevel:SetTextColor(r, g, b)
         self.ItemLevel:SetText(itemData.itemLevel)
         self.ItemLevel:Show()
@@ -43,11 +43,16 @@ local function retrieveFrame(unit, slotName)
     return _G[frameName .. slotName]
 end
 
-local function displayItemLevel(unit, frame, key)
-    if not frame then return end
-    local itemData = cachedSlots[unit] and cachedSlots[unit][enums.slotIdType[key]]
+local function isItemValid(unit, invSlotId)
+    return cachedSlots[unit] and cachedSlots[unit][invSlotId] and cachedSlots[unit][invSlotId].itemLevel
+end
 
-    if itemData then
+local function displayItemLevel(unit, frame, slotId)
+    if not frame then return end
+    local invSlotId = enums.slotIdType[slotId]
+
+    if isItemValid(unit, invSlotId) then
+        local itemData = cachedSlots[unit][invSlotId]
         frame:ShowItemLabel(itemData)
     else
         frame:HideItemLabel()
@@ -83,10 +88,10 @@ local function refreshItemLevels(unit)
         return
     end
 
-    for key, slotName in pairs(enums.slotNameType) do
+    for slotId, slotName in pairs(enums.slotNameType) do
         local frame = retrieveFrame(unit, slotName)
         createItemLevelText(frame)
-        displayItemLevel(unit, frame, key)
+        displayItemLevel(unit, frame, slotId)
     end
 
     evaluateAmmoSlot(unit)

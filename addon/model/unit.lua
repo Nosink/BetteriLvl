@@ -2,14 +2,6 @@ local name, ns = ...
 
 local enums = ns.enums
 local items = {}
-local function getItemQualityColor(quality)
-    if C_Item and C_Item.GetItemQualityColor then
-        local r, g, b = C_Item.GetItemQualityColor(quality)
-        return { r = r, g = g, b = b }
-    else
-        return { r = 1, g = 1, b = 1 }
-    end
-end
 
 local function cacheItem(unit, invSlotId)
     items[unit] = items[unit] or { slots = {} }
@@ -41,14 +33,19 @@ local function createItem(unit, invSlotId)
     local itemData = { item = nil, cached = false }
     itemData.SetItem = function(self, itemLink)
         local _, _, itemQuality, itemLevel, _, _, itemSubType = C_Item.GetItemInfo(itemLink)
+        local itemQualityColor = C_Item.GetItemQualityColor(itemQuality)
         self.itemLevel = itemLevel
         self.itemQuality = itemQuality
         self.itemSubType = itemSubType
-        self.itemQualityColor = getItemQualityColor(itemQuality)
+        self.itemQualityColor = itemQualityColor
         self.cached = true
         evaluateItemsCache(unit)
     end
     itemData.ClearItem = function(self)
+        self.itemLevel = nil
+        self.itemQuality = nil
+        self.itemSubType = nil
+        self.itemQualityColor = nil
         self.cached = true
         evaluateItemsCache(unit)
     end
