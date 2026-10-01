@@ -76,7 +76,7 @@ local function newBus(busName, safe, verbose)
         onceHandlers = {},
         nativeEvents = {},
         safe         = safe ~= false,
-        verbose      = verbose ~= false,
+        verbose      = verbose or false,
     }, proto)
 end
 
@@ -108,10 +108,6 @@ function proto:unregisterEvent(event, list)
 end
 
 function proto:dispatch(event, ...)
-    if self.verbose then
-        print(self.name, "event:", event, ...)
-    end
-
     local list = self.handlers[event]
     if not list then return end
 
@@ -120,6 +116,9 @@ function proto:dispatch(event, ...)
     for i = 1, #list do
         local entry = list[i]
         if entry and entry.active then
+            if entry.verbose then
+                print(self.name, "event:", event, ...)
+            end
             call(entry.fn, event, ...)
         end
     end
@@ -155,7 +154,7 @@ function proto:clearHandler(event, fn)
     end
 end
 
-function proto:RegisterEvent(event, fn)
+function proto:RegisterEvent(event, fn, verbose)
     if type(event) ~= "string" or type(fn) ~= "function" then return end
 
     local list = self:registerEvent(event)
@@ -166,7 +165,11 @@ function proto:RegisterEvent(event, fn)
         end
     end
 
-    local entry = { fn = fn, active = true }
+    local entry = {
+        fn = fn,
+        active = true,
+        verbose = verbose == nil and self.verbose or verbose,
+    }
     list[#list + 1] = entry
 
     local bus = self
@@ -175,7 +178,7 @@ function proto:RegisterEvent(event, fn)
     end
 end
 
-function proto:RegisterEventOnce(event, fn)
+function proto:RegisterEventOnce(event, fn, verbose)
     if type(event) ~= "string" or type(fn) ~= "function" then return end
 
     local map = self.onceHandlers[event]
@@ -194,7 +197,7 @@ function proto:RegisterEventOnce(event, fn)
     end
 
     map[fn] = wrapper
-    self:RegisterEvent(event, wrapper)
+    self:RegisterEvent(event, wrapper, verbose)
 
     return function()
         bus:UnregisterEvent(event, wrapper)
@@ -248,9 +251,9 @@ end
 local hookedFuncs = {}
 local hookedScripts = setmetatable({}, { __mode = "k" })
 
-function ns.HookSecureFunc(frame, funcName, handler)
+function ns.HookSecureFunc(frame, funcName, handler, verbose)
     if type(frame) == "string" then
-        frame, funcName, handler = _G, frame, funcName
+        frame, funcName, handler, verbose = _G, frame, funcName, handler
     end
     if type(handler) ~= "function" then return end
 
@@ -259,11 +262,12 @@ function ns.HookSecureFunc(frame, funcName, handler)
     hookedFuncs[key] = true
 
     hooksecurefunc(frame, funcName --[[@as string]], function(...)
+        if verbose then print("HookSecureFunc ", funcName, ...) end
         safeCall(handler, ...)
     end)
 end
 
-function ns.HookScript(frame, script, handler)
+function ns.HookScript(frame, script, handler, verbose)
     if type(frame) ~= "table" or type(handler) ~= "function" then return end
 
     local set = hookedScripts[frame]
@@ -275,6 +279,7 @@ function ns.HookScript(frame, script, handler)
     set[script] = true
 
     frame:HookScript(script, function(...)
+        if verbose then print(frame:GetName() .. " HookScript", script, ...) end
         safeCall(handler, ...)
     end)
 end
