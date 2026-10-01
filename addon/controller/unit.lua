@@ -1,39 +1,35 @@
 local name, ns = ...
 
 local inspectFrame = nil
+local characterFrame = nil
 
 local onShowPlayerFrameHook = false
 local onShowInspectFrameHook = false
 
 local function onCharacterFrameShown()
+    if not characterFrame then return end
     ns.bus:TriggerEvent(name .. "_CHARACTER_FRAME_SHOWN")
 end
 
 local function onVariablesLoaded()
-    local characterFrame = _G["CharacterFrame"]
+    characterFrame = _G["CharacterFrame"]
     if not characterFrame or onShowPlayerFrameHook then return end
 
     onShowPlayerFrameHook = true
     ns.bus:HookScript(characterFrame, "OnShow", onCharacterFrameShown)
 end
 
-local function onNotifyInspect()
-    ns.bus:TriggerEvent(name .. "_INSPECT_STARTED")
-end
-
 local function onInspectReady()
     if not inspectFrame then return end
-    ns.bus:TriggerEvent(name .. "_INSPECT_READY", inspectFrame.unit)
+    ns.bus:TriggerEvent(name .. "_INSPECT_READY")
 end
 
 local function onInspectFrameLoaded()
     inspectFrame = _G["InspectFrame"]
-    if not inspectFrame then return end
+    if not inspectFrame or onShowInspectFrameHook then return end
 
-    if not onShowInspectFrameHook then
-        ns.bus:HookScript(inspectFrame, "OnShow", onInspectReady)
-        onShowInspectFrameHook = true
-    end
+    onShowInspectFrameHook = true
+    ns.bus:HookScript(inspectFrame, "OnShow", onInspectReady)
 end
 
 local function onPlayerEquipmentChanged(_, equipmentSlot)
@@ -45,8 +41,6 @@ local function onPlayerDurabilityChanged()
 end
 
 ns.bus:RegisterEvent(name .. "_VARIABLES_LOADED", onVariablesLoaded)
-
-ns.bus:HookSecureFunc("NotifyInspect", onNotifyInspect)
 ns.bus:HookSecureFunc("InspectFrame_LoadUI", onInspectFrameLoaded)
 
 ns.bus:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
