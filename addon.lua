@@ -8,4 +8,4 @@ local function onVariablesLoaded(_)
     ns.database.Load(onLoad)
 end
 
-ns.bus:RegisterEvent("VARIABLES_LOADED", onVariablesLoaded)
+ns.bus:RegisterEventOnce("VARIABLES_LOADED", onVariablesLoaded, true)
