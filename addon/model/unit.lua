@@ -2,8 +2,8 @@ local name, ns = ...
 
 local enums = ns.enums
 local items = {}
-
-local maxAttempts = 10
+local inspectGenerations = {}
+local maxAttempts = 2
 
 local function cacheItem(unit, invSlotId)
     items[unit] = items[unit] or { slots = {} }
@@ -35,6 +35,7 @@ local function evaluateItemsCache(unit)
 end
 
 local function createItem(unit, invSlotId)
+    items[unit] = items[unit] or { slots = {} }
     if items[unit].slots[invSlotId] then return end
 
     local itemData = { item = nil, cached = false }
@@ -68,9 +69,6 @@ local function loadEquipment(unit)
     end
 end
 
-local function onVariablesLoaded(_)
-    loadEquipment("player")
-end
 
 local function onCharacterFrameShown(_)
     loadEquipment("player")
@@ -83,27 +81,35 @@ end
 local function onPlayerDurabilityChanged()
     for slotKey, _ in pairs(enums.slotIdType) do
         local invSlotId = enums.slotIdType[slotKey]
+        createItem("player", invSlotId)
         cacheItem("player", invSlotId)
     end
 end
 
-local function loadEquipmentWithRetry(unit, attempt)
+local function loadEquipmentWithRetry(unit, attempt, generation)
     if attempt > maxAttempts then return end
-
     C_Timer.After(0.1, function()
+        if inspectGenerations[unit] ~= generation then return end
         loadEquipment(unit)
-        loadEquipmentWithRetry(unit, attempt + 1)
+        loadEquipmentWithRetry(unit, attempt + 1, generation)
     end)
 end
 
-local function onInspectReady(_, unit)
-    loadEquipmentWithRetry(unit, 1)
+local function onInspectStarted(_)
+    --inspectGenerations[unit] = (inspectGenerations[unit] or 0) + 1
+    items["target"] = nil
+    ns.bus:TriggerEvent(name .. "_ITEMS_CACHED", "target", {})
 end
 
-ns.bus:RegisterEvent(name .. "_VARIABLES_LOADED", onVariablesLoaded)
+local function onInspectReady(_, unit)
+    -- local generation = inspectGenerations[unit] or 0
+    loadEquipment(unit)
+    --loadEquipmentWithRetry(unit, 1, generation)
+end
 
 ns.bus:RegisterEvent(name .. "_CHARACTER_FRAME_SHOWN", onCharacterFrameShown)
 ns.bus:RegisterEvent(name .. "_PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)
 ns.bus:RegisterEvent(name .. "_UPDATE_INVENTORY_DURABILITY", onPlayerDurabilityChanged)
 
 ns.bus:RegisterEvent(name .. "_INSPECT_READY", onInspectReady)
+ns.bus:RegisterEvent(name .. "_INSPECT_STARTED", onInspectStarted)
