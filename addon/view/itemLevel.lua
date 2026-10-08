@@ -72,13 +72,13 @@ local function evaluateAmmoSlot(unit)
     if canRangedWeaponUseAmmo(unit) then return end
 
     local frame = retrieveFrame(unit, enums.slotNameType.INVSLOT_AMMO)
-    if not frame or not frame.itemLevel then return else frame:HideItemLabel() end
+    if not frame or not frame.ItemLevel then return else frame:HideItemLabel() end
 end
 
 local function hideItemLevels(unit)
     for _, slotName in pairs(enums.slotNameType) do
         local frame = retrieveFrame(unit, slotName)
-        if frame and frame.itemLevel then
+        if frame and frame.ItemLevel then
             frame:HideItemLabel()
         end
     end
