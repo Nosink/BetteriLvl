@@ -43,7 +43,10 @@ local function retrieveFrame(unit, slotName)
 end
 
 local function isItemValid(unit, invSlotId)
-    return cachedSlots[unit] and cachedSlots[unit][invSlotId] and cachedSlots[unit][invSlotId].itemLevel
+    return cachedSlots[unit]
+        and cachedSlots[unit][invSlotId]
+        and cachedSlots[unit][invSlotId].itemLevel
+        and cachedSlots[unit][invSlotId].itemQualityColor
 end
 
 local function displayItemLevel(unit, frame, slotId)

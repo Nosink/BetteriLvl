@@ -13,6 +13,13 @@ local function cacheItem(unit, invSlotId)
     items[unit].slots[invSlotId]:SetItem(itemLink)
 end
 
+local function getItemQualityColor(itemQuality)
+    if type(itemQuality) == "number" then
+        return { C_Item.GetItemQualityColor(itemQuality) }
+    end
+    return { 1, 1, 1, 1 }
+end
+
 local function createItem(unit, invSlotId)
     if items[unit].slots[invSlotId] then return end
 
@@ -20,11 +27,10 @@ local function createItem(unit, invSlotId)
 
     itemData.SetItem = function(self, itemLink)
         local _, _, itemQuality, itemLevel, _, _, itemSubType = C_Item.GetItemInfo(itemLink)
-        local itemQualiityColor = { C_Item.GetItemQualityColor(itemQuality) }
         self.itemLevel = itemLevel
         self.itemQuality = itemQuality
         self.itemSubType = itemSubType
-        self.itemQualityColor = itemQualiityColor
+        self.itemQualityColor = getItemQualityColor(itemQuality)
     end
 
     itemData.ClearItem = function(self)
@@ -61,7 +67,6 @@ end
 local function onInspectReady(_)
     loadEquipment("target")
 end
-
 
 ns.bus:RegisterEvent(name .. "_CHARACTER_FRAME_SHOWN", onCharacterFrameShown)
 ns.bus:RegisterEvent(name .. "_PLAYER_EQUIPMENT_CHANGED", onPlayerEquipmentChanged)

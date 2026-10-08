@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.4] - 2026-10-08
+Simplified expansion checks and minor bug fix.
+
+### Fixed
+- Fixed a non valid itemQuality value during item loading.
+
+---
+
 ## [1.5.3] - 2026-09-30
 Expanded expansion support and improved equipment item data loading.
 

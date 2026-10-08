@@ -17,26 +17,18 @@ local function getItemBorderFrame(frame)
     return frame.IconBorder
 end
 local function setItemBorderPoint(frame)
-    if (ns.expansion == enums.expansion.CLASSIC
-            or ns.expansion == enums.expansion.BURNING_CRUSADE
-            or ns.expansion == enums.expansion.WRATH_OF_THE_LICH_KING
-            or ns.expansion == enums.expansion.CATACLYSM
-            or ns.expansion == enums.expansion.MISTS_OF_PANDARIA) then
-        frame.IconBorder:SetPoint("TOPLEFT", frame, "TOPLEFT", -15, 15)
-        frame.IconBorder:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 15, -15)
-    end
+    if (ns.expansion > enums.expansion.MISTS_OF_PANDARIA) then return end
+
+    frame.IconBorder:SetPoint("TOPLEFT", frame, "TOPLEFT", -15, 15)
+    frame.IconBorder:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 15, -15)
 end
 
 local function setItemTexture(frame)
-    if (ns.expansion == enums.expansion.CLASSIC
-            or ns.expansion == enums.expansion.BURNING_CRUSADE
-            or ns.expansion == enums.expansion.WRATH_OF_THE_LICH_KING
-            or ns.expansion == enums.expansion.CATACLYSM
-            or ns.expansion == enums.expansion.MISTS_OF_PANDARIA) then
-        frame.IconBorder:SetTexture("Interface/Buttons/UI-ActionButton-Border")
-        frame.IconBorder:SetBlendMode("ADD")
-        frame.IconBorder:SetAlpha(1)
-    end
+    if (ns.expansion > enums.expansion.MISTS_OF_PANDARIA) then return end
+
+    frame.IconBorder:SetTexture("Interface/Buttons/UI-ActionButton-Border")
+    frame.IconBorder:SetBlendMode("ADD")
+    frame.IconBorder:SetAlpha(1)
 end
 
 local function createBorderTexture(frame)
@@ -68,7 +60,9 @@ local function retrieveFrame(unit, slotName)
 end
 
 local function isItemValid(unit, invSlotId)
-    return cachedSlots[unit] and cachedSlots[unit][invSlotId] and cachedSlots[unit][invSlotId].itemQualityColor
+    return cachedSlots[unit]
+        and cachedSlots[unit][invSlotId]
+        and cachedSlots[unit][invSlotId].itemQualityColor
 end
 
 local function displayItemBorder(unit, frame, slotId)
