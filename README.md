@@ -6,9 +6,9 @@ Lightweight WoW addon that displays item information directly on your character 
 
 - Per-slot item level labels for your character and inspect target.
 - Quality-colored borders for your character and inspect target.
-- Durability display on character equipment slots.
+- Durability display on your character's equipment slots.
 - Durability display as text or a bar, with optional percentage coloring.
-- Separate settings for player and target overlays.
+- Separate item-level and quality-border settings for player and target overlays.
 
 ## Usage
 
@@ -21,6 +21,8 @@ Lightweight WoW addon that displays item information directly on your character 
 
 - /betterilvl - open the options panel
 - /bilvl - shortcut to the same options
+- Add `config`, `options`, or `settings` after either command to open the options panel explicitly.
+- Add `v` or `version` to display the installed addon version.
 
 ## Notes
 

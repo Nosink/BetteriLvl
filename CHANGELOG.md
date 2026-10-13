@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.5.5] - 2026-10-13
+Improved compatibility with current WoW clients and made equipment loading more resilient.
+
+### Added
+- Support for the Midnight interface.
+- Reusable offsets and text justification options for settings controls.
+
+### Improved
+- Equipment item links are retried briefly when they are not available immediately during a refresh.
+- Settings edit boxes now refresh from the current database values when the options panel is shown.
+
+---
+
 ## [1.5.4] - 2026-10-08
 Simplified expansion checks and minor bug fix.
 
