@@ -4,13 +4,17 @@ local enums = ns.enums
 local items = { player = { slots = {} }, target = { slots = {} } }
 
 local function cacheItem(unit, invSlotId)
-    if not items[unit].slots[invSlotId] then return end
+    local itemData = items[unit].slots[invSlotId]
+    if not itemData then return end
 
-    items[unit].slots[invSlotId]:ClearItem()
-
+    itemData:ClearItem()
     local itemLink = GetInventoryItemLink(unit, invSlotId)
-    if not itemLink then return end
-    items[unit].slots[invSlotId]:SetItem(itemLink)
+
+    if not itemLink then
+        itemData:SetRetry(unit, invSlotId)
+    else
+        itemData:SetItem(itemLink)
+    end
 end
 
 local function getItemQualityColor(itemQuality)
@@ -38,6 +42,25 @@ local function createItem(unit, invSlotId)
         self.itemQuality = nil
         self.itemSubType = nil
         self.itemQualityColor = nil
+    end
+
+    itemData.PerformRetry = function(self)
+        local itemLink = GetInventoryItemLink(self.unit, self.invSlotId)
+        if itemLink then
+            self:SetItem(itemLink)
+            ns.bus:TriggerEvent(name .. "_ITEMS_CACHED", self.unit, items[self.unit].slots)
+        else
+            if self.retries <= 0 then return end
+            self.retries = self.retries - 1
+            C_Timer.After(0.2, function() self:PerformRetry() end)
+        end
+    end
+
+    itemData.SetRetry = function(self, unit, invSlotId)
+        self.unit = unit
+        self.retries = 3
+        self.invSlotId = invSlotId
+        self:PerformRetry()
     end
 
     items[unit].slots[invSlotId] = itemData
