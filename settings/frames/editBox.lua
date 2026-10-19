@@ -35,22 +35,6 @@ local function createEditBox(section, key, params)
     editBox:SetPoint(point.point, point.relativeTo, point.relativePoint, point.x, point.y)
 end
 
-local function setEvents(key)
-    ns.bus:HookScript(editBox, "OnShow", function(self)
-        self:SetCursorPosition(0)
-    end)
-
-    editBox:SetScript("OnTextChanged", function(self, userInput)
-        if not userInput then return end
-        ns.db[key] = self:GetText()
-        ns.bus:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
-    end)
-
-    editBox:SetScript("OnEnterPressed", function(self)
-        self:ClearFocus()
-    end)
-end
-
 local function setSize(params)
     local width = params and params.width or
         45
@@ -60,6 +44,33 @@ local function setSize(params)
     editBox:SetAutoFocus(false)
     editBox:SetJustifyH(params and params.justifyH or "CENTER")
     editBox:SetSize(width, height)
+end
+
+local function setValidator(params)
+    local validator = params and params.validator or
+        ns.builder.noValidator()
+
+    editBox.validator = validator
+end
+
+local function setEvents(key)
+    ns.bus:HookScript(editBox, "OnShow", function(self)
+        self:SetCursorPosition(0)
+    end)
+
+    editBox:SetScript("OnEditFocusLost", function(self)
+        local text = self:GetText()
+        if not self.validator.validate(text) then
+            text = self.validator.normalize(text)
+            self:SetText(text)
+        end
+        ns.db[key] = text
+        ns.bus:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
+    end)
+
+    editBox:SetScript("OnEnterPressed", function(self)
+        self:ClearFocus()
+    end)
 end
 
 local function setFetch(key)
@@ -75,6 +86,7 @@ function ns.builder.CreateEditBox(section, text, key, params)
 
     createEditBox(section, key, params)
     setSize(params)
+    setValidator(params)
     setEvents(key)
     setFetch(key)
 
