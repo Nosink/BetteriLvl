@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.5.5] - 2026-10-22
+Fixed issue with existing border frame on forever.
+
+### Added
+- Support for last Midnight version.
+
+### Fixed
+- The existing border frame is now hidden instead of reused, and the addon creates its own frame.
+
+---
+
 ## [1.5.5] - 2026-10-13
 Improved compatibility with current WoW clients and made equipment loading more resilient.
 
