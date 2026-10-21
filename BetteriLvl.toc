@@ -40,7 +40,8 @@
 # Enum
 enum/enum.lua
 # Enum - Data
-enum/data/expansionType.lua
+enum/data/classType.lua
+enum/data/reactionType.lua
 
 # Events
 event/bus.lua
