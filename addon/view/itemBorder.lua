@@ -11,46 +11,31 @@ local function isItemBorderenabled(unit)
     end
 end
 
-local function getItemBorderFrame(frame)
-    if frame.IconBorder then return frame.IconBorder end
-    frame.IconBorder = frame:CreateTexture(nil, "OVERLAY")
-    return frame.IconBorder
-end
-local function setItemBorderPoint(frame)
-    if (ns.expansion > enums.expansion.MISTS_OF_PANDARIA) then return end
-
-    frame.IconBorder:SetPoint("TOPLEFT", frame, "TOPLEFT", -15, 15)
-    frame.IconBorder:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 15, -15)
-end
-
-local function setItemTexture(frame)
-    if (ns.expansion > enums.expansion.MISTS_OF_PANDARIA) then return end
-
-    frame.IconBorder:SetTexture("Interface/Buttons/UI-ActionButton-Border")
-    frame.IconBorder:SetBlendMode("ADD")
-    frame.IconBorder:SetAlpha(1)
-end
-
 local function createBorderTexture(frame)
-    if not frame or frame.IconBorder and frame.IconBorder.isInitialized then return end
+    if not frame or frame.Border and frame.Border.isInitialized then return end
 
-    frame.IconBorder = getItemBorderFrame(frame)
-    setItemBorderPoint(frame)
-    setItemTexture(frame)
+    if frame.IconBorder then frame.IconBorder:Hide() end
+
+    frame.Border = frame:CreateTexture(nil, "OVERLAY")
+    frame.Border:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 15, -15)
+    frame.Border:SetPoint("TOPLEFT", frame, "TOPLEFT", -15, 15)
+    frame.Border:SetTexture("Interface/Buttons/UI-ActionButton-Border")
+    frame.Border:SetBlendMode("ADD")
+    frame.Border:SetAlpha(0.5)
 
     frame.ShowBorder = function(self, itemData)
-        if not self.IconBorder then return end
+        if not self.Border then return end
         local r, g, b = unpack(itemData.itemQualityColor)
-        self.IconBorder:SetVertexColor(r, g, b)
-        self.IconBorder:Show()
+        self.Border:SetVertexColor(r, g, b)
+        self.Border:Show()
     end
 
     frame.HideBorder = function(self)
-        if not self.IconBorder then return end
-        self.IconBorder:Hide()
+        if not self.Border then return end
+        self.Border:Hide()
     end
 
-    frame.IconBorder.isInitialized = true
+    frame.Border.isInitialized = true
     frame:HideBorder()
 end
 
@@ -88,13 +73,13 @@ local function evaluateAmmoSlot(unit)
     if canRangedWeaponUseAmmo(unit) then return end
 
     local frame = retrieveFrame(unit, enums.slotNameType.INVSLOT_AMMO)
-    if not frame or not frame.IconBorder then return else frame:HideBorder() end
+    if not frame or not frame.Border then return else frame:HideBorder() end
 end
 
 local function hideBorders(unit)
     for _, slotName in pairs(enums.slotNameType) do
         local frame = retrieveFrame(unit, slotName)
-        if frame and frame.IconBorder then
+        if frame and frame.Border then
             frame:HideBorder()
         end
     end
