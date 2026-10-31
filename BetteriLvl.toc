@@ -37,32 +37,8 @@
 ## SavedVariables: BetteriLvlDB
 ## SavedVariablesPerCharacter: BetteriLvlPCDB
 
-# Enum
-enum/enum.lua
-# Enum - Data
-enum/data/classType.lua
-enum/data/reactionType.lua
-
-# Events
-event/bus.lua
-
-# Database
-database/database.lua
-
-# Localization
-localization/localization.lua
-
-# Settings
-settings/builder/helper.lua
-settings/builder/panel.lua
-settings/builder/section.lua
-
-# Settings - Frames
-settings/frames/checkbox.lua
-settings/frames/dropDown.lua
-settings/frames/editBox.lua
-settings/frames/slider.lua
-settings/frames/text.lua
+# _CORE
+core.xml
 
 # Addon - Data
 addon/data/slotIdType.lua
@@ -73,16 +49,7 @@ addon/data/durabilityType.lua
 addon/defaults.lua
 
 # Addon - Locales
-addon/locales/enUS-enGB.lua
-addon/locales/deDE.lua
-addon/locales/esES-esMX.lua
-addon/locales/frFR.lua
-addon/locales/itIT.lua
-addon/locales/koKR.lua
-addon/locales/ptBR.lua
-addon/locales/ruRU.lua
-addon/locales/zhCN.lua
-addon/locales/zhTW.lua
+addon\locales\locales.xml
 
 # Addon - Settings
 addon/settings/panel.lua
