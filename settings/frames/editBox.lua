@@ -1,59 +1,30 @@
 local name, ns = ...
 
-local label = {}
-local editBox = {}
-
-local function createLabel(section, text, params)
-    local fontString = params and params.fontString or
-        ns.builder.fontString(nil, "ARTWORK", "GameFontNormal")
-    local offset = params and params.offset or
-        ns.builder.offset(0, -10)
-    local point = params and params.textPoint or
-        ns.builder.point("TOPLEFT", section.anchor, "BOTTOMLEFT", offset.x, offset.y)
-
-    label = section.optionsPanel:CreateFontString(fontString.name, fontString.layer, fontString.template)
-    label:SetPoint(point.point, point.relativeTo, point.relativePoint, point.x, point.y)
+local function createEditBox(section, settings)
+    local editBox = CreateFrame("EditBox", nil, section.optionsPanel, "InputBoxTemplate")
+    editBox:SetPoint(settings.point.point, settings.point.relativeTo, settings.point.relativePoint, settings.point.x,
+        settings.point.y)
+    return editBox
 end
 
-local function setLabelText(text, params)
-    local color = params and params.textColor or
-        ns.builder.color(1, 1, 1, 1)
-    local size = params and params.size or
-        12
-
-    local file, _, flags = label:GetFont()
-    label:SetFont(tostring(file), size, flags)
-    label:SetTextColor(color.r, color.g, color.b, color.a)
-    label:SetText(text)
+local function setNumeric(editBox, settings)
+    editBox:SetNumeric(settings.isNumeric)
+    if (settings.allowDecimals and settings.isNumeric) then
+        editBox:SetNumericFullRange(settings.isNumeric)
+    end
 end
 
-local function createEditBox(section, key, params)
-    local point = params and params.controlPoint or
-        ns.builder.point("LEFT", label, "RIGHT", 10, 0)
-
-    editBox = CreateFrame("EditBox", nil, section.optionsPanel, "InputBoxTemplate")
-    editBox:SetPoint(point.point, point.relativeTo, point.relativePoint, point.x, point.y)
-end
-
-local function setSize(params)
-    local width = params and params.width or
-        45
-    local height = params and params.height or
-        22
-
+local function setSize(editBox, settings)
     editBox:SetAutoFocus(false)
-    editBox:SetJustifyH(params and params.justifyH or "CENTER")
-    editBox:SetSize(width, height)
+    editBox:SetJustifyH(settings.justify.h)
+    editBox:SetSize(settings.width, settings.height)
 end
 
-local function setValidator(params)
-    local validator = params and params.validator or
-        ns.builder.noValidator()
-
-    editBox.validator = validator
+local function setValidator(editBox, settings)
+    editBox.validator = settings.validator
 end
 
-local function setEvents(key)
+local function setEvents(editBox, key)
     ns.bus:HookScript(editBox, "OnShow", function(self)
         self:SetCursorPosition(0)
     end)
@@ -73,23 +44,24 @@ local function setEvents(key)
     end)
 end
 
-local function setFetch(key)
+local function setFetch(editBox, key)
     editBox.Fetch = function(self)
         local value = ns.db and ns.db[key]
         self:SetText(tostring(value))
+        self:SetCursorPosition(0)
     end
 end
 
-function ns.builder.CreateEditBox(section, text, key, params)
-    createLabel(section, text, params)
-    setLabelText(text, params)
+function ns.builder.CreateEditBox(section, text, key, settings)
+    local _, label = ns.builder.CreateText(section, text, settings.textSettings)
+    settings:SetLabel(label)
 
-    createEditBox(section, key, params)
-    setSize(params)
-    setValidator(params)
-    setEvents(key)
-    setFetch(key)
+    local editBox = createEditBox(section, settings)
+    setNumeric(editBox, settings)
+    setSize(editBox, settings)
+    setValidator(editBox, settings)
+    setEvents(editBox, key)
+    setFetch(editBox, key)
 
-    section:setAnchor(label)
-    return editBox
+    return label, editBox
 end

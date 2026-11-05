@@ -1,47 +1,17 @@
 local name, ns = ...
 
-local label = {}
-local dropDown = {}
-
-local function createLabel(section, params)
-    local fontString = params and params.fontString or
-        ns.builder.fontString(nil, "ARTWORK", "GameFontNormal")
-    local offset = params and params.offset or
-        ns.builder.offset(0, -8)
-    local point = params and params.controlPoint or
-        ns.builder.point("TOPLEFT", section.anchor, "BOTTOMLEFT", offset.x, offset.y)
-
-    label = section.optionsPanel:CreateFontString(fontString.name, fontString.layer, fontString.template)
-    label:SetPoint(point.point, point.relativeTo, point.relativePoint, point.x, point.y)
+local function createDropDown(section, settings)
+    local dropDown = CreateFrame("Frame", nil, section.optionsPanel, "UIDropDownMenuTemplate")
+    dropDown:SetPoint(settings.point.point, settings.point.relativeTo, settings.point.relativePoint, settings.point.x,
+        settings.point.y)
+    return dropDown
 end
 
-local function setText(text, params)
-    local color = params and params.textColor or
-        ns.builder.color(1, 1, 1, 1)
-    local size = params and params.size or
-        12
-
-    local file, _, flags = label:GetFont()
-    label:SetFont(tostring(file), size, flags)
-    label:SetTextColor(color.r, color.g, color.b, color.a)
-    label:SetText(text)
+local function setWidth(dropDown, settings)
+    UIDropDownMenu_SetWidth(dropDown, settings.width)
 end
 
-local function createDropDown(section, key, params)
-    local point = params and params.controlPoint or
-        ns.builder.point("LEFT", label, "RIGHT", 6)
-
-    dropDown = CreateFrame("Frame", nil, section.optionsPanel, "UIDropDownMenuTemplate")
-    dropDown:SetPoint(point.point, point.relativeTo, point.relativePoint, point.x, point.y)
-end
-
-local function setWidth(params)
-    local width = params and params.width or
-        50
-    UIDropDownMenu_SetWidth(dropDown, width)
-end
-
-local function setOptions(options)
+local function setOptions(dropDown, options)
     local normalizedOptions = {}
     for _, option in ipairs(options) do
         if type(option) == "table" and option.value and option.text then
@@ -56,7 +26,7 @@ local function setOptions(options)
     dropDown.options = normalizedOptions
 end
 
-local function getTextForValue(value)
+local function getTextForValue(dropDown, value)
     for _, opt in ipairs(dropDown.options) do
         if opt.value == value then return opt.text end
     end
@@ -68,7 +38,7 @@ local function triggerSettingsChanged(key, value)
     ns.bus:TriggerEvent(name .. "_SETTINGS_CHANGED", key)
 end
 
-local function setSelection(key, value, silent)
+local function setSelection(dropDown, key, value, silent)
     local text = getTextForValue(value)
     UIDropDownMenu_SetSelectedValue(dropDown, value)
     UIDropDownMenu_SetText(dropDown, text)
@@ -77,7 +47,7 @@ local function setSelection(key, value, silent)
     end
 end
 
-local function setFetch(key)
+local function setFetch(dropDown, key)
     dropDown.Fetch = function(self)
         local value = ns.db[key]
         if value == nil and self.options[1] then
@@ -89,7 +59,7 @@ local function setFetch(key)
     end
 end
 
-local function initialize(key)
+local function initialize(dropDown, key)
     local function initFunction(_, level)
         for _, opt in ipairs(dropDown.options) do
             local info = UIDropDownMenu_CreateInfo()
@@ -105,17 +75,16 @@ local function initialize(key)
     UIDropDownMenu_Initialize(dropDown, initFunction)
 end
 
-function ns.builder.CreateDropDown(section, text, key, options, params)
-    createLabel(section, params)
-    setText(text, params)
+function ns.builder.CreateDropDown(section, text, key, options, settings)
+    local _, label = ns.builder.CreateText(section, text, settings.textSettings)
+    settings:SetLabel(label)
 
-    createDropDown(section, key, params)
-    setWidth(params)
-    setOptions(options)
-    setFetch(key)
+    local dropDown = createDropDown(section, settings)
+    setWidth(dropDown, settings)
+    setOptions(dropDown, options)
+    setFetch(dropDown, key)
 
-    initialize(key)
+    initialize(dropDown, key)
 
-    section:setAnchor(label)
-    return dropDown
+    return label, dropDown
 end
